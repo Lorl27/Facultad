@@ -1,0 +1,5 @@
+nombre,Juan
+edad,30
+ciudad,Ejemploville
+puntuacion,95.5
+activo,True
