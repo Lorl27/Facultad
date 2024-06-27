@@ -29,13 +29,13 @@ Materia | Temas (PYTHON) | Temas (C)
 
 #### Programación 2,2024:
   ##### *PYTHON:*
-    - U1:
-    - U2
-    - U3
-    - U4
-    - U5
+    - U1: Familarizándose con Python, la Receta y el Testing
+    - U2: Condicionales simples, múltiples, anidados y secuenciados
+    - U3: Funciones y recursión
+    - U4: Ciclos y módulos
+    - U5: Secuencias[Strings, Tuplas y Listas]
+    - U6: Diccionarios y Archivos
   ##### *C:*
-    - U1:
-    - U2:
-    - U3:
-    - U4:
+    - U1: Primeros pasos en C
+    - U2: Programando en C
+    - U3: Estructuras en C
