@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "ej15.h"
+#include "ej16.h"
 
 int maximun_3(int a,int b,int c){
     return maximum(maximum(a,b),c);
@@ -32,7 +33,7 @@ void test_ladosTriangulo(void){
     assert(ladosTriangulo(4,6,7)==1); //si
 }
 
-int main(void){
+/*int main(void){
     //TESTS:
 
     test_maximum_3();
@@ -49,4 +50,6 @@ int main(void){
     else{printf("NO lo son...");}
 
     return 0;
-}
+}*/
+
+//NOTE: Para usar en el ej '17.c' , comentar MAIN.

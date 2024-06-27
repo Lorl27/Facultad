@@ -11,3 +11,38 @@
 // en el que se celebró o se celebrará el domingo de Pascua ese año.Utilizar una función a la que
 // se le pase como parámetro el año y retorne el valor de N. El programa principal realiza el resto
 // del proceso.
+
+#include <stdio.h>
+#include <assert.h>
+
+int domingoPascua(int anio){
+    int a,b,c,d,e,n;
+    a=b=c=anio;
+    d=19*a+24;
+    e=2*b+4*c+6*d+5;
+    n=22+d+e;
+    return n;
+}
+
+void test_domingoPascua(void){
+    assert(domingoPascua(2022)==417); // 17 de abril
+    assert(domingoPascua(2023) == 409); // 9 de abril
+    assert(domingoPascua(2024) == 331); // 31 de marzo
+}
+
+int main(void){
+    //test_domingoPascua(); //TEST
+
+    int anio,resultado=0;
+
+    printf("Ingrese el anio al cual quieras consultar cuando se celebro/ celebrara el Domingo de Pascua: \n");
+    scanf("%d",&anio);
+    resultado=domingoPascua(anio);
+
+    (resultado>31)?printf("El Domingo de Pascua fue el %d de Abril.\n", (resultado%31)):(printf("El Domingo de Pascua fue el %d de marzo.\n", resultado));
+
+    return 0;
+}
+
+
+//NOTE: anda mal. :(

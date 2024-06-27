@@ -28,7 +28,7 @@ void test_maximum_4(void){
     assert(maximum_4(5,4,3,20)==20);
 }
 
-int main(void){
+/*int main(void){
 
     // TESTEOS:
     test_maximum();
@@ -44,6 +44,6 @@ int main(void){
     printf("El mayor numero entre los 4 es %d",resultado);
 
     return 0;
-}
+}*/
 
 //note: para usar en 'ej16.c' comentar MAIN.
