@@ -3,6 +3,9 @@
 * Programación 2, año 2023
 * Recursado Programación 2, año 2024
 
+## Contiene los finales de las siguientes materias:
+* Recursado Programación 2, 2024 -> PROMOVIDO: Sólamente C.
+
 #### Temas abordados:
 
 ### ***RESUMEN***
