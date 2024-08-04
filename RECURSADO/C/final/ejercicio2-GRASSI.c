@@ -9,7 +9,6 @@
 int buscar_letra(char array[],char letra);
 int calcular_envio(char array[]);
 
-
 /*  DISEÑO DE DATOS:
 
     longitud: int, indica el tamaño del array pasado por parámetro.
