@@ -19,16 +19,16 @@ Materia | Temas (PYTHON) | Temas (C)
 
 #### Programación 2,2023:
   ##### *PYTHON:*
-    - U1:
-    - U2
-    - U3
-    - U4
-    - U5
+    - U1: Introducción a Python
+    - U2: El modelo Iterativo
+    - U3: Más iteraciones
+    - U4: Tuplas y Listas
+    - U5: Conjuntos/diccionarios y Archivos
   ##### *C:*
-    - U1:
-    - U2:
-    - U3:
-    - U4:
+    - U1: Introducción - Sintaxis en C
+    - U2: Listas, arrays y bucles
+    - U3: Archivos y punteros a función
+    - U4: Gestión de la memoria
 
 #### Programación 2,2024:
   ##### *PYTHON:*
