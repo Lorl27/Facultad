@@ -8,12 +8,13 @@
 
 ----
 ## LIBRERÍAS:
-* stdio.h , math.h string.h , stdlib.h
+* stdio.h , math.h string.h , stdlib.h , ctype.h
 
 ---
 
 ''' strlen(c) != char c[10]='hi'; (2 vs 10-1) '''
 El fin de cadena es el caracter ‘\0’
+- ej uso: for(x=0;alfabeto[x]!='\0';x++){...}
 
 **PARA LEER strings:**
 1. scanf("%s", string);  **//no se pone el operador  & al leer un  array.**
@@ -72,7 +73,7 @@ for( int x=0; x<TAM;x++){
     puntero[x]=x;    ---> *(puntero+x) == puntero[x]
 }
 
-for(intx=0;x<TAM;x++){
+for(int x=0;x<TAM;x++){
     printf("valor: %d",puntero[x]);  --> &p[x] == p+x (dirreccion memoria)
 }
 
