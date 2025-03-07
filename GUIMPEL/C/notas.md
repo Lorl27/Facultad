@@ -32,12 +32,28 @@ otro. Por lo tanto, se incrementa la variable luego de usarla
 char a[10];
 a==&a==a[0];
 
-int b;
+int b[10];
 int *p=b;
 *p=5
 p[1]=10;
 
 printf("primer %d, sgundo %d",b[0],b[1]);  --> 5 , 10.
+
+**modificando valores y dir. del puntero:**
+    int *punt ,i;
+    int x[5]={1 ,2 ,3 ,4 ,5};
+    punt=&x[0]+3;   //el puntero apunta a x[3]
+    *(punt -2) =9;  //comenzamos en x[3] 3-2=1 , x[1]=9 , x={4,9,3,4,5}  //! aca no cambiamos el puntero de lugar, solo modificamos el valor en esa dirrecion
+    punt --; //retrocedemos 1 elemento  (estamos todavia en x[3],ahora estamos en x[2]) //!aca si lo cambiamos de lugar
+    *(punt)=7 ; //x[2]=7 -->x={1,9,7,4,5}
+    punt [1]=11 ; //como estamos en x[2]  , punt[1]==(*punt+1)==x[3] x={1,9,7,11,5}
+    punt=x; // apuntamos de nuevo a x[0] para poder imprimir bien el array.
+
+
+**A TENER EN CUENTA:**
+
+char *ptr = "hola mundo"; → Apunta a memoria de solo lectura (modificarla causa un segmentation fault).
+char ptr[] = "hola mundo"; → Almacena la cadena en memoria de escritura (se puede modificar).
 
 ---
 ### PUNTEROS:
@@ -49,6 +65,20 @@ dirrección: printf("&p", %i);
 *declaración puntero:* char* p; , int* p;
 int* p=&i ; //Guardamos la dirección de memoria del entero, en un puntero.
 printf("%d",*p) --> i --> 5
+
+*uso de puntero, para cambiar valor*
+    int* punt;  //crea un puntero de enteros
+    int x=7;  
+    punt=&x;  //le asigna al puntero, la direccion de la var x (x=7)
+    *punt = 4; //ahora, x vale 4
+    x=3 // puntero valdra 3 tmb!
+    printf("%d",*punt) --> x --> 3.
+    int y=2;
+    *punt=&y //puntero valdra 2!
+    printf("%d%d%d",*punt,x,y) --> 2,3,2
+----
+while(*p++ = *q++);  //while(...) se ejecuta hasta que *q==´\0´ - basicamente copia todo lo de *p en *q (va parte x parte- se incrmeentan al unísono) ===que strcopy(*p,*q)
+
 
 
 **Ejemplo de USO (en funciones):**

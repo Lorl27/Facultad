@@ -1,7 +1,10 @@
 // 4. Estructuras y Punteros
 // Ejercicio 5. Dadas las siguientes definiciones de estructura y asignaciones
 
- struct estudiante
+#include <stdio.h>
+#include <stdlib.h>
+
+struct estudiante
 {
      char *apellido;
      int anio_ingreso;
@@ -10,9 +13,9 @@
 };
 
  struct estudiante nuevo, *pest = &nuevo;
- nuevo.apellido = "Lopez";
- nuevo.anio_ingreso = 1998;
- nuevo.division = 'A';
+nuevo.apellido = "Lopez";
+nuevo.anio_ingreso = 1998;
+nuevo.division = 'A';
 
 // Determine si las siguientes sentencias son correctas. En caso de ser incorrectas explique por
 // qué, en caso de ser correctas indique cuál es el valor que representan.
