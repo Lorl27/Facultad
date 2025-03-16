@@ -15,10 +15,13 @@
 
 * Programación 2:
 
-Materia | Temas (PYTHON) | Temas (C) | 
+Materia | Temas (PYTHON) | Temas (C) |  Temas(R + RStudio)
 :---: | :---: | :---:
 **Programación 2** | Conceptos Básicos,listas,tuplas,sets,diccionarios,ciclos,condicionales,archivos,módulo Random | Conceptos Básicos,ciclos,condicionales,archivos,estructuras con punteros, memoria dinámica y estática,punteros,char, switch |
 **Redictado Prog 2** | Conceptos Básicos,listas,tuplas,diccionarios, tipos de ciclos, tipos de condicionales, archivos, Módulo Random,Streamlit,Math.lib,csv, Proyecto, pytest,strings,receta | Introducción, conceptos básicos, ciclos, tipos de condicionales, switch, punteros,estructuras simples, receta, assert.h y librerías string.h, stdlib.h  (manejo de entrada estándar y personalizada)|
+**Probabilidad y Estadística** | - | - | Uso de Software |
+**Estrucutras de Datos y Algoritmos 1** | - | Punteros a función | - |
+**SO 1** | - | Signals | - |
 
 * Probabilidad y Estadística:
 - Usamos R y RStudio.
