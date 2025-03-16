@@ -2,6 +2,9 @@
 ## Este repositorio contiene las prácticas de las siguientes materias , correspondientes a la institución: FCEIA - UNR.
 * Programación 2, año 2023
 * Recursado Programación 2, año 2024
+* Probabilidad y Estadística, año 2025
+* Estructuras de Datos y Algoritmos 1 , año 2025.
+* Sistemas Operativos I , año 2025.
 
 ## Contiene los finales de las siguientes materias:
 * Recursado Programación 2, 2024 -> PROMOVIDO: Sólamente C.
@@ -10,10 +13,21 @@
 
 ### ***RESUMEN***
 
-Materia | Temas (PYTHON) | Temas (C)
+* Programación 2:
+
+Materia | Temas (PYTHON) | Temas (C) | 
 :---: | :---: | :---:
 **Programación 2** | Conceptos Básicos,listas,tuplas,sets,diccionarios,ciclos,condicionales,archivos,módulo Random | Conceptos Básicos,ciclos,condicionales,archivos,estructuras con punteros, memoria dinámica y estática,punteros,char, switch |
 **Redictado Prog 2** | Conceptos Básicos,listas,tuplas,diccionarios, tipos de ciclos, tipos de condicionales, archivos, Módulo Random,Streamlit,Math.lib,csv, Proyecto, pytest,strings,receta | Introducción, conceptos básicos, ciclos, tipos de condicionales, switch, punteros,estructuras simples, receta, assert.h y librerías string.h, stdlib.h  (manejo de entrada estándar y personalizada)|
+
+* Probabilidad y Estadística:
+- Usamos R y RStudio.
+
+* Estructura de Datos y Algoritmos 1:
+- Usamos C.
+
+* Sistemas Operativos 1:
+- Usamos C y [].
 
 ### ***DETALLE***
 
