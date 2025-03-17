@@ -29,6 +29,12 @@ otro. Por lo tanto, se incrementa la variable luego de usarla
 
 
 #### Punteros y arrays:
+
+int a[0] == int a*
+a[0]=0  == *a=0
+
+---
+
 char a[10];
 a==&a==a[0];
 
@@ -135,3 +141,20 @@ p1=malloc(sizeof(struct Persona));
 
 Para acceder a sus campos: (*p1).nombre == p1->nombre;
 
+
+
+
+-----
+
+### RECETA:
+#include <assert.h>
+
+//descripcion fun
+//fun:int->int
+//ejemplos
+
+int main(){
+    assert(fun(a,b)==40);
+
+    return 0;
+}
