@@ -8,7 +8,7 @@
 
 ----
 ## LIBRERÍAS:
-* stdio.h , math.h string.h , stdlib.h , ctype.h
+* stdio.h , math.h ,  string.h , stdlib.h , ctype.h , time.h
 
 ---
 
