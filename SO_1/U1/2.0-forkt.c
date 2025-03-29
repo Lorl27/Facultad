@@ -17,3 +17,6 @@ int main(){
     printf("%d\n", getpid()); //2do vuelta:pid hijo
     return  0;
 }
+
+//fork crea un hijo (proceso) copia del parent,
+//parent sabe pid child pero al reves no.
