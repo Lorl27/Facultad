@@ -21,6 +21,10 @@ int main(){
         int num_r2=read(abrir,buffer,2); //caracteres a leer :D
         buffer[num_r2] = '\0';
         printf("%s\n",buffer);
+
+        printf("finish");
+        close(abrir);
         }
+        
     return 0;
 }

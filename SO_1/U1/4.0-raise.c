@@ -17,7 +17,8 @@ int main(){
 
     pid_t pid=getpid();
    
-    void (*signalReturn)(int);
+    void (*signalReturn)(int);  //Se declara un puntero a función 
+    
     signalReturn = signal(SIGSTOP,handler_zero_division); //señal q qremos - señal q se va a ejecutar en su lugar (reemplaza su comportamiento)
 
     raise(SIGSTOP);
@@ -26,6 +27,8 @@ int main(){
     return 0;
 }
 
+// 2 formas de continuar el proceso detenido:
 //fg in shell == continue command :'(  (el 1ro stoppeado)
+// -----
 //ps -h  procesos q corren + PID
 //kill  -CONT pid (cualquiero puedo)

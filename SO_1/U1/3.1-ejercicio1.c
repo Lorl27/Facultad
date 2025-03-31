@@ -25,3 +25,25 @@ int main(){
 
         return 0;
 }
+
+//-----------------------------------------------
+
+// int main() {
+//     pid_t pid = fork();  // Crea un hijo
+
+//     if (pid == 0) {
+//         // Código del hijo
+//         printf("Soy el hijo, PID: %d\n", getpid());
+//         sleep(2);  // Simula trabajo
+//         return 42; // Código de salida
+//     } else {
+//         // Código del padre
+//         int status;
+//         wait(&status);  // Espera a que el hijo termine
+
+//         if (WIFEXITED(status)) {
+//             printf("Hijo terminó con código %d\n", WEXITSTATUS(status));
+//         }
+//     }
+//     return 0;
+// }
