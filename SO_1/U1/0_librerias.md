@@ -7,3 +7,9 @@
 #include <sys/wait.h>
 #include <string.h>
 #include <signal.h>
+#include <sys/un.h>
+#include <time.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <sys/select.h>
+#include <sys/mman.h>
