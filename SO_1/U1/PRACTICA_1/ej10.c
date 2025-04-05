@@ -21,29 +21,54 @@
 #include <sys/un.h>
 
 
-void handler_child(int signum){
-    printf("the señal i have");
+pid_t otro_p; //guardamos a quien le enviamos la señal.
+
+void handler(int signum){
+    printf("[%d] recibio SIGURS1\n",getpid());
+    kill(otro_p,SIGUSR1); //enviar señal
 }
 
 int main(){
+
+    struct sigaction sa;
+    sa.sa_handler = handler;
+    sa.sa_flags=0;
+    //sigemptyset(&sa.sa_mask);
+    sigaction(SIGUSR1,&sa,NULL);
+
     pid_t  pid=fork();
 
     if(pid==0){
-        struct sigaction sa;
+        
+        otro_p=getppid(); //parent
 
-        sa.sa_handler = handler_child;
-        //sa.sa_flags = SA_RESTART; // Esta bandera se usa más para reiniciar ciertas llamadas del sistema que se interrumpen por señales, pero no afecta directamente el manejo de señales.
-        sa.sa_flags=0;
-
-        sigaction(SIGUSR1,&sa,NULL);
-
-        pause();
-
+        while(1){
+            pause();
+        }
     }
     else{
+
+        otro_p=pid; //child
+
         printf("Proceso padre(%d)\n",getpid());
-        printf("señal enviada al child;");
+        printf("señal enviada al child [%d].\n",pid);
+
         kill(pid,SIGUSR1);
+
+        while(1){
+            pause();
+        }
         
     }
+
+
+    return 0;
+
 }
+
+
+/* parent: envia señal
+hijo: recibe y manda señal
+parent: recibe y manda señal
+...abort
+*/
