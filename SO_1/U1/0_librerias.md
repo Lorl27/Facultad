@@ -13,3 +13,6 @@
 #include <sys/shm.h>
 #include <sys/select.h>
 #include <sys/mman.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>

@@ -232,7 +232,7 @@ void procesar_comando(char *comando){
     //En este código, lo que buscamos es si existe: ">" y dónde.
     int redir=0;
     char *txt = NULL;
-    char *signo=strchr(comando,'>');  //Buscamos >
+    char *signo=strchr(comando,'>');  //Buscamos la primera aparición de >
 
     if(signo!=NULL){
         redir=1;
@@ -243,7 +243,7 @@ void procesar_comando(char *comando){
             signo++; //chau espacios.
         }
 
-        txt=signo;
+        txt=signo; //nuestro comando 
     }
 
     //?------------------------ Separar pipes con |:
