@@ -65,12 +65,28 @@ int main(){
         }
 
         comando[strcspn(comando,"\n")]=0;
+        if(strlen(comando)==0){continue;}
 
-        //Separaremos comando-argumento:
 
+        //?  redireccion: cmd>file (Ex)
+        int redir=0;
+        char *txt = NULL;
+        char *signo=strchr(comando,'>'); //buscamos >
 
-        // printf("[SHELL] > %s",comando);
-        
+        if(signo!=NULL){
+            redir=1;
+            *signo='\0';
+            signo++; //avanzamos a lo que hay dsp de ">"
+
+            while(*signo==' '){
+                signo++; //chau espacios.
+            }
+
+            txt=signo;
+        }
+
+        //? Separaremos comando-argumento:
+
         char *argumentos[TAM_MAX/2+1]; //mitad 
         int x=0;
         char *token=strtok(comando, " "); //separamos por token.
@@ -84,12 +100,20 @@ int main(){
 
         if(argumentos[0]==NULL){ continue;}
 
-        if(strcmp(argumentos[0],"exit")==0){ break;}  //para salir
+        //? MANEJO DE CD - EXIT:        
 
         if(strcmp(argumentos[0],"cd")==0){   //cambio directorio
+            
             if(argumentos[1]==NULL){
-                fprintf(stderr,"Dir dont found.\n");
-            } 
+                
+                char *home=getenv("HOME");
+                if(home==NULL){
+                    home="/"; //al inicio vamos.
+                } 
+                if(chdir(home)!=0){
+                        perror("cd");
+                    }
+            }
             else{
                 if(chdir(argumentos[1])!=0){
                     perror("cd");
@@ -98,10 +122,26 @@ int main(){
             continue;
         }
 
-        //otros comandos:
+        if(strcmp(argumentos[0],"exit")==0){ break;}  //para salir
+
+
+        //?otros comandos:
+
         pid_t pid=fork();
 
         if(pid==0){
+            if(redir && txt!=NULL){
+                int fd=open(txt,O_CREAT|O_WRONLY|O_TRUNC,0644);
+
+                if(fd<0){
+                    perror("open");
+                    exit(EXIT_FAILURE);
+                }
+
+                dup2(fd,STDOUT_FILENO); //redirigimos la salida.
+                close(fd);
+            }
+
             execvp(argumentos[0],argumentos); //busca el binario usando $PATH
 
             perror("execvp"); //si llegamos aca, es que fallo  //! IMPORTANTE - SINO puede que el hijo corra inf y se trabe el shell .
