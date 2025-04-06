@@ -30,6 +30,22 @@
 //  ...
 
 
+// Implemente pipes. Modi que el mini shell para que acepte dos comandos por vez. 
+// Mediante el uso
+// de la funcion int pipe(int pip[2]), haga que la salida del primer comando sea la entrada del
+//  segundo.
+//  La shell debe poder tomar comandos de la forma c1 | c2 causando que la salida del comando c1
+//  sea dirigida automaticamente a la entrada del comando c2. Ningun proceso espera a que el otro
+//  termine: ambos inician inmediatamente.
+// Un pipeline puede tener longitud arbitraria (i.e. se debe
+//  soportar c1 | c2 | c3, etc).
+// Ver tambien man 2 pipe. Ejemplo:
+//  $ ls / | sort-r
+//  $ var
+//  usr
+//  tmp
+//  ...
+
 
 //ANCHOR -A
 
@@ -50,6 +66,22 @@
 #include <sys/mman.h>
 
 #define TAM_MAX 1024
+#define MAX_ARGS 64
+#define MAX_SHELL 10
+
+void tokenizacion(char *comando, char **argumentos){
+    //? Separaremos comando-argumento:
+        int x=0;
+        char *token=strtok(comando, " "); //separamos por token.
+
+        while(token!=NULL && x<MAX_ARGS-1){
+            argumentos[x++]=token;
+            token=strtok(NULL, " ");
+        }
+
+        argumentos[x]=NULL; //para el execvp
+}
+
 
 int main(){
 
@@ -57,7 +89,7 @@ int main(){
     
     while(1){
         printf("[SHELL] >\t");
-        fflush(stdout); //clear
+        fflush(stdout); // Muestra el prompt de inmediato.
 
         if(fgets(comando,TAM_MAX,stdin)==NULL){
             perror("Error al leer el comando");
@@ -68,14 +100,15 @@ int main(){
         if(strlen(comando)==0){continue;}
 
 
-        //?  redireccion: cmd>file (Ex)
+        //?-----------------  redireccion: (>)
+        //En este código, lo que buscamos es si existe: ">" y dónde.
         int redir=0;
         char *txt = NULL;
-        char *signo=strchr(comando,'>'); //buscamos >
+        char *signo=strchr(comando,'>');  //Buscamos >
 
         if(signo!=NULL){
             redir=1;
-            *signo='\0';
+            *signo='\0'; //en "cmd" se corta el strng.
             signo++; //avanzamos a lo que hay dsp de ">"
 
             while(*signo==' '){
@@ -85,72 +118,138 @@ int main(){
             txt=signo;
         }
 
-        //? Separaremos comando-argumento:
+        //?------------------------ Separar pipes con |:
+        char *comandos[MAX_SHELL];
+        int contador_comandos=0;
 
-        char *argumentos[TAM_MAX/2+1]; //mitad 
-        int x=0;
-        char *token=strtok(comando, " "); //separamos por token.
+        char *token= strtok(comando, "|");
 
-        while(token!=NULL){
-            argumentos[x++]=token;
-            token=strtok(NULL, " ");
+        while(token != NULL && contador_comandos<MAX_SHELL){
+            while(*token==' '){
+                token++;
+            }
+            comandos[contador_comandos++]=token;
+            token=strtok(NULL, "|");
         }
 
-        argumentos[x]=NULL; //para el execvp
+        //----- Si tenemos 1 comando: NO PIPE, puede haber > ---------
+        if(contador_comandos==1){
+            char *argumentos[MAX_ARGS];
+            tokenizacion(comandos[0],argumentos);
 
-        if(argumentos[0]==NULL){ continue;}
+            if(argumentos[0]==NULL){ continue;}
 
-        //? MANEJO DE CD - EXIT:        
+            //?------(COMANDOS INTERNOS)-------- MANEJO DE CD - EXIT:        
 
-        if(strcmp(argumentos[0],"cd")==0){   //cambio directorio
+            if(strcmp(argumentos[0],"cd")==0){   //cambio directorio
             
-            if(argumentos[1]==NULL){
-                
-                char *home=getenv("HOME");
-                if(home==NULL){
-                    home="/"; //al inicio vamos.
-                } 
-                if(chdir(home)!=0){
+                if(argumentos[1]==NULL){
+                    
+                    char *home=getenv("HOME");
+                    if(home==NULL){
+                        home="/"; //al inicio vamos.
+                    } 
+                    if(chdir(home)!=0){
+                            perror("cd");
+                        }
+                }
+                else{
+                    if(chdir(argumentos[1])!=0){
                         perror("cd");
                     }
-            }
-            else{
-                if(chdir(argumentos[1])!=0){
-                    perror("cd");
                 }
+                continue;
             }
-            continue;
+
+            if(strcmp(argumentos[0],"exit")==0){ break;}  //para salir
+
+      
+            //?---------otros comandos(EXTERNOS):-------
+
+            pid_t pid=fork();
+
+            if(pid==0){
+
+                // existe >.
+                if(redir && txt!=NULL){
+                    int fd_o=open(txt,O_CREAT|O_WRONLY|O_TRUNC,0644);
+
+                    if(fd_o<0){
+                        perror("open");
+                        exit(EXIT_FAILURE);
+                    }
+
+                    dup2(fd_o,STDOUT_FILENO); //redirigimos la salida.
+                    close(fd_o);
+                }
+
+                execvp(argumentos[0],argumentos); //busca el binario usando $PATH
+                perror("execvp"); //si llegamos aca, es que fallo  //! IMPORTANTE - SINO puede que el hijo corra inf y se trabe el shell .
+                exit(EXIT_FAILURE); //como fallo, nos salimos.
+            }else{
+                wait(NULL);
+                continue;
+            }
+
         }
 
-        if(strcmp(argumentos[0],"exit")==0){ break;}  //para salir
+        ///------------COMANDOS CON PIPES:---------------
 
+        /* NOTA: 
+        pipe(pipes+ i*2) --> pipes[i+2] (lectura) y pipes[i*2+1] (escritura)
+        */
+        
+        int pipes[2*(contador_comandos-1)]; 
 
-        //?otros comandos:
-
-        pid_t pid=fork();
-
-        if(pid==0){
-            if(redir && txt!=NULL){
-                int fd=open(txt,O_CREAT|O_WRONLY|O_TRUNC,0644);
-
-                if(fd<0){
-                    perror("open");
-                    exit(EXIT_FAILURE);
-                }
-
-                dup2(fd,STDOUT_FILENO); //redirigimos la salida.
-                close(fd);
+        for(int x= 0;x< contador_comandos-1; x++) {
+            if (pipe(pipes + x*2) < 0) {
+                perror("pipe");
+                exit(EXIT_FAILURE);
             }
-
-            execvp(argumentos[0],argumentos); //busca el binario usando $PATH
-
-            perror("execvp"); //si llegamos aca, es que fallo  //! IMPORTANTE - SINO puede que el hijo corra inf y se trabe el shell .
-            exit(EXIT_FAILURE); //como fallo, nos salimos.
-        }else{
-            wait(NULL);
         }
 
-    }
+        //para cada comando, creamos un proceso:
+        for(int x=0;x<contador_comandos;x++){
+            pid_t pid=fork();
+
+            if(pid < 0){
+                perror("fork");
+                exit(EXIT_FAILURE);
+            }
+
+            if(pid==0){
+                    if(x!=0){ //desde el pipe anterior, rederigimos pq no es el primero.
+                        dup2(pipes[(x-1)*2],STDIN_FILENO);
+                    }
+
+                    if(x!= contador_comandos-1){ //al pipe posterior, rederigimos pq no es el ultimo.
+                        dup2(pipes[x*2+1],STDOUT_FILENO);
+                    }
+
+                    for(int y=0;y<2*(contador_comandos-1);y++){
+                        close(pipes[y]); //chau pipes en child!
+                    }
+
+                    char *argumentos[MAX_ARGS];
+                    tokenizacion(comandos[x],argumentos);
+                    
+                    execvp(argumentos[0],argumentos);
+                    perror("execvp");
+                    exit(EXIT_FAILURE); //como fallo, nos salimos.
+                    }
+            }// close child
+        }//close for.
+        
+        //estamos en el padre: 
+        for(int x=0;x<2*(contador_comandos-1);x++){
+            close(pipes[x]);}
+
+        for(int x=0;x<contador_comandos;x++){
+            wait(NULL);}
+        
+
+    }//fin while.
+    
 
     return 0;
 
