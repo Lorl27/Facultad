@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-#include "8-0-socket_server_configuration.h"
+#include "8.0-socket_server_configuration.h"
 
-#define BLOG 1
+#define Backlog 1
 
 /* Servidor Echo con Sockets de tipo Stream */
 
@@ -43,8 +43,10 @@ int main(){
   }
   printf("[DIAG] BIND Ok :D\n");
 
+  //* REVIEW: hasta aca todo igual a DGRAM
+
   /* El servidor se pone a la espera de conexiones */
-  if(listen(sock_srv, BLOG) < 0)
+  if(listen(sock_srv, Backlog) < 0)
   {
     perror("Falló el listen");
     exit(EXIT_FAILURE);

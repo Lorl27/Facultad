@@ -6,7 +6,7 @@
 #include <sys/un.h>
 #include "8.0-socket_server_configuration.h"
 
-//socket server echo datagram
+//socket client echo datagram
 
 #define MSG "JAIME!"
 

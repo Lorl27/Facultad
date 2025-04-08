@@ -7,34 +7,6 @@
 
 // socket server echo datagram
 
-/* NOTITAS:
-          dominio socket
-          local: AF_UNIX v AF_LOCAL (adress Family)
-         red: AF_INET v AF_INET6
-
-/         types:_
-/         :)  udp , paquetes a dir no trust (no verifico si llego) cartas
-/          stream: tel fijo like
-
-/         protocol x default:0 - en redes, + info.
-
-// struct sockaddr_un{
-//     sa_family_t sun_family;  //af_unix : local
-//     char sun_path[108]; //donde vive
-// };
-
-// struct sockaddr_in{
-//     sa_family_t son_family;  //af_inex  :red
-//     in_port_t sin_port;  //puerto
-//     struct in_addr sin_addr;   //byte 
-// };
-
-
-*/
-
-
-//SRV_NAME "./SRV_NAME"
-
 /* Servidor Echo */
 
 int main(){
