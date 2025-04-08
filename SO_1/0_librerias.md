@@ -16,5 +16,5 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
-#include <threads.h>
+#include <pthread.h> //POSIX. incluir en gcc -pthread
 #include <assert.h>
