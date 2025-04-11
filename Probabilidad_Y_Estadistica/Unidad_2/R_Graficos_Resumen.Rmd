@@ -1,0 +1,23 @@
+---
+title: "R_graficos"
+author: "Lorl"
+date: "2025-04-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### GRAFICOS UNIVARIADOS:
+
+## Categóricos:
+
+#Dist. de freq. absolutas
+cbind(table(data))
+
+#Dist. de freq. relativas
+table(data)) / nrow(dato_conjunto)
+
+#Diagrama de barras
+barplot(data)
