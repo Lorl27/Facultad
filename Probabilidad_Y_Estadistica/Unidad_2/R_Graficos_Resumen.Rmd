@@ -4,7 +4,6 @@ author: "Lorl"
 date: "2025-04-11"
 output: html_document
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -14,10 +13,74 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Categóricos:
 
 #Dist. de freq. absolutas
-cbind(table(data))
+``` cbind(table(data))
+```
 
 #Dist. de freq. relativas
-table(data)) / nrow(dato_conjunto)
+``` table(data)) / nrow(dato_conjunto)
+```
 
 #Diagrama de barras
-barplot(data)
+``` barplot(data , col=c(1,2,3,4) , legend.text=c("dato1","datow"), main="grafico de barras") / qplot(data, data=data_conjunto, geom="bar")
+```
+
+#Diagrama de sectores circulares
+``` pie(x=data , col=c(1,2,3,4) , labels=c("dato1","datow"), main="grafico de barras")
+```
+
+## Cuantitativos:
+
+# n:muestra - Media - Mediana - Quartiles - Percentil
+``` tamaño_muestra=length(edad_sujetos)
+    media<-mean(edad_sujetos)
+    mediana<-median(edad_sujetos)
+    moda<- as.numeric(names(sort(table(edad_sujetos), decreasing = TRUE)[1]))
+    Q3<- edad_sujetos[(tamaño_muestra+1) * 75/100]
+
+    #MAS SIMPLE: 
+    max_min_cuartiles123<-quantile(edad_sujetos,probs=c(0,0.25,0.50,0.75,1)) #summary(edad_sujetos)
+    
+    percentil_50 <- quantile(edad_sujetos, c(0.50));
+
+```
+
+# Min - Max - Rango - RI - Desviación estandar - Variancia
+``` minimo<- min(edad_sujetos)
+    maximo<- max(edad_sujetos)
+    rango<-(maximo - minimo)
+    RI<-(Q3-Q1) #IQR(edad_sujetos)
+    desviacion_estandar=sd(edad_sujetos)
+    variancia=var(edad_sujetos)
+
+```
+
+## Gráficos:
+
+#Boxplot - Tallo_Hoja - Histograma
+```
+  bloxplot<- boxplot(x=edad_sujetos,col="purple")
+
+  tallo_hoja<-stem(edad_sujetos,scale=0.5)
+  
+  png("histograma_edad.png") #Para guardarlo como imagen
+  
+  histograma<- hist(x=edad_sujetos,main="Histograma de la edad",breaks=seq(20, 70, by = 5), xlab="Edad", ylab="Frecuencia", col="#7FFFD4")
+  abline(v = media, col = "red", lwd = 2)
+  abline(v = mediana, col = "blue", lwd = 2)
+  legend("topright", legend=c("Media", "Mediana"), col=c("red", "blue"), lwd=2) #Incorporar líneas de referencia al gráfico.
+
+  dev.off()
+
+
+```
+
+## Frecuencias acumuladas - Dispersión
+```
+
+  plot(breaks=seq(1.5,5.5,by=0.5),data.freq,main="Fi",xlab="minutos",ylab="fi acumulados")
+  lines(breaks,data.freq)
+  
+  plot(x=data.1,y=data.2,xlab="duracion",ylab="tiempo)
+
+```
+
