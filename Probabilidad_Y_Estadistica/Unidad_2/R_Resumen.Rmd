@@ -1,0 +1,100 @@
+---
+title: "Resumen_R"
+author: "Lorl"
+date: "2025-04-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Inicio - funciones - Cómo usar R.
+
+``` x<-2 #Operador de asignación
+    z1 <- 2^4 #Usando operadores aritméticos
+    z1 < x & !(z1>x) #Operadores de orden y lógicos
+    example(funcion,x="parametro_pasado")
+```
+
+## FUNCIONES
+
+``` 
+promedio <- function(calificaciones) {
+  media <- mean(calificaciones)
+  
+  if(media >= 6) {
+    print("Aprobado")
+  } else {
+    print("Reprobado")
+  }
+  
+  for(numero in 1:5) {
+    print(numero)
+  }
+  
+  umbral <- 5
+  valor <- 0
+  
+  while(valor < umbral) {
+    print("Todavía no.")
+    valor <- valor + 1
+  }
+  
+  return(media)
+}
+
+promedio(c(6, 7, 8, 9, 8)) #Usando la función
+```
+
+## PAQUETES
+
+```
+?install.packages  #HELP
+
+install.packages("readxl")  #Instalar paquetes
+library(readxl) #Importarlos
+
+source("ejemplo.r")  #Traerlos para usarlos
+ejemplo(1)
+```
+
+```
+getwd() #ver cd actual
+setwd("C:\\...") #cambiar cd
+```
+
+## VECTORES
+```
+basic <- c(4,2,3,1,4) 
+nombre <- c("hola"=4, "tres"=2) #columna 
+
+x <- nombre[1]  #accedemos a esa var
+uno <- basic[-2]  #Todos menos ese
+dos <- basic[c(2,4)]  #Los indices marcan a quienes queremos
+dos <- nombre["tres"]  #El nombre marca a quien queremos
+
+v2[length(v2)>4] <- 5   #Reasignación con condición
+v2[2] <- 4
+
+v3 <- NULL  #Elimino vector
+
+v12 <- c(v1,v2) #Concateno
+v <- v1+v2 #Sumo
+v <- append(v1,v2, after=1)  #Los uno después de "1"
+```
+
+## TABLAS
+```
+tab1 <- as.table(rbind(c(143,100,23), c(120,123,45)))  #hacer tabla
+dimnames(tab1) <- list(genero = c("M", "F"), equipo = c("RC", "NOB", "Ninguno"))  #columnas
+print(tab1)
+
+anorexia <- read.table("anorexia.data", sep='\t')  #leer tabla de archivo
+basepartos <- read_xls("Base_partos.xls")  #leer tabla de excel
+
+#COMBINAR TABLAS:
+notas <- data.frame(Legajo = c("L-1", "G-1", "H-1"), Nota = c(70, 85, 90))
+nombres <- data.frame(Legajo = c("G-1", "L-1", "H-1"), Nombre = c("Beatriz Gimenez", "Adrian Lopez", "Camila Hernandez"))
+tab <- merge(notas, nombres, by='Legajo')
+```
