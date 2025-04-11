@@ -14,11 +14,11 @@
 ### ***RESUMEN***
 
 
-Materia | Temas (PYTHON) | Temas (C) |  Temas(R + RStudio) | Temas (Earlang)
+Materia | Temas (PYTHON) | Temas (C) |  Temas (R + RStudio) | Temas (Earlang)
 :---: | :---: | :---: | :---: | :---:
 **Programación 2** | Conceptos Básicos,listas,tuplas,sets,diccionarios,ciclos,condicionales,archivos,módulo Random | Conceptos Básicos,ciclos,condicionales,archivos,estructuras con punteros, memoria dinámica y estática,punteros,char, switch |
 **Redictado Prog 2** | Conceptos Básicos,listas,tuplas,diccionarios, tipos de ciclos, tipos de condicionales, archivos, Módulo Random,Streamlit,Math.lib,csv, Proyecto, pytest,strings,receta | Introducción, conceptos básicos, ciclos, tipos de condicionales, switch, punteros,estructuras simples, receta, assert.h y librerías string.h, stdlib.h  (manejo de entrada estándar y personalizada)|
-**Probabilidad y Estadística** |  |  | Uso de Software |
+**Probabilidad y Estadística** |  |  | Uso de Software para gráficos y tablas , además de uso de Proporciones,Moda, Mediana, Media Aritmética , etc. |
 **Estrucutras de Datos y Algoritmos 1** |  | Punteros a función , Arrays, Listas, Pilas y Colas, Árboles, Heap, Tablas Hash, Introducción a los algoritmos , Ordenamiento |  |
 **Sistemas Operativos 1** |  | Signals - Programación y procesos. Regiones de memoria. Creación y destrucción de procesos.Sincronizaciones y comunicación. Condiciones de concurso y regiones críticas. Exclusión mútua. Problemas relacionados. Deadlock y livelock. Programación concurrente.Interbloqueos. Formalismos. Bibliotecas de programación paralela y distribuida. || USO DE Erlang)  |
 
@@ -117,54 +117,53 @@ Materia | Temas (PYTHON) | Temas (C) |  Temas(R + RStudio) | Temas (Earlang)
 
   #### *C:*
     Unidad 1:
-        1.1. Definición de Sistema operativo.
-        1.2. Nociones básicas de las funciones de un Sistema Operativo.
-        1.3. Programación paralela y concurrente. Definiciones. Características. Hitos históricos.
-        1.4. Ley de Moore.
+        - 1.1. Definición de Sistema operativo.
+        - 1.2. Nociones básicas de las funciones de un Sistema Operativo.
+        - 1.3. Programación paralela y concurrente. Definiciones. Características. Hitos históricos.
+        - 1.4. Ley de Moore.
       Unidad 2:
-        2.1. Definición de proceso. Etapas y regiones de un proceso.
-        2.2. Garantías del Sistema Operativo. El rol del scheduler de un Sistema Operativo.
-        2.3. El Sistema Operativo GNU/Linux.
-        2.3. Llamadas de Sistema. Primitivas de creación y terminación de procesos.
-        2.4. Información de un proceso monitoreado por el SO. Descriptores de Archivo.
-        2.5. Comunicación Interprocesos: Señales. Pipes. Shared Memory. Socket locales.
+        - 2.1. Definición de proceso. Etapas y regiones de un proceso.
+        - 2.2. Garantías del Sistema Operativo. El rol del scheduler de un Sistema Operativo.
+        - 2.3. El Sistema Operativo GNU/Linux.
+        - 2.3. Llamadas de Sistema. Primitivas de creación y terminación de procesos.
+        - 2.4. Información de un proceso monitoreado por el SO. Descriptores de Archivo.
+        - 2.5. Comunicación Interprocesos: Señales. Pipes. Shared Memory. Socket locales.
       Unidad 3:
-        3.1 Posix Threads.
-        3.2. Interliving. Recursos compartidos y Región crítica.
-        3.3. Condiciones de carrera. Problema del jardín Ornamental.
-        3.4. El problema de Exclusión mutua.
-        3.5. Algoritmo de Peterson y Lamport como solución al problema de exclusión mutua. Problemas en arquitecturas
-        modernas. Barreras de memoria. Instrucciones por hardware para exclusión mutua.
+        - 3.1 Posix Threads.
+        - 3.2. Interliving. Recursos compartidos y Región crítica.
+        - 3.3. Condiciones de carrera. Problema del jardín Ornamental.
+        - 3.4. El problema de Exclusión mutua.
+        - 3.5. Algoritmo de Peterson y Lamport como solución al problema de exclusión mutua. Problemas en arquitecturas moderna. Barreras de memoria. Instrucciones por hardware para exclusión mutua.
       Unidad 4:
-        4.1. Locks y Spinlocks.
-        4.2. Variables de Condición. Necesidad y uso. Problema de Productores y Consumidores con buffer acotado.
-        4.3. Monitores. Semántica de Hoare y Mesa.
-        4.4. Semáforos de Dijkstra. Problema de los escritores y lectores.
-        4.5. Rendezvous. Problema de la Barbería.
-        4.6. Barreras de sincronización.
-        4.7. Deadlocks. Condiciones necesarias para su aparición. Problema de los filósofos comensales. Livelocks.
+        - 4.1. Locks y Spinlocks.
+        - 4.2. Variables de Condición. Necesidad y uso. Problema de Productores y Consumidores con buffer acotado.
+        - 4.3. Monitores. Semántica de Hoare y Mesa.
+        - 4.4. Semáforos de Dijkstra. Problema de los escritores y lectores.
+        - 4.5. Rendezvous. Problema de la Barbería.
+        - 4.6. Barreras de sincronización.
+        - 4.7. Deadlocks. Condiciones necesarias para su aparición. Problema de los filósofos comensales. Livelocks.
 
   #### *Earlang:*
     Unidad 5:
-      5.1. Mensajes síncronos y asíncronos.
-      5.2. Modelo CSP. Canales.
-      5.3. Modelo de Actores. Erlang. Canales en Erlang. Guardas.
-      5.4. Socket sobre red. Modelo Cliente/Servidor. RPC.
-      5.5. Modelos de I/O. Kernel queues. Uso de epoll.
+        - 5.1. Mensajes síncronos y asíncronos.
+        - 5.2. Modelo CSP. Canales.
+        - 5.3. Modelo de Actores. Erlang. Canales en Erlang. Guardas.
+        - 5.4. Socket sobre red. Modelo Cliente/Servidor. RPC.
+        - 5.5. Modelos de I/O. Kernel queues. Uso de epoll.
     Unidad 6:
-      6.1. Especificación de ejecución concurrente. Condiciones de Bernstein.
-      6.2. Propiedades de Safety y livenes.
-      6.3. API OpenMP. Modelo de ejecución Fork-Join. Directivas de sincronización.
-      6.4. Modelo de programación para memoría distribuida.
-      6.5. Bibliotecas de paso de mensajes. MPI. Comunicaciones P2P y colectivas.
-      6.6. Entornos de ejecución distribuidos.
-      6.7. Medidas de performance. SpeedUp. Eficiencia
-      6.8. Erlang Distribuido. Servicio de Distribución de Datos (DDS).
+        - 6.1. Especificación de ejecución concurrente. Condiciones de Bernstein.
+        - 6.2. Propiedades de Safety y livenes.
+        - 6.3. API OpenMP. Modelo de ejecución Fork-Join. Directivas de sincronización.
+        - 6.4. Modelo de programación para memoría distribuida.
+        - 6.5. Bibliotecas de paso de mensajes. MPI. Comunicaciones P2P y colectivas.
+        - 6.6. Entornos de ejecución distribuidos.
+        - 6.7. Medidas de performance. SpeedUp. Eficiencia
+        - 6.8. Erlang Distribuido. Servicio de Distribución de Datos (DDS).
     Unidad 7:
-      7.1 Lineamientos para trabajo en equipo
-      7.2 Herramientas para gestión de tareas y proyectos. Trello.
-      7.3 Herramientas para trabajo colaborativo. Github. Vscode live share.
-      7.4 Guías de estilo al programar
-      7.5 Herramientas de Versionado de código, git. Guías de estilo de versionado.
-      7.6 Documentación técnica.
-      7.7 Herramientas para generación automática de documentación. Doxygen. Edoc
+        - 7.1 Lineamientos para trabajo en equipo
+        - 7.2 Herramientas para gestión de tareas y proyectos. Trello.
+        - 7.3 Herramientas para trabajo colaborativo. Github. Vscode live share.
+        - 7.4 Guías de estilo al programar
+        - 7.5 Herramientas de Versionado de código, git. Guías de estilo de versionado.
+        - 7.6 Documentación técnica.
+        - 7.7 Herramientas para generación automática de documentación. Doxygen. Edoc
