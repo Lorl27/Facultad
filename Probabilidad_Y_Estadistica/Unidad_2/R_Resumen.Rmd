@@ -15,6 +15,10 @@ knitr::opts_chunk$set(echo = TRUE)
     z1 <- 2^4 #Usando operadores aritméticos
     z1 < x & !(z1>x) #Operadores de orden y lógicos
     example(funcion,x="parametro_pasado")
+    
+    
+    cat("La media de los fumadores es: ",media_n," y la de los no fumadores:",media_n_f)  #print todo junto
+
 ```
 
 ## FUNCIONES
