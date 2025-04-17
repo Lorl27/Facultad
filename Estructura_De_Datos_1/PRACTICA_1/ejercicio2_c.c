@@ -58,6 +58,27 @@ int string_concat2(char *str1, char *str2, int max){
 
 }
 
+int str_concat_recursivo(char* str1, char* str2, int max) {
+    if (str1 == NULL || str2 == NULL || max <= 0)
+        return 0;
+
+    if (*str1 == '\0') {
+        // Ya estamos en el final de str1, comenzamos a copiar str2
+        if (*str2 == '\0') {
+            *str1 = '\0';
+            return 0;
+        } else {
+            *str1 = *str2;
+            int copiados = 1 + str_concat(str1 + 1, str2 + 1, max - 1);
+            return copiados;
+        }
+    } else {
+        // Aún no llegamos al final de str1, seguir avanzando
+        return str_concat(str1 + 1, str2, max);
+    }
+}
+
+
 int main(){
     char array[100]="domingo";
     char array2[]="Concatenaje";
