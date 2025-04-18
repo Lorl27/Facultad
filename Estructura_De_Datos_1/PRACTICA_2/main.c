@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
   lista = slist_agregar_inicio(lista, 1);
   lista = slist_agregar_final(lista, 4);
 
-  slist_recorrer(lista, imprimir_entero);
+  slist_recorrer(lista, imprimir_entero);   //1-2-3-4
   puts("");
 
   slist_destruir(lista);
