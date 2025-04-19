@@ -53,3 +53,7 @@ void contacto_destruir(Contacto *contacto) {
 void contacto_imprimir(Contacto *contacto) {
   printf("%s, %s, %d.\n", contacto->nombre, contacto->tel, contacto->edad);
 }
+
+int contacto_predicado(Contacto *contacto){
+  return contacto->edad>60;
+}

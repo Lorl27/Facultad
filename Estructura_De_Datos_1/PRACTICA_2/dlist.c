@@ -33,37 +33,35 @@ DList Dlist_agregar_final(DList lista, int dato) {
     DNodo *nuevoNodo = malloc(sizeof(DNodo));
     nuevoNodo->dato = dato;
     nuevoNodo->sig = NULL;  
-    nuevoNodo->ant = NULL;  
+    nuevoNodo->ant = lista.ultimo;  
 
-    // Si la lista está vacía...
     if (lista.primero == NULL) {
         lista.primero = nuevoNodo;
-        lista.ultimo = nuevoNodo;
+
     } else {
-        //actualizamos el anterior del último nodo
         lista.ultimo->sig = nuevoNodo;  // El antiguo último nodo apunta al nuevo
-        nuevoNodo->ant = lista.ultimo;  // El nuevo nodo apunta al anterior último
-        lista.ultimo = nuevoNodo;  // Ahora el último nodo es el nuevo nodo
     }
 
-    return lista;  // Retornar la lista con el nuevo nodo agregado
+    lista.ultimo = nuevoNodo;
+
+    return lista; 
 }
 
 
 DList Dlist_agregar_inicio(DList lista, int dato) {
     DNodo *nuevoNodo=malloc(sizeof(DNodo));
     nuevoNodo->dato=dato;
-    nuevoNodo->sig=NULL;
+    nuevoNodo->sig=lista.primero;
     nuevoNodo->ant=NULL;
 
     if(lista.primero==NULL) {
-        lista.primero=nuevoNodo;
         lista.ultimo=nuevoNodo;
     }else{
         lista.primero->ant=nuevoNodo;
-        nuevoNodo->sig=lista.primero;
-        lista.primero=nuevoNodo;
+        
     }
+
+    lista.primero=nuevoNodo;
 
     return lista;
 
@@ -103,6 +101,21 @@ void Dlist_recorrer_elegir(DList lista,FuncionVisitante visit, DListOrdenDeRecor
             break;
     }
 
+}
+//---------
+void dlist_recorrer_R_aux(DNodo* node, FuncionVisitante visit, DListOrdenDeRecorrido orden)
+{
+    if(node != NULL){
+        visit(node->dato);
+        if(orden == DLIST_RECORRIDO_HACIA_ADELANTE) dlist_recorrer_R_aux(node->sig, visit, orden);
+        else dlist_recorrer_R_aux(node->ant, visit, orden);
+    }
+}
+
+
+void dlist_recorrer_R(DList* lista, FuncionVisitante visit, DListOrdenDeRecorrido orden) {
+    DNodo* primer_nodo = orden == DLIST_RECORRIDO_HACIA_ADELANTE ? lista->primero : lista->ultimo; 
+    dlist_recorrer_R_aux(primer_nodo, visit, orden);
 }
 
 //-----
