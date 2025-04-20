@@ -1,4 +1,4 @@
-#include <unistd.h>
+#include <unistd.h>  //sleep
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -16,5 +16,6 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
-#include <pthread.h> //POSIX. incluir en gcc -pthread
+#include <pthread.h> //API: MUTEX POSIX. incluir en gcc -pthread
 #include <assert.h>
+#include <sys/epoll.h> 

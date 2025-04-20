@@ -26,8 +26,6 @@ puede suceder que checkeo la cond del while, antes de que se asigne la misma pra
 
 --barreras de memoria(ayuda a evitar lo anterior) mfence
 
--O3:lo + rapido
-
 -ALGORITMO DE LA PANADERIA: LAMPORT.
 */
 

@@ -36,21 +36,39 @@ void * bar(void *arg){
     return NULL;
 }
 
-void* molinete(void * arg){
+void* molinete1(void * arg){
     //lock
     pthread_mutex_lock(&mutex_v);
 
     //región critica:
+    x=1;
+    a=y;
     
     // unlock
     pthread_mutex_unlock(&mutex_v);
+
+    return NULL;
+}
+
+void* molinete2(void * arg){
+    //lock
+    pthread_mutex_lock(&mutex_v);
+
+    //región critica:
+    y=1;
+    b=x;
+    
+    // unlock
+    pthread_mutex_unlock(&mutex_v);
+
+    return NULL;
 }
 
 
 int main(){
     pthread_t t0, t1;
-    pthread_create(&t0, NULL, molinete, NULL);  
-    pthread_create(&t1, NULL, molinete, NULL);
+    pthread_create(&t0, NULL, molinete1, NULL);  
+    pthread_create(&t1, NULL, molinete2, NULL);
     pthread_join(t0, NULL);
     pthread_join(t1, NULL);
     pthread_mutex_destroy(&mutex_v);
