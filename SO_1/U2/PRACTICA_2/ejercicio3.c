@@ -23,6 +23,7 @@
 #include <assert.h>
 
 int x = 0, y = 0, a = 0, b = 0;
+pthread_mutex_t mutex_v = PTHREAD_MUTEX_INITIALIZER;
 
 void * foo(void *arg){
     x = 1;
@@ -35,13 +36,24 @@ void * bar(void *arg){
     return NULL;
 }
 
+void* molinete(void * arg){
+    //lock
+    pthread_mutex_lock(&mutex_v);
+
+    //región critica:
+    
+    // unlock
+    pthread_mutex_unlock(&mutex_v);
+}
+
 
 int main(){
     pthread_t t0, t1;
-    pthread_create(&t0, NULL, foo, NULL);  
-    pthread_create(&t1, NULL, bar, NULL);
+    pthread_create(&t0, NULL, molinete, NULL);  
+    pthread_create(&t1, NULL, molinete, NULL);
     pthread_join(t0, NULL);
     pthread_join(t1, NULL);
+    pthread_mutex_destroy(&mutex_v);
     assert (a || b);
     return 0;
 }
@@ -65,4 +77,3 @@ int main(){
 
 
 // Solución: usar barriers, pthread_barrier_t, mutex, o atomic para sincronizar accesos.
-
