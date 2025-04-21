@@ -1,6 +1,6 @@
 #include <unistd.h>  //sleep
-#include <stdlib.h>
-#include <stdio.h>
+#include <stdlib.h>  //exit y malloc
+#include <stdio.h>  //f. básicas como print
 #include <sys/types.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -10,9 +10,9 @@
 #include <sys/un.h>
 #include <time.h>
 #include <sys/ipc.h>
-#include <sys/shm.h>
+#include <sys/shm.h>  //same as mman
 #include <sys/select.h>
-#include <sys/mman.h>
+#include <sys/mman.h>  //memoria compartida entre sockets-procesos
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
