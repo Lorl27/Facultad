@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/epoll.h>
-#include "8.0-socket_server_configuration.h"
+#include "Facultad\SO_1\U1\TEORIA\8.0-socket_server_configuration.h"
 
 #define MAX_EVENTS 10
 #define MAXMSG 512
@@ -25,16 +25,17 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    // 2. Configurar dirección
+    // 2. Configurar dirección (nombre srv)
     srv_name.sun_family = AF_UNIX;
     strncpy(srv_name.sun_path, SRV_NOMBRE, sizeof(srv_name.sun_path));
     unlink(srv_name.sun_path); // asegurarse de que no esté en uso
-
+ 
+    //3. bind sock srv con sock name
     if (bind(sock_srv, (struct sockaddr *) &srv_name, sizeof(srv_name)) < 0) {
         perror("Falló el bind");
         exit(EXIT_FAILURE);
     }
-
+    
     if (listen(sock_srv, BACKLOG) < 0) {
         perror("Falló el listen");
         exit(EXIT_FAILURE);
@@ -42,7 +43,7 @@ int main() {
 
     printf("[DIAG] Servidor esperando conexiones (con epoll)\n");
 
-    // 3. Crear epoll
+    // 4. Crear epoll
     int epoll_fd = epoll_create1(0);
     if (epoll_fd == -1) {
         perror("Falló epoll_create1");
@@ -51,7 +52,7 @@ int main() {
 
     struct epoll_event ev, events[MAX_EVENTS];
 
-    // 4. Registrar el socket del servidor
+    // 5. Registrar el socket del servidor
     ev.events = EPOLLIN;
     ev.data.fd = sock_srv;
     if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, sock_srv, &ev) == -1) {

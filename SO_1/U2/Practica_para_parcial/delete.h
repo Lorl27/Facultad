@@ -1,0 +1,2 @@
+#define SRV_NOMRE "./SERVIDOR"
+#define CLI_NOMRE "./CLIENTE"

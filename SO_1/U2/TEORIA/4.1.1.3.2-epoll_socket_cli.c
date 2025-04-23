@@ -30,10 +30,13 @@ int main() {
     cli_name.sun_family = AF_UNIX;
     strncpy(cli_name.sun_path, CLI_NOMBRE, sizeof(cli_name.sun_path));
     unlink(cli_name.sun_path);
+
     if (bind(sock_cli, (struct sockaddr*)&cli_name, sizeof(cli_name)) < 0) {
         perror("Falló la asignación de nombre");
         exit(EXIT_FAILURE);
     }
+
+//ANCHOR -  Hasta acá todo == al srv !
 
     // Conexión al servidor
     srv_name.sun_family = AF_UNIX;
@@ -55,6 +58,7 @@ int main() {
     }
 
     struct epoll_event ev, events[MAX_EVENTS];
+
 
     // Registrar stdin
     ev.events = EPOLLIN;
