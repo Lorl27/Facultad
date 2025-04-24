@@ -93,8 +93,8 @@ void tokenizacion(char *comando, char **argumentos){
 
         while(token!=NULL && x<MAX_ARGS-1){
             argumentos[x++]=token;
-            token=strtok(NULL, " ");
-        }
+            token=strtok(NULL, " "); // Obtiene el siguiente token
+    }
 
         argumentos[x]=NULL; //para el execvp
 }
