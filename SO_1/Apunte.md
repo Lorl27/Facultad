@@ -7,6 +7,54 @@
 - [Apéndice: Otro](#P-1-otro)
 
 ---
+# Índice de Preguntas
+
+## P-1: OTRO
+1. [¿Qué es una interrupción?](#¿Qué-es-una-interrupción)  
+2. [¿Qué es el software libre?](#¿Qué-es-el-software-libre)  
+3. [Dar dos razones de por qué los caches son útiles. ¿Qué problemas resuelven? ¿Qué problemas causan?](#Dar-dos-razones-de-por-qué-los-caches-son-útiles-¿Qué-problemas-resuelven-¿Qué-problemas-causan)  
+4. [¿Qué es un cambio de contexto (CC)?](#¿Qué-es-un-cambio-de-contexto-CC)  
+5. [Describir las acciones que son tomadas por el kernel para hacer un cambio de contexto.](#Describir-las-acciones-que-son-tomadas-por-el-kernel-para-hacer-un-cambio-de-contexto)  
+6. [¿Para qué sirve un intérprete de comandos? ¿Por qué usualmente están separados del kernel?](#¿Para-qué-sirve-un-intérprete-de-comandos-¿Por-qué-usualmente-están-separados-del-kernel)  
+7. [¿Qué es una API?](#¿Qué-es-una-API)  
+
+## P0: INTRODUCCIÓN
+8. [¿Qué es un Sistema Operativo (SO)?](#¿Qué-es-un-Sistema-Operativo-SO)  
+9. [¿Cuáles son sus 3 funciones principales?](#¿Cuáles-son-sus-3-funciones-principales)  
+10. [¿Qué es la multiprogramación?](#¿Qué-es-la-multiprogramación)  
+11. [¿Qué es programación concurrente?](#¿Qué-es-programación-concurrente)  
+12. [¿Es posible tener concurrencia pero no paralelismo?](#¿Es-posible-tener-concurrencia-pero-no-paralelismo)  
+
+## P1: GENERAL
+13. [¿Qué es un proceso y cómo se crea?](#¿Qué-es-un-proceso-y-cómo-se-crea)  
+14. [¿Qué es el PCB (Process Control Block)?](#¿Qué-es-el-PCB-Process-Control-Block)  
+15. [¿Qué es un módulo del kernel?](#¿Qué-es-un-módulo-del-kernel)  
+16. [¿El modo usuario y modo kernel, son modos de trabajo del hardware o del sistema? Explique.](#¿El-modo-usuario-y-modo-kernel-son-modos-de-trabajo-del-hardware-o-del-sistema-Explique)  
+17. [¿Cuáles de las siguientes operaciones deben ser privilegiadas?](#¿Cuáles-de-las-siguientes-operaciones-deben-ser-privilegiadas)  
+18. [¿Qué es una llamada al sistema? ¿Cuáles son su propósito?](#¿Qué-es-una-llamada-al-sistema-¿Cuáles-son-su-propósito)  
+
+## P2: THREADS - PROCESOS
+19. [¿Cuál es la diferencia entre hilos y procesos en Linux?](#¿Cuál-es-la-diferencia-entre-hilos-y-procesos-en-Linux)  
+20. [¿Cuál es la diferencia entre threads de nivel de usuario y de nivel kernel? ¿En cuáles circunstancias uno es mejor que otro?](#¿Cuál-es-la-diferencia-entre-threads-de-nivel-de-usuario-y-de-nivel-kernel-¿En-cuáles-circunstancias-uno-es-mejor-que-otro)  
+21. [¿Qué recursos son usados cuando se crean threads? ¿Cómo difiere de los recursos usados cuando se crea un proceso?](#¿Qué-recursos-son-usados-cuando-se-crean-threads-¿Cómo-difiere-de-los-recursos-usados-cuando-se-crea-un-proceso)  
+22. [Describir el mecanismo por el cuál se refuerza la protección para prevenir que un programa modifique la memoria asociada a otro programa.](#Describir-el-mecanismo-por-el-cuál-se-refuerza-la-protección-para-prevenir-que-un-programa-modifique-la-memoria-asociada-a-otro-programa)  
+23. [¿Qué es exclusión mutua?](#¿Qué-es-exclusión-mutua)  
+24. [¿Qué mecanismos para lograr exclusión mutua podemos usar?](#¿Qué-mecanismos-para-lograr-exclusión-mutua-podemos-usar)  
+25. [¿Cuáles son los mecanismos de comunicación entre procesos?](#¿Cuáles-son-los-mecanismos-de-comunicación-entre-procesos)  
+
+## P3: ERRORES Y +
+26. [¿Qué es en programación concurrente región crítica?](#¿Qué-es-en-programación-concurrente-región-crítica)  
+27. [¿Qué es race condition?](#¿Qué-es-race-condition)  
+28. [¿Qué es un deadlock?](#¿Qué-es-un-deadlock)  
+29. [¿Qué es un livelock?](#¿Qué-es-un-livelock)  
+
+## P4: MÁS INFO
+30. [¿Qué es sincronización de procesos?](#¿Qué-es-sincronización-de-procesos)  
+31. [¿Qué es operación atómica?](#¿Qué-es-operación-atómica)  
+32. [¿Qué es consistencia secuencial?](#¿Qué-es-consistencia-secuencial)  
+33. [¿Qué es Fence (barrera de memoria)?](#¿Qué-es-Fence-barrera-de-memoria)  
+
+----
 
 # P-1: OTRO
 
@@ -60,10 +108,10 @@ Detrás del uso del API, el Runtime Environment (RTE) se encarga de servir como 
 Un Sistema Operativo(SO) es un programa que administra el hardware de una pc, además de proporcionar las basea para los programas de aplicación y ser utilizado como un intermediario entre el usuario y el hardware ya que nos permite trabajar con los componentes del mismo.
 
 ### ¿Cuáles son sus 3 funciones principales?
-* ABSTRACCIÓN: Permite esconder la complejidad del hardware, para ser más accesible a nivel usuario.
-* GESTIÓN DE RECURSOS / SCHEDLING: Gestiona los recursos para que los procesos no compitan por ellos.
-* AISLAMIENTO: Al ser multiusuario y multitarea, el SO permite que un usuario utilice el Sistema individualmente sin preococuparse por otros que usen el mismo. (Lo aisla)
-
+* **ABSTRACCIÓN:** Permite esconder la complejidad del hardware, para ser más accesible a nivel usuario.
+* **GESTIÓN DE RECURSOS / SCHEDLING:** Gestiona los recursos para que los procesos no compitan por ellos.
+* **AISLAMIENTO:** Al ser multiusuario y multitarea, el SO permite que un usuario utilice el Sistema individualmente sin preococuparse por otros que usen el mismo. (Lo aisla)
+---
 ### ¿Qué es la multiprogramación?
 La multiprogramación se trata de programación en varios núcleos que permiten ejecutar procesos/hilos en ellos y estas ejecuciones son al mismo tiempo. Por ello, son mayormente más rápidas puesto que maximizan el uso de la PC y la CPU. (Mayor trabajo, en menos tiempo)
 
@@ -85,24 +133,33 @@ Un proceso es una entidad dinámica ejecutada por un programa.
 
 3) wait(NULL): El proceso padre espera a que el hijo termine
 
+Presenta los sig estados:
+
+- INICIO: El SO recibio la solicitud de creación y está creando sus estructuras y recursos
+- LISTO: El proceso esta listo para ser ejecutado pero aun no se le asigno ningun procesador
+- EJECUCIÓN
+- BLOQUEADO: El proceso se encuentra en espera de que suceda algún evento para continuar su ejecusión. No consume procesador
+- TERMINADO: El proceso termino su ejecución y se borraran sus estructuras.
+- ZOMBIE: El proceso termino su ejecución pero, el SO necesita algunos mecanismos de limpieza para eliminarlo por completo.
+---
 ### ¿Qué es el PCB (Process Control Block)? (+)
 El Process Control Block (PCB), o bloque de control de procesos, es una estructura que representa cada proceso dentro del sistema operativo. Contiene información necesaria para iniciar o reiniciar un proceso, junto con algunos datos de contabilidad. </br>
 El PCB contiene: </br>
 
-•Estado del proceso: indica el estado del proceso, el cual puede ser: nuevo, en ejecución, en espera, listo, finalizado o zombie. </br>
+- 1 **Estado del proceso:** indica el estado del proceso, el cual puede ser: nuevo, en ejecución, en espera, listo, finalizado o zombie. </br>
 
-•Contador de programa: contiene la dirección de la próxima instrucción que debe ejecutarse para el proceso. </br>
+- 2 **Contador de programa:** contiene la dirección de la próxima instrucción que debe ejecutarse para el proceso. </br>
 
-•Registros del procesador: contienen acumuladores, registros de índice, punteros de pila y registros de propósito general, además de cualquier código de condición. Esta información se guarda cuando ocurre una interrupción para permitir que el proceso pueda continuar correctamente cuando se reprograma para ejecutarse. </br>
+- 3 **Registros del procesador:** contienen acumuladores, registros de índice, punteros de pila y registros de propósito general, además de cualquier código de condición. Esta información se guarda cuando ocurre una interrupción para permitir que el proceso pueda continuar correctamente cuando se reprograma para ejecutarse. </br>
 
-•Información de programación: incluye la prioridad del proceso, punteros a colas de planificación y cualquier otro parámetro necesario para la planificación por parte del sistema operativo. </br>
+- 4 **Información de programación:** incluye la prioridad del proceso, punteros a colas de planificación y cualquier otro parámetro necesario para la planificación por parte del sistema operativo. </br>
 
-•Información de gestión de memoria: incluye los valores de registros base y límite, tablas de páginas o tablas de segmentos, dependiendo del sistema de memoria utilizado por el sistema operativo. </br>
+- 5 **Información de gestión de memoria:** incluye los valores de registros base y límite, tablas de páginas o tablas de segmentos, dependiendo del sistema de memoria utilizado por el sistema operativo. </br>
 
-•Información de contabilidad: incluye la cantidad de CPU y tiempo real utilizados, límites de tiempo, números de cuenta y números de trabajo o proceso. </br>
+- 6 **Información de contabilidad:** incluye la cantidad de CPU y tiempo real utilizados, límites de tiempo, números de cuenta y números de trabajo o proceso. </br>
 
-•Información de dispositivos de E/S: incluye la lista de dispositivos de entrada/salida asignados al proceso, lista de archivos abiertos y otros recursos de E/S utilizados por el proceso. </br>
-
+- 7 **Información de dispositivos de E/S:** incluye la lista de dispositivos de entrada/salida asignados al proceso, lista de archivos abiertos y otros recursos de E/S utilizados por el proceso. </br>
+---
 ### ¿Qué es un módulo del kernel?
 
 Un módulo del kernel (kernel module) es una parte del código del núcleo que puede ser cargada o descargada dinámicamente sin necesidad de reiniciar el sistema operativo.
@@ -204,39 +261,6 @@ Ejemplos de llamadas al sistema:
 
 ---
 
-### ¿Qué es un proceso?
-Un proceso es el archivo en acción. Es la entidad dinámica producida por la ejecución de un programa.
-
-Presenta los sig estados:
-* INICIO: El SO recibio la solicitud de creación y está creando sus estructuras y recursos
-* LISTO: El proceso esta listo para ser ejecutado pero aun no se le asigno ningun procesador
-* EJECUCIÓN 
-* BLOQUEADO: El proceso se encuentra en espera de que suceda algún evento para continuar su ejecusión. No consume procesador
-* TERMINADO: El proceso termino su ejecución y se borraran sus estructuras. 
-* ZOMBIE: El proceso termino su ejecución pero, el SO necesita algunos mecanismos de limpieza para eliminarlo por completo.
-
-### ¿Cómo se crea un proceso?
-Se crea con fork, exec o wait.
-
-### ¿Qué es el PCB?
-El Process Control Block (PCB) es una estructura de información que posee cada proceso. 
-Contiene:
-1- Contador del programa: Contiene el puntero a la dirección de la siguiente instrucción a ejecutar
-2- Estado del proceso
-3- Información de los dispositivos de E/S
-4- Información de programación: Contiene la prioridad del proceso y punteros a colas de planificación
-5- Información de contabilidad: Tiempo de ejecución y CPU utilizado
-6- Registros del procesador: Contiene registros de índice, punteros a filas de próposito y acumuladores. En este, se guarda la información del proceso al ocurrir una interrupción para su posterior reanudación en caso de que se reprograme la misma.
-7- Gestión de memoria: Contiene los valores base y límite además de tablas páginadas/segmentadas.
-
----
-
-
-
-
-
-
-
 
 # P2: THREADS - PROCESOS
 
@@ -261,28 +285,58 @@ Las principales diferencias entre los procesos y los threads son:
 ---
 
 ### ¿Cúal es la diferencia entre threads de nivel de usuario y de nivel kernel? ¿En cúales circuntancias uno es mejor que otro?
-THREADS DE NIVEL USUARIO:
 
-Los recursos que son usados cuando se crean threads son:
+#### THREADS DE NIVEL USUARIO:
 
-1- Espacio de direcciones : Comparte el mismo espacio de direcciones (memoria) que su proceso padre y los demás threads.
+- Gestión: Son gestionados por bibliotecas de threading en el espacio de usuario, sin interacción directa con el kernel.
 
-2- Segmento de texto, heap, datos globales y archivos abiertos(files descriptors): Compartido por todos los threads.	
-	
-3- Stack: Es individual de cada thread.
+- Cambio de contexto: Los cambios entre threads de nivel de usuario son más rápidos, ya que no requieren intervención del kernel.
 
-4- Registros y contador de programa: Individuales de cada thread.
+Ventajas:
 
-Cuando se crea un proceso esos recursos son usados de la siguiente forma: 
+- Más eficientes y veloces en sistemas con una sola CPU.
 
-1- Espacio de direcciones : Cada proceso tiene su propia memoria. 
+- Ideales cuando la aplicación no requiere utilizar varias CPUs o cuando la interacción con el kernel es limitada.
 
-2- Segmento de texto, heap, datos globales y archivos abiertos(files descriptors): 
-Cada proceso hace una copia.
-	
-3- Stack: Es individual de cada proceso.
+Desventajas:
 
-4- Registros y contador de programa: Individuales de proceso
+- Si un thread realiza una llamada bloqueante al sistema, todos los threads de ese proceso se quedan bloqueados, ya que el kernel no tiene conocimiento de los threads individuales.
+
+- No aprovechan múltiples núcleos de la CPU, dado que el kernel considera el proceso como un único hilo.
+
+#### Threads de nivel kernel
+
+- Gestión: Son gestionados directamente por el kernel del sistema operativo.
+
+- Cambio de contexto: Los cambios entre threads de nivel kernel son más costosos, ya que requieren intervención del kernel.
+
+Ventajas:
+
+- Pueden aprovechar múltiples CPUs en sistemas con soporte para multiprocesamiento.
+
+- Si un thread se bloquea, otros threads del mismo proceso pueden seguir ejecutándose.
+
+Desventajas:
+
+- Son menos eficientes en sistemas con una sola CPU debido al mayor costo de manejo por parte del kernel.
+
+#### Circunstancias ideales para cada uno:
+
+Threads de nivel de usuario:
+
+- Aplicaciones que no requieren aprovechar múltiples núcleos de CPU.
+
+- Sistemas donde el rendimiento es crítico y las llamadas al sistema son mínimas.
+
+- Entornos con recursos limitados, donde reducir la carga del kernel es importante.
+
+Threads de nivel kernel:
+
+- Aplicaciones intensivas que necesitan ejecutar en paralelo en múltiples núcleos.
+
+- Programas que realizan muchas llamadas al sistema o interactúan extensamente con el hardware.
+
+- Escenarios donde la robustez y la capacidad de manejar bloqueos son prioritarios.
 
 ### ¿Qué recursos son usados cuando se crean threads? ¿Cómo difiere de los recursos usados cuando se crea un proceso? (-)
 
@@ -570,7 +624,7 @@ Las propiedades de ‘Safety’ son las que garantizan que nada malo puede pasar
 Esto lo lograremos insertando mecanismos de sincronización antes y después de la
 sección crítica.
 
-
+---
 ### ¿Cuáles son los mecanismos de comunicación entre procesos?
 
 Cuando un proceso es cooperativo, necesita un mecanismo de comunicación entre procesos (IPC). Existen dos modelos fundamentales:
@@ -636,6 +690,7 @@ Para que se produzca un deadlock, se deben cumplir simultáneamente las siguient
 Para asegurarse que nunca ocurra un deadlock, el sistema puede usar una **prevención contra deadlock** o un **esquema de evasión de deadlock**. El primero provee una serie de métodos que aseguran que al menos una condición necesaria no se cumpla. El segundo necesita que se le dé al sistema operativo información adicional por adelantado acerca de que recursos solicitará y usará el hilo mientras funcione.
 
 De todas las condiciones necesarias, la de *Circular wait* es la más práctica para evitar, se suele imponer un orden fijo para la solicitud de recursos, para romper el ciclo de espera.
+---
 
 ### ¿Qué es un livelock? (-)
 
@@ -656,6 +711,7 @@ Un livelock es otra forma de ausencia de liveness, en donde al igual que el dead
 La sincronización se produce cuando uno o más procesos dependen del comportamiento de otro proceso, y puede darse de dos formas:
 
 ● Competencia: procesos compiten por un recurso (Ej: Acceso a una Impresora)
+
 ● Cooperación : procesos cooperan por un objetivo común. Barreras, Productor/Consumidor, etc.
 
 En general sincronización es el conjunto de reglas y mecanismos que permiten la especificación e implementación de propiedades secuenciales de cada proceso que garantizan la correcta ejecución de un programa concurrente.
