@@ -19,3 +19,6 @@
 #include <pthread.h> //API: MUTEX POSIX. incluir en gcc -pthread
 #include <assert.h>
 #include <sys/epoll.h> 
+#include <limits.h>
+#include <semaphore.h>
+#include <omp.h>  //gcc -fopenmp 4.0-omp.c -o omp_program
