@@ -53,7 +53,7 @@ void *lector(void *arg) {
         else
             printf("Lector %d, dato %d\n", num, v);
 
-        printf("[LECTOR]: termine de leer\n");
+        printf("[LECTOR %d]: termine de leer\n",num);
         unlock_r(rwl);
     }
 
