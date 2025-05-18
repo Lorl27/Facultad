@@ -94,11 +94,11 @@ void unlock_w(struct rwlock *rwl) {
     if (rwl->nro_escri_ent != 0){
         sem_post(&rwl->escritorOK); //dejar pasar al sig. escritor
     }  // si no hay ninguno en la lista espera, lector puede entrar
-    else if(rwl->nro_lecto_ent!=0){  // deja pasar a todos los lectores en espera
+    else if(rwl->nro_lecto_ent!=0 && rwl->nro_escri_ent==0){  // deja pasar a todos los lectores en espera
             for (int i = 0; i < rwl->nro_lecto_ent; i++) {
                 sem_post(&rwl->lectorOK);
             }
         }
-    }
+    
     sem_post(&rwl->mutex);  //escritor -> entra.
 }
