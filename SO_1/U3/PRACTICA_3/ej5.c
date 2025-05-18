@@ -13,166 +13,154 @@
 //si el barbero esta ocupado PERO hay sillas libres: el cliente se sienta y espera
 //si el babrero duerme, se despieta.
 
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <semaphore.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <semaphore.h>
 
-
-#define N 3  //Nro sillas
+#define N 3
 #define CLIENTES 10
 
+sem_t estado_barbero; //para ver si está despierto o no
+sem_t estado_cliente; //para ver si llego o no
 
-sem_t mutex; //proteger var atomica
-sem_t clientes; // cuantos clientes esperan
+sem_t quiero_pagar_cliente;
+sem_t cobro_barbero;
 
-sem_t barbero_estado; // listo para atender.
+sem_t quiero_corte_cliente;
+sem_t corto_barbero;
 
-sem_t corte_hecho; //ya cortaste.
+sem_t mutex;  //para protegeger la var.atomica nro de clientes (fila)
 
-sem_t pago_listo;
-sem_t pago_hecho;
+int nro_clientes_espera=0;
 
-int clientes_en_espera=0;
-
-
-void* me_cortan(void* arg){
-    int id = (int) (long) arg;
-
-    printf("[Cliente nro %d]: Me cortan el pelo\n",id);
-
-    sleep(1);
-
-    return NULL;
-
-}
-
-void *cortando(void* arg){
-    printf("[Barbero]: Estoy cortando.\n");
+void* me_cortan(void *arg){
+    int id=  (int) (long) arg;
+    printf("[Cliente %d]: Me cortan el pelo\n",id);
     sleep(1);
     return NULL;
-
 }
 
-void *pagando(void* arg){
-    int id = (int) (long) arg;
-
-    printf("[Cliente %d]: Estoy pagando.\n",id);
+void* cortando(void *arg){
+    int id=  (int) (long) arg;
+    printf("Barbero: cortandole el pelo al cliente nro %d]\n",id);
     sleep(1);
-
     return NULL;
-
 }
 
-void *me_pagan(void* arg){
-    printf("[Barbero]: Estoy cobrando.\n");
-    sleep(1);    
-
+void* me_cobran(void *arg){
+    int id=  (int) (long) arg;
+    printf("[Cliente %d]: Me cobran\n",id);
+    sleep(1);
     return NULL;
-
 }
 
-void *cliente(void*arg){
-    int id = (int) (long) arg;
+void* cobrando(void *arg){
+    int id=  (int) (long) arg;
+    printf("Barbero: cobrandole al cliente nro %d]\n",id);
+    sleep(1);
+    return NULL;
+}
 
-    printf("[Cliente nro %d]: Llegue a la barberia\n",id);
-  
+void *cliente(void* arg){
+    int id=  (int) (long) arg;
+    printf("[Cliente %d]: entre a la barberia\n",id);
     sem_wait(&mutex);
 
-    //primero tengo que ver si hay sillas libres
-    if(clientes_en_espera>=N){
-        printf("[Cliente nro %d]: No hay ninguna silla disponible, nos vemos.\n",id);
+    if(nro_clientes_espera>=N){
+        printf("[Cliente %d]: La barberia esta llena. Decido irme\n",id);
         sem_post(&mutex);
         return NULL;
     }
 
-    clientes_en_espera++;
+    nro_clientes_espera++;
     sem_post(&mutex);
 
-    sem_post(&clientes); //aviso que llegue
-    sem_wait(&barbero_estado); //espero al barbero.
+    sem_post(&estado_cliente);  //avise que llegue
+    printf("[Cliente %d]: Estoy esperando al barbero...\n",id);
+    sem_wait(&estado_barbero); //espero que se despierte o se desocupe.
 
-    printf("[Cliente nro %d]: Me voy a cortar el pelo\n",id);
-    pthread_t hilo1, hilo2;
-    pthread_create(&hilo1, NULL, me_cortan, (void*)(long)id);
-    pthread_create(&hilo2, NULL, cortando, NULL);
-    pthread_join(hilo1, NULL);
-    pthread_join(hilo2, NULL);
+    sem_post(&quiero_corte_cliente);
+    printf("[Cliente %d]: Me voy a cortar el pelo\n",id);
+    pthread_t t1,t2;
+    pthread_create(&t1,NULL,me_cortan,(void*)(long)id);
+    pthread_create(&t2,NULL,cortando,(void*)(long)id);
+    pthread_join(t1,NULL);
+    pthread_join(t2,NULL);
+    sem_wait(&corto_barbero); //espero que me lo terminen de cortar.
 
-    printf("[Cliente nro %d]: Ya terminaron de cortarme el pelo.\n",id);
-    sem_post(&corte_hecho);     // Avisa al barbero que terminó el corte
-
-    printf("[Cliente nro %d]: Voy a ir a pagar...\n",id);
-    sem_post(&pago_listo);  //aviso que quiero pagar
-    pthread_create(&hilo1, NULL, pagando, (void*)(long)id);
-    pthread_create(&hilo2, NULL, me_pagan, NULL);
-    pthread_join(hilo1, NULL);
-    pthread_join(hilo2, NULL);
-
-    sem_post(&pago_hecho);      // Avisa al barbero que terminó el pago
-    printf("[Cliente nro %d]: Ya termine de pagar. Adiós\n",id);
+    sem_post(&quiero_pagar_cliente); ///aviso que quiero pagar
+    printf("[Cliente %d]: Quiero pagar...\n",id);
+    pthread_create(&t1,NULL,me_cobran,(void*)(long)id);
+    pthread_create(&t2,NULL,cobrando,(void*)(long)id);
+    pthread_join(t1,NULL);
+    pthread_join(t2,NULL);
+    sem_wait(&cobro_barbero); //espero que me terminen de cobrar.
 
     sem_wait(&mutex);
-    clientes_en_espera--;
+    nro_clientes_espera--;
     sem_post(&mutex);
 
-    printf("[Cliente %d]: Terminé todo, me voy.\n", id);
+    printf("[Cliente %d]: Listo! ya termine. Nos vemos\n\n",id);
+
 
     return NULL;
-
 }
 
 void * barbero(void *arg){
-    while(1){
-        printf("[Barbero]: esperando clientes...\n");
-        sem_wait(&clientes);
-        printf("Barbero despierto...\n");
-        sem_post(&barbero_estado);  //ya puedo atender,desperte!
-       
-        sem_wait(&corte_hecho);
-        printf("[Barbero]: termine de cortar pelo\n");
-
-        sem_wait(&pago_listo);
-        printf("[Barbero]: Recibiendo pago...\n");
+    while(1){   
+        printf("[BARBERO]: durmiendo...\n");
+        sem_wait(&estado_cliente); //espero q llegue uno para despertarme
+        printf("[BARBERO]: estoy despertando...\n");
         sleep(1);
-        
-        printf("[Barbero]: terminaron de pagarme. adios");
-        sem_post(&pago_hecho);
+        sem_post(&estado_barbero);
+        printf("[BARBERO]: ya desperte.\n");
 
-        printf("[Barbero]: Terminé con un cliente.\n");
+        sem_wait(&quiero_corte_cliente);
+        printf("[BARBERO]: Cortando pelo...\n");
+        sleep(2);
+        sem_post(&corto_barbero);
+        printf("[BARBERO]: Listo pelo.\n");
+
+        sem_wait(&quiero_pagar_cliente);
+        printf("[BARBERO]: Cobrando...\n");
+        sleep(2);
+        sem_post(&cobro_barbero);
+        printf("[BARBERO]: Listo cobro.\n");
+
+        printf("[Barbero] termine con un cliente.\n\n");
 
     }
-
     return NULL;
 }
 
 int main(){
-
-    pthread_t th_barbero;
-    pthread_t th_clientes[CLIENTES];
-
+    sem_init(&estado_barbero,0,0);
+    sem_init(&estado_cliente,0,0);
+    sem_init(&quiero_pagar_cliente,0,0);
+    sem_init(&cobro_barbero,0,0);
+    sem_init(&quiero_corte_cliente,0,0);
+    sem_init(&corto_barbero,0,0);
     sem_init(&mutex,0,1);
-    sem_init(&barbero_estado,0,0);
-    sem_init(&clientes,0,0);
-    sem_init(&corte_hecho,0,0);
-    sem_init(&pago_listo,0,0);
-    sem_init(&pago_hecho,0,0);
 
-    pthread_create(&th_barbero, NULL, barbero, NULL);
+    pthread_t hilo_barbero;
+    pthread_t hilo_clientes[CLIENTES];
 
-    for (int i = 0; i < CLIENTES; i++) {
-        pthread_create(&th_clientes[i], NULL, cliente, (void *) (long) i);
-        usleep(500000);             // medio segundo entre clientes
+    pthread_create(&hilo_barbero,NULL,barbero,NULL);
+
+    for(int x=0;x<CLIENTES;x++){
+        pthread_create(&hilo_clientes[x],NULL,cliente,(void *) (long) x);
+        usleep(500000);  //0.5s
     }
 
-    for (int i = 0; i < CLIENTES; i++) {
-        pthread_join(th_clientes[i], NULL);
+     for(int x=0;x<CLIENTES;x++){
+        pthread_join(hilo_clientes[x],NULL);
     }
 
-    printf("Todos los clientes fueron atendidos\n");
+    pthread_join(hilo_barbero,NULL);
+
+    printf("\nYa se atendio a todos. \n");
+
     return 0;
-
-
 }
