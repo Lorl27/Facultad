@@ -1,0 +1,106 @@
+//? TEORIA EXTRA:
+// Nota hist´orica: Patil introdujo este problema en 1971 problema como una cr´ıtica a la universalidad
+// de los sem´aforos. Dijkstra planteaba que sus sem´aforos pod´ıan tomarse como la ´unica primitiva
+// necesaria para escribir programas concurrentes, construyendo todo el resto (mutex, CV, etc) a partir
+// los mismos. Para este problema de los fumadores, Patil demuestra que no puede resolverse usando
+// sem´aforos, mientras se den dos condiciones:
+// 1. No puede modificarse al agente. Esta restricci´on proviene de pensar que el agente puede ser el
+// Sistema Operativo, que notifica la disponibilidad de ciertos recursos. No es realista modificar al
+// SO para cada problema que aparece en el espacio de usuario.
+// 2. Que no puedan usarse sentencias condicionales. Esta ´ultima restricci´on no es sensata, y la vamos
+// a ignorar, permitiendo resolver el problema. La justificaci´on original era que los sem´aforos se
+// introdujeron expl´ıcitamente para evitar el testeo repetido de una condici´on (i.e. busy-waiting).
+// Patil concluye que los sem´aforos son insuficientes, y propone una nueva operaci´on P(s1, . . . , sn) que
+// bloquea haciendo P de n sem´aforos a la vez, y los toma de manera at´omica cuando sea posible.
+// Algunos a˜nos despu´es, en 1975, David Parnas presenta una soluci´on cumpliendo ambas condiciones,
+// exactamente lo que Patil hab´ıa demostrado imposible. ¿El truco? Parnas us´o un array de sem´aforos,
+// algo que la prueba de Patil exclu´ıa de manera impl´ıcita. A la vez, Parnas criticaba la restricci´on
+// (2), argumentando que no es realista prohibir condicionales, por m´as que s´ı sea realista prohibir el
+// busy-waiting.
+// Extra: ¿C´omo resolver´ıa el problema con el P n-ario? ¿C´omo resolver´ıa el problema usando un array
+// de sem´aforos?
+
+🔍 ¿Por qué es problemático el código original?
+Los fumadores hacen sem_trywait(...) en un bucle.
+
+Si el ingrediente no está, lo devuelven y siguen dando vueltas (polling + condicionales).
+
+Esto es busy-waiting disfrazado, porque cada fumador sondea constantemente si los ingredientes están listos.
+
+Aunque el sem_trywait no bloquea, lo están usando con mutex y ciclos while(1), lo cual consume CPU innecesariamente.
+
+💡 ¿Qué propuso Patil? P(s1, ..., sn)
+Una operación atómica que toma varios semáforos juntos si todos están disponibles.
+
+Si alguno no está disponible, no toma ninguno y se bloquea hasta que se pueda hacer el P completo.
+
+Eso permitiría a un fumador bloquearse esperando justo los dos ingredientes que necesita, sin rondas ni busy-waiting.
+
+Ejemplo de lógica (imaginaria, ya que P múltiple no existe en sistemas reales):
+-----------------------
+P(papel, tabaco); // bloquea hasta que haya papel Y tabaco disponibles
+// ahora sí, fumar
+-----------------------
+Cada fumador esperaría exactamente los dos ingredientes que le faltan, sin verificar uno por uno, y el sistema lo desbloquearía solo cuando estén los dos.
+
+
+🧠 ¿Qué hizo Parnas con un array de semáforos?
+Parnas esquivó la imposibilidad teórica de Patil usando 1 semáforo por combinación posible de ingredientes.
+
+Hay 3 combinaciones de 2 ingredientes entre 3:
+
+papel + tabaco → para el fumador con fósforos
+
+tabaco + fósforos → para el fumador con papel
+
+papel + fósforos → para el fumador con tabaco
+
+Entonces:
+
+El agente al poner dos ingredientes, activa uno solo de esos 3 semáforos (el que corresponde a la combinación entregada).
+
+Cada fumador espera solo en su semáforo.
+
+No hay polling, no hay trywaits ni mutexes, ni condicionales.
+
+Ejemplo (simplificado):
+----------------------------------------------------
+sem_t combinacion[3]; // uno para cada par de ingredientes
+
+// agente:
+switch (random() % 3) {
+  case 0: // papel + tabaco
+    sem_post(&combinacion[0]); break;
+  case 1: // fósforos + tabaco
+    sem_post(&combinacion[1]); break;
+  case 2: // papel + fósforos
+    sem_post(&combinacion[2]); break;
+}
+
+// cada fumador:
+while (1) {
+  sem_wait(&combinacion[ID]); // ID = 0, 1 o 2 según el fumador
+  fumar();
+  sem_post(&otra_vez); // avisa al agente
+}
+-----------------------------------
+
+
+---------------------
+¿Cómo resolverías el problema con el P n-ario?
+Implementando una primitiva que bloquee hasta que se puedan tomar varios semáforos a la vez, por ejemplo:
+
+-----------------
+Pn(tabaco, papel); // solo cuando ambos disponibles
+No existe en pthreads o POSIX, pero teóricamente se podría implementar en el kernel.
+
+¿Cómo lo resolverías usando un array de semáforos?
+Como lo hizo Parnas:
+
+Tres semáforos (uno por combinación de ingredientes).
+
+El agente hace sem_post solo al semáforo correspondiente.
+
+Cada fumador hace sem_wait en su semáforo.
+
+Se evita trywait, mutexes, y polling
