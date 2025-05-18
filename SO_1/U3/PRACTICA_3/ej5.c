@@ -28,7 +28,8 @@
 sem_t mutex; //proteger var atomica
 sem_t clientes; // cuantos clientes esperan
 
-sem_t corte_listo; //podes empezar a cortar
+sem_t barbero_estado; // listo para atender.
+
 sem_t corte_hecho; //ya cortaste.
 
 sem_t pago_listo;
@@ -90,8 +91,8 @@ void *cliente(void*arg){
     clientes_en_espera++;
     sem_post(&mutex);
 
-    sem_post(&clientes); //aviso que hay 1+
-    sem_wait(&corte_listo); //espero al barbero.
+    sem_post(&clientes); //aviso que llegue
+    sem_wait(&barbero_estado); //espero al barbero.
 
     printf("[Cliente nro %d]: Me voy a cortar el pelo\n",id);
     pthread_t hilo1, hilo2;
@@ -102,9 +103,9 @@ void *cliente(void*arg){
 
     printf("[Cliente nro %d]: Ya terminaron de cortarme el pelo.\n",id);
     sem_post(&corte_hecho);     // Avisa al barbero que terminó el corte
-    sem_wait(&corte_listo);
 
     printf("[Cliente nro %d]: Voy a ir a pagar...\n",id);
+    sem_post(&pago_listo);  //aviso que quiero pagar
     pthread_create(&hilo1, NULL, pagando, (void*)(long)id);
     pthread_create(&hilo2, NULL, me_pagan, NULL);
     pthread_join(hilo1, NULL);
@@ -127,16 +128,18 @@ void * barbero(void *arg){
     while(1){
         printf("[Barbero]: esperando clientes...\n");
         sem_wait(&clientes);
-        printf("Barbero durmiendo...\n");
-
-        sem_post(&corte_listo);
         printf("Barbero despierto...\n");
-
+        sem_post(&barbero_estado);  //ya puedo atender,desperte!
+       
         sem_wait(&corte_hecho);
         printf("[Barbero]: termine de cortar pelo\n");
 
-        sem_wait(&pago_hecho);
+        sem_wait(&pago_listo);
+        printf("[Barbero]: Recibiendo pago...\n");
+        sleep(1);
+        
         printf("[Barbero]: terminaron de pagarme. adios");
+        sem_post(&pago_hecho);
 
         printf("[Barbero]: Terminé con un cliente.\n");
 
@@ -151,7 +154,7 @@ int main(){
     pthread_t th_clientes[CLIENTES];
 
     sem_init(&mutex,0,1);
-    sem_init(&corte_listo,0,0);
+    sem_init(&barbero_estado,0,0);
     sem_init(&clientes,0,0);
     sem_init(&corte_hecho,0,0);
     sem_init(&pago_listo,0,0);
