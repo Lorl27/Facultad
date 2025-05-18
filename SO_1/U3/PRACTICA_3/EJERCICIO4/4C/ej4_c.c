@@ -6,6 +6,9 @@
 
 #include "rwlock.h"
 
+#define sleep(n) usleep(1000*(n))
+
+
 #define M 5  // lector
 #define N 5  // escritor
 #define ARRLEN 10240
@@ -18,11 +21,12 @@ void *escritor(void *arg) {
     int i = 1;
     int num = arg - (void *)0;
     while (1) {
+        sleep(num % 3);
+
         printf("--->Entro escritor %d\n",num);
         lock_w(rwl);
         printf("[ESCRITOR %d]: tome el lock. me preparo \n",num);
 
-        sleep(i % 3);
         printf("Escritor %d escribiendo\n", num);
         for (i = 0; i < ARRLEN; i++)
             arr[i] = num;
@@ -38,11 +42,12 @@ void *lector(void *arg) {
     int v, i = 1;
     int num = arg - (void *)0;
     while (1) {
+        sleep(num % 3);
+
         printf("-->Entro lector %d -\n",num);
         lock_r(rwl);
         printf("[LECTOR] %d: tome el lock. me preparo\n", num);
 
-        sleep(i % 3);
         v = arr[0];
         for (i = 1; i < ARRLEN; i++) {
             if (arr[i] != v)
@@ -71,6 +76,8 @@ int main() {
 
     for (i = 0; i < N; i++)
         pthread_create(&escritores[i], NULL, escritor, i + (void *)0);
+
+
     pthread_join(lectores[0], NULL); /* Espera para siempre */
 
     printf("Se rompio todo.\n");
