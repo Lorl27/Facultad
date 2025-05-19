@@ -17,20 +17,21 @@ int main(){
     #pragma omp parallel
     {
         #pragma omp for
-        for(int x=0;x<=N;x++){
+        for(int x=0;x<N;x++){
             arr[x]=x;
             //printf(" %i\n",x);
         }
     }
     
     #pragma omp parallel for reduction(+: sum)
-        for (int x=0;x<=N;x++)
+        for (int x=0;x<N;x++)
         {
         sum = sum + arr[x];
         }
 
-    printf("sum: %f\n", sum);  //5000050000
+    printf("sum: %f\n", sum);  //4999950000  (suma de 0 a N-1)
 
     return 0;
 
 }
+

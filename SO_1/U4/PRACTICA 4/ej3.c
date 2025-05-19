@@ -8,26 +8,19 @@
 #include <unistd.h>
 #include <omp.h>
 #include <math.h>
+#include <limits.h>
 
 #define N 5
 
 int main(){
     double arr[N]={4,6,9,19,-5};
-    double minimo=arr[0];
-    #pragma omp parallel 
-    {   
+    double minimo=INT_MAX;
 
-        #pragma omp for
-        for(int x=0;x<N;x++){
-            if(minimo>arr[x]){
-                #pragma omp critical
-                {   
-                    minimo=arr[x];
-                    
-                }
-            }
+    #pragma omp parallel for reduction(min:minimo)
+    for(int x=0;x<N;x++){
+        if(minimo>arr[x]){
+            minimo=arr[x];
         }
-
     }
 
     printf("MINIMO: %f",minimo);

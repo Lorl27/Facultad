@@ -27,11 +27,12 @@ int max_number()
     return max;
 }
 
-void *molinete(void *arg)
+int main()
 {
-    int id = *(int *)arg;
-
-#pragma omp for
+    
+    #pragma omp parallel num_threads(N)
+    {   
+        int id = omp_get_thread_num();
         for (int i = 0; i < ITERACIONES; i++)
         {
             // Paso 1: elegir número
@@ -40,41 +41,25 @@ void *molinete(void *arg)
             choosing[id] = 0;
         }
 
-// Paso 2: esperar a que otros hilos terminen de elegir y que mi turno sea el más bajo
-#pragma omp for
-            for (int j = 0; j < N; j++)
-            {
-                if (j == id)
-                    continue;
+        // Paso 2: esperar a que otros hilos terminen de elegir y que mi turno sea el más bajo
+        for (int j = 0; j < N; j++)
+        {
+            if (j == id)
+                continue;
 
-                while (choosing[j])
-                    ; // Esperar a que el otro hilo elija su número
-                while (number[j] != 0 && (number[j] < number[id] || (number[j] == number[id] && j < id)))
-                    ; // Esperar turno
-            }
+            while (choosing[j])
+                ; // Esperar a que el otro hilo elija su número
+            while (number[j] != 0 && (number[j] < number[id] || (number[j] == number[id] && j < id)))
+                ; // Esperar turno
+        }
 
-#pragma omp critical
-{
-            contador++;
-            printf("[%d] Hilo %d entra a la sección crítica\n", contador, id);
-            usleep(10000); // pequeña espera para que se note en la salida
-}
-    // Salir de la región crítica
-    number[id] = 0;
+        contador++;
+        printf("[%d] Hilo %d entra a la sección crítica\n", contador, id);
+        usleep(10000); // pequeña espera para que se note en la salida
 
-    return NULL;
-}
-
-int main()
-{
-    int ids[N];
-#pragma omp parallel num_threads(N)
-{   for(int x=0;x<N;x++){
-    ids[x] = x;
-    molinete(&ids[x]);}
-}
-
-
+        // Salir de la región crítica
+        number[id] = 0;
+    }
     printf("Valor final del contador: %d\n", contador);
 
     return 0;
