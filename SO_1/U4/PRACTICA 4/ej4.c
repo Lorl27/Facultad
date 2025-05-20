@@ -10,40 +10,40 @@
 #include <math.h>
 #include <omp.h>
 
-
-#define N 100000000
-
+//0: primo , 1: no primo
 int tomar_val(long int n){
 
-    if(n <= 2)  return 0;
+    if(n < 2)  return 1;
 
-    int raiz = ((int) (sqrt(n))) +1;
+    int bandera=0;
 
-    for(int i = 2; i < raiz; i++) {
+    long int raiz = (int) sqrt(n);
+
+    #pragma omp parallel for
+    for(long int i = 2; i <= raiz; i++) {
         if(n % i == 0) {
-            return 0;
+            #pragma omp critical
+            {
+                bandera=1; //No primo -> E divisor.
+            }
         }
     }
     
     
-    return 1;
+    return bandera;
 }
 
 
 int main(){
 
     long int p;
-    int r;
+
     printf("ingresa nro:\t");
     scanf("%ld",&p);
 
-    #pragma omp parallel num_threads(4)
-    {
-    r=tomar_val(p);
+    int r=tomar_val(p);
 
-    }
-
-    if(r==0) printf(" %ld no primo\n",p);
+    if(r) printf(" %ld no primo\n",p);
     else printf("primo!");
     
     return 0;
