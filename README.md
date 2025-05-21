@@ -14,13 +14,13 @@
 ### ***RESUMEN***
 
 
-Materia | Temas (PYTHON) | Temas (C) |  Temas (R + RStudio) | Temas (Earlang)
+Materia | Temas (PYTHON) | Temas (C) |  Temas (R + RStudio) | Temas (Erlang)
 :---: | :---: | :---: | :---: | :---:
 **Programación 2** | Conceptos Básicos,listas,tuplas,sets,diccionarios,ciclos,condicionales,archivos,módulo Random | Conceptos Básicos,ciclos,condicionales,archivos,estructuras con punteros, memoria dinámica y estática,punteros,char, switch |
 **Redictado Prog 2** | Conceptos Básicos,listas,tuplas,diccionarios, tipos de ciclos, tipos de condicionales, archivos, Módulo Random,Streamlit,Math.lib,csv, Proyecto, pytest,strings,receta | Introducción, conceptos básicos, ciclos, tipos de condicionales, switch, punteros,estructuras simples, receta, assert.h y librerías string.h, stdlib.h  (manejo de entrada estándar y personalizada)|
 **Probabilidad y Estadística** |  |  | Uso de Software para gráficos y tablas , además de uso de Proporciones,Moda, Mediana, Media Aritmética , etc. |
 **Estrucutras de Datos y Algoritmos 1** |  | Punteros a función , Arrays, Listas, Pilas y Colas, Árboles, Heap, Tablas Hash, Introducción a los algoritmos , Ordenamiento |  |
-**Sistemas Operativos 1** |  | Signals - Programación y procesos. Regiones de memoria. Creación y destrucción de procesos.Sincronizaciones y comunicación. Condiciones de concurso y regiones críticas. Exclusión mútua. Problemas relacionados. Deadlock y livelock. Programación concurrente.Interbloqueos. Formalismos. Bibliotecas de programación paralela y distribuida. || USO DE Erlang)  |
+**Sistemas Operativos 1** |  | Signals - Programación y procesos. Regiones de memoria. Creación y destrucción de procesos.Sincronizaciones y comunicación. Condiciones de concurso y regiones críticas. Exclusión mútua. Problemas relacionados. Deadlock y livelock. Programación concurrente.Interbloqueos. Formalismos. Bibliotecas de programación paralela y distribuida. || Sintaxis de Erlang  |
 
 ### ***DETALLE***
 
@@ -143,7 +143,7 @@ Materia | Temas (PYTHON) | Temas (C) |  Temas (R + RStudio) | Temas (Earlang)
         - 4.6. Barreras de sincronización.
         - 4.7. Deadlocks. Condiciones necesarias para su aparición. Problema de los filósofos comensales. Livelocks.
 
-  #### *Earlang:*
+  #### *Erlang:*
     Unidad 5:
         - 5.1. Mensajes síncronos y asíncronos.
         - 5.2. Modelo CSP. Canales.
@@ -159,6 +159,7 @@ Materia | Temas (PYTHON) | Temas (C) |  Temas (R + RStudio) | Temas (Earlang)
         - 6.6. Entornos de ejecución distribuidos.
         - 6.7. Medidas de performance. SpeedUp. Eficiencia
         - 6.8. Erlang Distribuido. Servicio de Distribución de Datos (DDS).
+  #### *Otro:*
     Unidad 7:
         - 7.1 Lineamientos para trabajo en equipo
         - 7.2 Herramientas para gestión de tareas y proyectos. Trello.
