@@ -22,3 +22,4 @@
 #include <limits.h>
 #include <semaphore.h>
 #include <omp.h>  //gcc -fopenmp 4.0-omp.c -o omp_program
+#include <math.h> //-lm
