@@ -27,6 +27,7 @@ void* barrera(void* i){
 int main(){
     pthread_t pthreads[NTHREADS];
     pthread_barrier_init(&barrier,NULL, 5);
+    
     for(int i = 0; i < NTHREADS; i++){
         pthread_create(&pthreads[i],NULL,barrera, (void *)&i);
     }
