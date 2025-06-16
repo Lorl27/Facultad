@@ -1,0 +1,24 @@
+consenso:  n procesos pi (i=1,...n)  -- modela los fallos
+--------
+deben llegar a un acuerdo sobre un valor.
+--------
+
+valor: vi e D / i=1....n
+variable de decisión di(i=1,2...n)
+
+* terminacion-> para todo p -> llego a una decisión]
+* acuerdo di -> para todo pi,pj / son distintos: di=dj   |  algoritmo de concenso 
+* integridad ]
+
+---
+consistencia interactiva <d1,d2,....dn>
+-----
+
+
+como acuerdo?
+- protocolo de algoritmo concenso ->
+-------------------------
+
+para el tp_
+identificcion
+sv siempre conect- cleinte no siempre
