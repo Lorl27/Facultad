@@ -1,0 +1,100 @@
+¡Claro! Te explico paso a paso y en detalle qué hace el código de la **Parte 1** del TP, para que puedas explicárselo con seguridad a tu compañero/a y a la profe.
+
+---
+
+## 🧠 ¿Qué es lo que hace este código?
+
+Simula **un nodo P2P** (peer to peer) que se conecta a una red LAN, elige un ID único, abre un servidor TCP para recibir conexiones de otros nodos, y te da una línea de comandos simple (CLI) para interactuar con él.
+
+---
+
+## 📌 Componentes y qué hace cada parte:
+
+### 1. `main.c` — El programa principal
+
+Este archivo:
+
+* Lee los argumentos: el ID que querés tener y el puerto TCP en el que vas a escuchar.
+* Escanea la carpeta `compartida/` para ver qué archivos va a ofrecer este nodo.
+* Usa UDP broadcast para verificar si alguien más ya tiene ese nombre (con `node_id.c`).
+* Lanza:
+
+  * Un **hilo** para la CLI (para escribir comandos como `id_nodo`, `salir`, etc).
+  * El **servidor TCP** que acepta conexiones entrantes con `epoll`.
+
+### 2. `node_id.c` — Solicitud de ID vía UDP Broadcast
+
+Este módulo:
+
+* Crea un **socket UDP broadcast** y manda un mensaje `NAME_REQUEST <NOMBRE>`.
+* Espera 5 segundos para ver si alguien le responde con `INVALID_NAME`.
+* Si no recibe nada, **asume que puede usar el nombre**.
+* Si alguien responde, termina el programa y te pide que uses otro ID (en versiones futuras puede reintentar, pero acá solo aborta para simplificar).
+
+Este paso es crucial para **garantizar que no haya dos nodos con el mismo nombre**.
+
+### 3. `server.c` — Servidor TCP con `epoll`
+
+Este módulo:
+
+* Abre un socket TCP en el puerto que se le pasó.
+* Usa `epoll` (método eficiente para manejar muchas conexiones) para:
+
+  * Esperar nuevas conexiones de clientes (otros nodos que quieren hablar con este).
+  * Leer mensajes de esos clientes y mostrarlos por consola.
+
+Nota: Por ahora no maneja comandos reales ni protocolos complejos. Solo imprime lo que recibe. Es como un esqueleto que después vamos a completar.
+
+### 4. `cli.c` — Interfaz de Línea de Comandos (CLI)
+
+Este módulo:
+
+* Lanza un **hilo interactivo** que te permite escribir comandos por teclado.
+* Comandos soportados:
+
+  * `id_nodo`: imprime tu ID.
+  * `listar_mis_archivos`: lista los archivos de la carpeta `compartida/`.
+  * `salir`: termina el programa.
+
+### 5. `files.c` — Módulo para manejar archivos compartidos
+
+Este módulo:
+
+* Al iniciar, escanea la carpeta `./compartida/` y guarda los nombres de los archivos.
+* En este ejemplo solo muestra los archivos por consola, pero más adelante va a servir para compartirlos por red.
+
+---
+
+## 🔄 ¿Qué pasa cuando ejecutás el programa?
+
+1. Lo corrés así:
+
+```bash
+./nodo NOMBRE_ID 12345
+```
+
+2. El nodo manda un **broadcast UDP** a toda la red preguntando si alguien ya está usando `NOMBRE_ID`.
+
+3. Si no recibe una respuesta en 5 segundos, lo adopta y lo muestra:
+
+```
+Nombre 'nodoA' adoptado correctamente.
+```
+
+4. Luego:
+
+   * Escanea los archivos que vas a compartir.
+   * Abre el puerto TCP `12345` para aceptar conexiones de otros nodos.
+   * Te deja escribir comandos desde la terminal.
+
+---
+
+## 🗣️ ¿Cómo lo podés explicar vos?
+
+Podés decir algo como:
+
+> "Lo que hicimos en la Parte 1 fue crear la estructura base de un nodo en una red P2P. Al arrancar, el nodo intenta registrar su nombre en la red usando broadcast UDP. Si nadie responde con `INVALID_NAME`, lo toma como propio. Después, abre un servidor TCP que usa `epoll` para aceptar múltiples conexiones a la vez, y corre una línea de comandos para interactuar con el nodo. Además, escanea la carpeta compartida al inicio para ver qué archivos ofrece."
+
+---
+
+¿Querés que te escriba una versión aún más resumida o más formal para usar en la clase? ¿O que te arme un guión como para presentar ante la profe?
