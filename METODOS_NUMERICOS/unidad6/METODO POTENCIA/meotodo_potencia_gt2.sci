@@ -1,0 +1,188 @@
+// ============================================================
+// 🔹 MÉTODO DE LA POTENCIA GENERAL (completo y flexible)
+// ============================================================
+// Entrada:
+//   A         → matriz cuadrada
+//   z0        → vector inicial
+//   eps       → tolerancia de error (ej. 1e-6)
+//   maxiter   → número máximo de iteraciones
+//   mostrar_grafico (%t / %f) → muestra gráfico de convergencia
+// Salida:
+//   valor     → autovalor dominante aproximado
+//   zn        → autovector asociado (normalizado)
+//   error_est → error relativo estimado entre iteraciones
+//   iter      → número de iteraciones realizadas
+// ============================================================
+
+function [valor, zn, error_est, iter] = mpotencia_general(A, z0, eps, maxiter, mostrar_grafico)
+    
+    [n, m] = size(A);
+    if n <> m then
+        error("❌ La matriz debe ser cuadrada.");
+    end
+
+    if argn(2) < 5 then
+        mostrar_grafico = %f; // por defecto no mostrar
+    end
+
+    disp("────────────────────────────────────────────");
+    disp("⚙️ MÉTODO DE LA POTENCIA - INICIO");
+    disp("────────────────────────────────────────────");
+
+    // Normalizamos el vector inicial
+    z0 = z0 / norm(z0, %inf);
+
+    // Inicialización
+    valor = 0;
+    iter = 0;
+    error_est = [];
+
+    while iter < maxiter
+        iter = iter + 1;
+
+        // Paso 1: multiplicar por A
+        w = A * z0;
+
+        // Paso 2: encontrar componente dominante
+        [m, j] = max(abs(w));
+
+        // Paso 3: estimar autovalor y autovector
+        valor_new = w(j) / z0(j);
+        zn = w / norm(w, %inf);
+
+        // Paso 4: error estimado entre autovalores consecutivos
+        if iter > 1 then
+            err = abs(valor_new - valor);
+            error_est(iter) = err;
+            if err < eps then
+                break;
+            end
+        else
+            error_est(iter) = %nan; // sin comparación aún
+        end
+
+        valor = valor_new;
+        z0 = zn;
+    end
+
+    // Mostrar resultados
+    disp("───────────────────────────────");
+    printf("🔸 Autovalor dominante ≈ %.8f\n", valor);
+    disp("🔸 Autovector asociado (normalizado):");
+    disp(zn);
+    disp("🔸 Iteraciones realizadas: ", iter);
+
+    if iter == maxiter then
+        disp("⚠️ Se alcanzó el número máximo de iteraciones sin convergencia.");
+    else
+        printf("✅ Convergió con error < %.2e\n", eps);
+    end
+
+    // Si se pide, mostrar gráfico de convergencia
+    if mostrar_grafico & length(error_est) > 2 then
+        clf();
+        plot2d(1:iter, error_est', style=2);
+        xtitle("Convergencia del Método de la Potencia", "Iteración", "|λₙ - λₙ₋₁|");
+        xgrid();
+    end
+
+    disp("────────────────────────────────────────────");
+    disp("⚙️ MÉTODO DE LA POTENCIA - FIN");
+    disp("────────────────────────────────────────────");
+endfunction
+
+//-------
+// Matriz de prueba (no simétrica)
+A = [12 1 3 4; 
+     1 -3 1 5; 
+     3 1 6 -2;  
+     4 5 -2 -1];
+
+// Vector inicial aleatorio
+z0 = rand(4,1);
+
+// Llamada sin gráfico
+[λ, v, err, it] = mpotencia_general(A, z0, 1e-6, 100, %f);
+
+// Llamada con gráfico de convergencia
+[λ, v, err, it] = mpotencia_general(A, z0, 1e-8, 200, %t);
+
+
+//================= EJERCICIO 5 - PRACTICA 6 ===============
+//5. (a) Implementar un algoritmo para el m´etodo de la potencia y calcular el autovalor
+//dominante y el autovector asociado para las matrices
+//A1 =
+//{
+//6 4 4 1
+//4 6 1 4
+//4 1 6 4
+//1 4 4 6
+//}
+
+//A2 =
+//{
+//12 1 3 4
+//1 −3 1 5
+//3 1 6 −2
+//4 5 −2 −1
+//}
+//(b) Construir un algoritmo que compare la diferencia entre el autovalor aproximado por
+//el m´etodo de la potencia y el mayor autovalor, considerando el n´umero de iteraciones
+//realizadas.
+
+
+// Matrices A1 y A2
+A1 = [6 4 4 1;
+      4 6 1 4;
+      4 1 6 4;
+      1 4 4 6];
+
+A2 = [12 1 3 4;
+      1 -3 1 5;
+      3 1 6 -2;
+      4 5 -2 -1];
+
+// Vector inicial aleatorio
+z0 = rand(4,1);
+
+// Ejemplo con A1
+[lambda1, v1, err1, it1] = mpotencia_general(A1, z0, 1e-8, 200, %t);
+
+// Ejemplo con A2
+[lambda2, v2, err2, it2] = mpotencia_general(A2, z0, 1e-8, 200, %t);
+
+// Autovalores reales (calculados con spec)
+lambda_real_A1 = max(spec(A1));
+lambda_real_A2 = max(spec(A2));
+
+// Diferencia entre valor aproximado y real
+disp("───────────────────────────────");
+printf("A1 → |λ_dom - λ_real| = %.8e\n", abs(lambda1 - lambda_real_A1));
+printf("A2 → |λ_dom - λ_real| = %.8e\n", abs(lambda2 - lambda_real_A2));
+
+//======= PARCIAL EJERICCIO.
+A=[9 1 -2 1 ; 0 8 1 1 ; -1 0 7 0 ; 1 0 01];
+
+eps = 1e-5;
+maxiter = 100;
+
+// === Primera estimación inicial ===
+z0_1 = [1; 1; 1; 1];
+[lambda1, v1, err1, it1] = mpotencia_general(A, z0_1, eps, maxiter, %t);
+
+// === Segunda estimación inicial ===
+z0_2 = [1; 0; 0; 0];
+[lambda2, v2, err2, it2] = mpotencia_general(A, z0_2, eps, maxiter, %t);
+
+
+// ============================================================
+// 🔹 COMPARACIÓN FINAL
+// ============================================================
+disp("────────────────────────────────────────────");
+disp("🔸 COMPARACIÓN ENTRE DOS VECTORES INICIALES 🔸");
+printf("λ con z0_1 = [1 1 1 1]^T → %.8f (iteraciones = %d)\n", lambda1, it1);
+printf("λ con z0_2 = [1 0 0 0]^T → %.8f (iteraciones = %d)\n", lambda2, it2);
+
+disp("────────────────────────────────────────────");
+disp("Autovalor real dominante (con spec):");
+disp(max(abs(spec(A))));
