@@ -1,0 +1,88 @@
+// ejercicio 12 jacobiana mejorada:
+
+// =====================================================
+// FUNCIONES BASE (como las tuyas)
+// =====================================================
+
+function jac = jacobiana(fn, val, h)
+    n = length(val);
+    jac = zeros(n, n);
+    for i = 1:n
+        valh = val;
+        valh(i) = valh(i) + h;
+        jac(:, i) = (fn(valh) - fn(val)) / h;
+    end
+endfunction
+
+function raiz = newton_multi(fn, val, n, h)
+    valn = val;
+    for i = 1:n
+        jac = jacobiana(fn, valn, h);
+        delta = jac \ fn(valn);
+        valn = valn - delta;
+    end
+    raiz = valn;
+endfunction
+
+// =====================================================
+// FUNCION GENERAL A MINIMIZAR  f(x1,x2)
+// =====================================================
+function y = f(v)
+    x1 = v(1);
+    x2 = v(2);
+    y = 2*x1 + 3*x2^2 + exp(2*x1^2 + x2^2);
+endfunction
+
+// =====================================================
+// SISTEMA: gradiente de f(x1,x2)
+// =====================================================
+function g = Sistema(v)
+    x1 = v(1);
+    x2 = v(2);
+    phi = 2*x1^2 + x2^2;
+    E = exp(phi);
+    g = [ 2 + 4*x1*E;
+          6*x2 + 2*x2*E ];
+endfunction
+
+// =====================================================
+// Calculo del punto crítico (grad f = 0)
+// =====================================================
+h = 1e-6;
+n = 200;
+x0 = [1; 1];
+
+xcrit = newton_multi(Sistema, x0, n, h);
+printf("Punto crítico aproximado: (%.12f, %.12f)\n", xcrit(1), xcrit(2));
+
+// =====================================================
+// Verificación con Hessiana numérica
+// =====================================================
+function H = hessiana_num(f, val, h)
+    n = length(val);
+    H = zeros(n, n);
+    for i = 1:n
+        for j = 1:n
+            val1 = val; val2 = val; val3 = val; val4 = val;
+            val1(i) = val1(i) + h; val1(j) = val1(j) + h;
+            val2(i) = val2(i) + h;
+            val3(j) = val3(j) + h;
+            H(i,j) = (f(val1) - f(val2) - f(val3) + f(val4)) / h^2;
+        end
+    end
+endfunction
+
+H = hessiana_num(f, xcrit, h);
+printf("Hessiana en el punto crítico:\n");
+disp(H);
+
+ev = spec(H);
+printf("Autovalores de H: %.6e, %.6e\n", ev(1), ev(2));
+
+if ev(1) > 0 & ev(2) > 0 then
+    disp("→ Mínimo local estricto.");
+elseif ev(1) < 0 & ev(2) < 0 then
+    disp("→ Máximo local estricto.");
+else
+    disp("→ Punto de silla.");
+end
