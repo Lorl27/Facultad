@@ -1,6 +1,8 @@
 # INFO
-Uso de Valgrind y GDB (GNU Debugger)
-Convenciòn de còdigos.
+Uso de Valgrind y GDB (GNU Debugger)  
+
+Convenciòn de còdigos. <br>  
+
 Tambièn , un repaso de las MACROS.
 
 ### Ejemplo Constantes y Macros:
@@ -22,9 +24,12 @@ int main()
 ```
 
 ## Macros tìpicas:
-__DATE__ Da fecha actual en formato "MMM DD YYYY"
-__TIME__ Da hora actual en formato "HH:MM:SS"
-__FILE__ Da nombre de archivo actual
+__DATE__ Da fecha actual en formato "MMM DD YYYY"  
+
+__TIME__ Da hora actual en formato "HH:MM:SS"  
+
+__FILE__ Da nombre de archivo actual  
+
 __LINE__ Da número de línea actual
 
 ## Inclusiòn de Librerìas - Archivos:
