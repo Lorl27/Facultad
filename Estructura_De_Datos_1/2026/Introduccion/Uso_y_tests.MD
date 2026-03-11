@@ -52,6 +52,97 @@ float (*(*pf)(char))(int);
 float    (     *    (*pf)(char)     )  (int);
 ```
 
+## EJEMPLOS PUNTEROS
+* Puntero a función simple
+
+```c
+#include <stdio.h>
+
+int cuadrado(int x){
+    return x*x;
+}
+
+int main(){
+    int (*pf)(int);
+
+    pf = cuadrado;   // guardamos dirección de la función
+
+    int r = pf(5);   // llamamos la función mediante el puntero
+
+    printf("%d\n", r);   //25
+
+    return 0;
+}
+```
+
+* Puntero a función que devuelve puntero
+```c
+#include <stdio.h>
+
+int* fun(int x){
+    static int y;  //Se usa static porque devolver la dirección de una variable local genera dangling pointer.
+    y = x*2;
+    return &y;
+}
+
+int main(){
+
+    int* (*pf)(int);
+
+    pf = fun;
+
+    int *p = pf(10);
+
+    printf("%d\n", *p);  //20
+
+    return 0;
+}
+```
+
+* Función que recibe un puntero a función
+
+```c
+#include <stdio.h>
+
+int doble(int x){
+    return x*2;
+}
+
+void ejecutar(int (*pf)(int)){
+    printf("%d\n", pf(5));
+}
+
+int main(){
+
+    ejecutar(doble);  //10
+
+    return 0;
+}
+```
+
+* Array de punteros a función
+```c
+#include <stdio.h>
+
+int f1(int x){ return x+1; }
+int f2(int x){ return x+2; }
+int f3(int x){ return x+3; }
+
+int main(){
+
+    int (*pf[3])(int);
+
+    pf[0] = f1;
+    pf[1] = f2;
+    pf[2] = f3;
+
+    printf("%d\n", pf);  //11
+    printf("%d\n", pf);  //12
+    printf("%d\n", pf);   //12
+
+}
+```
+
 ## ERRORES TIPICOS:
 
 ### SEGMENTION FAULT:
