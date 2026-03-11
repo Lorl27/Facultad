@@ -1,11 +1,12 @@
 # INFO
 Uso de Valgrind y GDB (GNU Debugger)  
 
-Convenciòn de còdigos. <br>  
+Convenciòn de còdigos.  
 
-Tambièn , un repaso de las MACROS.
+Tambièn , un repaso de las MACROS.  
 
 ### Ejemplo Constantes y Macros:
+
 ```c
 
 #define PI 3.14159
@@ -33,6 +34,7 @@ __FILE__ Da nombre de archivo actual
 __LINE__ Da número de línea actual
 
 ## Inclusiòn de Librerìas - Archivos:
+
 ```c
 #include <stdio.h> //Cabeceras del sistema.
 #include “mis_func.h” //Ficheros de cabecera locales.
