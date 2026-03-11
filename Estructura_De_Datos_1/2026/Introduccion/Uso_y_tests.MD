@@ -39,16 +39,17 @@ puntero =(tipoPuntero *) malloc (sizeof(tipoDato)*tam); //void *malloc(size_t ta
     comienzo de la función* ~~(Puede considerarse como una especie de “alias”)~~
 
 ```c
-    tipoRetorno (*fptr) (tipoDato arg);
+    tipoRetorno (*pf) (tipoDato arg);
 
 ```
-** EJEMPLOS:**
+**EJEMPLOS:**
+*Nota: Ver ejemplos más concretos en sección Ejemplos_Punteros*
 
 ```c
-float (*(*fptr)(char))(int);
+float (*(*pf)(char))(int);
+// pf es un puntero a función que recibe un char como argumento y devuelve un puntero a función que recibe un int como argumento y devuelve un float.
 
-// fptr es un puntero a función que recibe un char como argumento y devuelve un
-// puntero a función que recibe un int como argumento y devuelve un float.
+float    (     *    (*pf)(char)     )  (int);
 ```
 
 ## ERRORES TIPICOS:
