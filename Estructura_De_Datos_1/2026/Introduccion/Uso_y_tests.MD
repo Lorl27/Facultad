@@ -136,9 +136,90 @@ int main(){
     pf[1] = f2;
     pf[2] = f3;
 
+   //pf: llamar la función apuntada por pf[0] con argumento 10 -->f1(10)
+   // pf <>   (*pf[0])(10)  solo que en compilador se simplificó...
     printf("%d\n", pf);  //11
     printf("%d\n", pf);  //12
-    printf("%d\n", pf);   //12
+    printf("%d\n", pf);   //13
+
+}
+```
+
+* Función que devuelve puntero a función
+```c
+#include <stdio.h>
+
+int suma1(int x){
+    return x+1;
+}
+
+int suma2(int x){
+    return x+2;
+}
+
+int (*selector(int x))(int){
+
+    if(x==1)
+        return suma1;
+    else
+        return suma2;
+}
+
+int main(){
+
+    int (*pf)(int);
+
+    pf = selector(1);
+
+    printf("%d\n", pf(10)); //11
+
+}
+```
+
+* Ejemplo Lectura anidada:
+
+```c long (*(*fptr())())[5]  
+// fptr es una funcion
+// (*fptr()) devuelve puntero
+// (*fptr())() a función
+// (*fptr())()[5] que devuelve un array de tam 5
+// long (* ... )()  de punteros a funciones que devuelven long
+```
+```c
+float (*(*fptr)(char))(int)
+//fptr
+//→ puntero
+//→ a función que recibe char
+//→ devuelve puntero
+//→ a función que recibe int
+//→ devuelve float
+```
+
+```c
+#include <stdio.h>
+
+long f1(){ return 1; }
+long f2(){ return 2; }
+long f3(){ return 3; }
+long f4(){ return 4; }
+long f5(){ return 5; }
+
+long (*arr[5])() = {f1,f2,f3,f4,f5};
+
+long (*(*ret())[5])(){
+
+    return &arr;
+}
+
+int main(){
+
+    long (*(*p)[5])();
+
+    p = ret();
+
+    for(int i=0;i<5;i++){
+        printf("%ld\n", (*p)[i]());   //1....5
+    }
 
 }
 ```
