@@ -27,9 +27,9 @@ puntero =(tipoPuntero *) malloc (sizeof(tipoDato)*tam); //void *malloc(size_t ta
     int n; *j ; **p
     n=5; j=&n ; p=&j ;  //&n=0x1 &j= 0x4 &p=0x7
 
-    p = 0x7        // *(*p) = 5 
-    *p = j = 0x4  // *(j) = 5
-    **p = *j = 5   //n = 5
+    p = 0x7             // *(*p) = 5 
+    *p = j = 0x4       // *(j) = 5
+    **p = *j = 5      //n = 5
 
     ```
 
@@ -38,16 +38,65 @@ puntero =(tipoPuntero *) malloc (sizeof(tipoDato)*tam); //void *malloc(size_t ta
     *Un puntero a función es una variable que guarda la dirección de
     comienzo de la función* ~~(Puede considerarse como una especie de “alias”)~~
 
-```c
-    tipoRetorno (*pf) (tipoDatoArg);
+    ```c
+        tipoRetorno (*pf) (tipoDatoArg);
+    ```
 
+
+**Importancia de usar puntero a funciòn**
+Por ejemplo, tenemos la sig estructura:
+```c
+typedef struct
+{
+    int edad;
+    int sexo;
+    int numero;
+} Esclavo;
+
+int main() {
+    Esclavo esclavos[20];
+    int i = 0;
+    for (i = 0; i < 20; i++) {
+        srand(time(NULL) + i);
+        esclavos[i].edad = rand() % 100 + 1;
+        esclavos[i].sexo = rand() % 2 + 1;
+        esclavos[i].numero = i;
+    }
+}
 ```
-**EJEMPLOS:**
+y queremos ordenarlos, en vez de hacer muchas funciones y repetir còdigo. Podrìamos usar un pf:
+```c
+void ordenar(Esclavo esclavos[ ], int n, int(*comparar)(Esclavo, Esclavo)) {
+    int i = 0;
+    int j = 0;
+    Esclavo buffer;
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            if (comparar(esclavos[i], esclavos[j])) {
+                buffer = esclavos[j];
+                esclavos[j] = esclavos[i];
+                esclavos[i] = buffer;
+            }
+        }
+    }
+}
+```
+donde comparar, es nuestra funciòn por paràmetro, por ejemplo:
+```c
+int comparar_por_numero(Esclavo a, Esclavo b) {
+    return a.numero < b.numero;
+}
+
+ordenar(esclavos, 20, comparar_por_edad); //llamado funciòn
+```
+
+**EJEMPLOS:**  
 *Nota: Ver ejemplos más concretos en sección Ejemplos_Punteros*
 
 ```c
 float (*(*pf)(char))(int);
-// pf es un puntero a función que recibe un char como argumento y devuelve un puntero a función que recibe un int como argumento y devuelve un float.
+// pf es un puntero a función que recibe un char como argumento y,
+//devuelve un puntero a función que recibe un int como argumento y devuelve un float.
 
 float    (     *    (*pf)(char)     )  (int);
 ```
