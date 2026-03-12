@@ -15,274 +15,78 @@
 | string (char*)  | %s                                     |
 
 
-## Punteros
-```c
-tipoPuntero * puntero;
-puntero =(tipoPuntero *) malloc (sizeof(tipoDato)*tam); //void *malloc(size_t tam)
-```
+## Receta y Testing en C
 
-* Un puntero puede almacenar la direcciòn (de memoria) de otro puntero
-    **Ejemplo:**
-    ```c
-    int n; *j ; **p
-    n=5; j=&n ; p=&j ;  //&n=0x1 &j= 0x4 &p=0x7
-
-    p = 0x7             // *(*p) = 5 
-    *p = j = 0x4       // *(j) = 5
-    **p = *j = 5      //n = 5
-
-    ```
-
-* Un puntero puede almacenar la direcciòn (de memoria) de una funciòn
-  
-    *Un puntero a función es una variable que guarda la dirección de
-    comienzo de la función* ~~(Puede considerarse como una especie de “alias”)~~
-
-    ```c
-        tipoRetorno (*pf) (tipoDatoArg);
-    ```
-
-
-**Importancia de usar puntero a funciòn**
-Por ejemplo, tenemos la sig estructura:
-```c
-typedef struct
-{
-    int edad;
-    int sexo;
-    int numero;
-} Esclavo;
-
-int main() {
-    Esclavo esclavos[20];
-    int i = 0;
-    for (i = 0; i < 20; i++) {
-        srand(time(NULL) + i);
-        esclavos[i].edad = rand() % 100 + 1;
-        esclavos[i].sexo = rand() % 2 + 1;
-        esclavos[i].numero = i;
-    }
-}
-```
-y queremos ordenarlos, en vez de hacer muchas funciones y repetir còdigo. Podrìamos usar un pf:
-```c
-void ordenar(Esclavo esclavos[ ], int n, int(*comparar)(Esclavo, Esclavo)) {
-    int i = 0;
-    int j = 0;
-    Esclavo buffer;
-    for (i = 0; i < n; i++) {
-        for (j = 0; j < n; j++) {
-            if (comparar(esclavos[i], esclavos[j])) {
-                buffer = esclavos[j];
-                esclavos[j] = esclavos[i];
-                esclavos[i] = buffer;
-            }
-        }
-    }
-}
-```
-donde comparar, es nuestra funciòn por paràmetro, por ejemplo:
-```c
-int comparar_por_numero(Esclavo a, Esclavo b) {
-    return a.numero < b.numero;
-}
-
-ordenar(esclavos, 20, comparar_por_edad); //llamado funciòn
-```
-
-**EJEMPLOS:**  
-*Nota: Ver ejemplos más concretos en sección Ejemplos_Punteros*
-
-```c
-float (*(*pf)(char))(int);
-// pf es un puntero a función que recibe un char como argumento y,
-//devuelve un puntero a función que recibe un int como argumento y devuelve un float.
-
-float    (     *    (*pf)(char)     )  (int);
-```
-
-## EJEMPLOS PUNTEROS
-* Puntero a función simple
+La receta que aplicamos consta de los siguientes
+pasos:
+1. Diseño de datos;
+2. Signatura y declaración de proposito.
+3. Ejemplos;
+4. Definición de la función;
+5. Evaluar el código de los ejemplos;
+6. Realizar modificaciones en caso que el paso anterior genere errores
 
 ```c
 #include <stdio.h>
+#include <assert.h>
+ // Representamos temperaturas mediante números enteros
+ // farCel: int -> int
+ // El parámetro representa una temperatura en Fahrenheit y,
+ // se retorna su equivalente en Celsius.
+ // entrada: 32, salida: 0
+ // entrada: 212, salida: 100
+ // entrada: -40, salida: -40
+ int farCel(int f) {
+    return (f-32)*5/9;
+ }
 
-int cuadrado(int x){
-    return x*x;
-}
-
-int main(){
-    int (*pf)(int);
-
-    pf = cuadrado;   // guardamos dirección de la función
-
-    int r = pf(5);   // llamamos la función mediante el puntero
-
-    printf("%d\n", r);   //25
-
+ int main() {
+    assert(farCel(32) == 0);
+    assert(farCel(212) == 100);
+    assert(farCel(-40) == -40);
     return 0;
-}
+ }
 ```
 
-* Puntero a función que devuelve puntero
+## Convenciòn de Còdigo:
+- **Nombres de funciones:** void slist_append(...)
+- **Nombres de variables:** camelCase
+- **Nombres de constantes:** MAX_DATA
+- **Nombres de nuevos tipos de datos y alias:** CamelCase
+
+Con GNU Indent , llamar:  
 ```c
-#include <stdio.h>
-
-int* fun(int x){
-    static int y;  //Se usa static porque devolver la dirección de una variable local genera dangling pointer.
-    y = x*2;
-    return &y;
-}
-
-int main(){
-
-    int* (*pf)(int);
-
-    pf = fun;
-
-    int *p = pf(10);
-
-    printf("%d\n", *p);  //20
-
-    return 0;
-}
+indent -bad -brf -br -bs somefile.c //(màs info en man indent)
 ```
 
-* Función que recibe un puntero a función
+## Uso de GDB (GNU Debugger) y Valgrind
+**GDB** es un depurador paso a paso. Te permite detener la ejecución de tu programa en cualquier momento, mirar qué hay por dentro y avanzar línea por línea.  
 
+**Valgrind** *(específicamente su herramienta Memcheck)* es un perfilador de memoria. Sirve para detectar accesos a memoria inválida y fugas de memoria (memory leaks). Te avisa si usaste un puntero que ya habías liberado, si te saliste del límite de un arreglo o si te olvidaste de liberar memoria.
+
+**Flujo de trabajado idonèo:**
+
+1. Escribes tu código.
+2. **Pruebas con Valgrind:** Corres tu programa a través de Valgrind. Si te dice que hay memoria no liberada o errores de lectura/escritura, sabes que tienes un problema de punteros oculto.
+3. **Investigas con GDB:** Si el programa se rompe (SegFault) o si la lógica no da el resultado esperado, abres GDB, pones un punto de interrupción (breakpoint) en la función problemática y avanzas línea por línea para ver en qué momento el puntero se fue a cualquier parte.
+
+**Compilar**
 ```c
-#include <stdio.h>
+gcc -g -Wall prueba.c -o programa_prueba //-g: guarda info depuraciòn
 
-int doble(int x){
-    return x*2;
-}
+valgrind --leak-check=full ./programa_prueba
 
-void ejecutar(int (*pf)(int)){
-    printf("%d\n", pf(5));
-}
+gdb ./programa_prueba
 
-int main(){
+//list - lista de programas
+break main 
+run //parametro1 parametro2
+next //avanza linea x linea desde la funciòn main.
+step //similar a next, pero entrando a funciones.
+print arreglo[0] //ejemplo uso
+quit
+//i b   - lista de breakpoints
+//d 4  - eliminar el breakpoint 4
 
-    ejecutar(doble);  //10
-
-    return 0;
-}
 ```
-
-* Array de punteros a función
-```c
-#include <stdio.h>
-
-int f1(int x){ return x+1; }
-int f2(int x){ return x+2; }
-int f3(int x){ return x+3; }
-
-int main(){
-
-    int (*pf[3])(int);
-
-    pf[0] = f1;
-    pf[1] = f2;
-    pf[2] = f3;
-
-   //pf: llamar la función apuntada por pf[0] con argumento 10 -->f1(10)
-   // pf <>   (*pf[0])(10)  solo que en compilador se simplificó...
-    printf("%d\n", pf);  //11
-    printf("%d\n", pf);  //12
-    printf("%d\n", pf);   //13
-
-}
-```
-
-* Función que devuelve puntero a función
-```c
-#include <stdio.h>
-
-int suma1(int x){
-    return x+1;
-}
-
-int suma2(int x){
-    return x+2;
-}
-
-int (*selector(int x))(int){
-
-    if(x==1)
-        return suma1;
-    else
-        return suma2;
-}
-
-int main(){
-
-    int (*pf)(int);
-
-    pf = selector(1);
-
-    printf("%d\n", pf(10)); //11
-
-}
-```
-
-* Ejemplo Lectura anidada:
-
-```c
-long (*(*fptr())())[5]  
-// fptr es una funcion
-// (*fptr()) devuelve puntero
-// (*fptr())() a función
-// (*fptr())()[5] que devuelve un array de tam 5
-// long (* ... )()  de punteros a funciones que devuelven long
-```
-```c
-float (*(*fptr)(char))(int)
-//fptr
-//→ puntero
-//→ a función que recibe char
-//→ devuelve puntero
-//→ a función que recibe int
-//→ devuelve float
-```
-
-```c
-#include <stdio.h>
-
-long f1(){ return 1; }
-long f2(){ return 2; }
-long f3(){ return 3; }
-long f4(){ return 4; }
-long f5(){ return 5; }
-
-long (*arr[5])() = {f1,f2,f3,f4,f5};
-
-long (*(*ret())[5])(){
-
-    return &arr;
-}
-
-int main(){
-
-    long (*(*p)[5])();
-
-    p = ret();
-
-    for(int i=0;i<5;i++){
-        printf("%ld\n", (*p)[i]());   //1....5
-    }
-
-}
-```
-
-## ERRORES TIPICOS:
-
-### SEGMENTION FAULT:
-- Mal tipo al pedir espacio
-- Mal casteo
-- Malloc retorna NULL 
-
-### DANGLING REFERENCE
-- Perdemos referencia al bloque memoria
-- Nos olvidamos del free.
-- Referenciamos un espacio YA liberado
-
+***Nota:** Para ejemplos ir a Ejemplos_Depuracion.*
