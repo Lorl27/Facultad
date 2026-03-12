@@ -39,7 +39,7 @@ puntero =(tipoPuntero *) malloc (sizeof(tipoDato)*tam); //void *malloc(size_t ta
     comienzo de la función* ~~(Puede considerarse como una especie de “alias”)~~
 
 ```c
-    tipoRetorno (*pf) (tipoDato arg);
+    tipoRetorno (*pf) (tipoDatoArg);
 
 ```
 **EJEMPLOS:**
@@ -178,7 +178,8 @@ int main(){
 
 * Ejemplo Lectura anidada:
 
-```c long (*(*fptr())())[5]  
+```c
+long (*(*fptr())())[5]  
 // fptr es una funcion
 // (*fptr()) devuelve puntero
 // (*fptr())() a función
