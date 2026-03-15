@@ -6,6 +6,36 @@ tipoPuntero * puntero;
 puntero =(tipoPuntero *) malloc (sizeof(tipoDato)*tam); //void *malloc(size_t tam)
 ```
 
+### Asociar punteros a variables comunes para pasarselas a funciones:
+
+- **FORMA 1:**
+```c
+    //1. creamos var normales
+    int val1 = 5;
+    int val2 = 0;
+
+    printf("Antes: val1 = %d, val2 = %d\n", val1, val2);
+
+    // 2. Le pasamos a la función las direcciones de esas variables
+    set_int(&val1);   //void set_int(int * nro)
+    set_int(&val2);
+
+    // 3. Imprimimos para verificar que se modificaron los originales
+    printf("Despues: val1 = %d, val2 = %d\n", val1, val2);
+```
+- **FORMA 2:**
+```c
+#include <stdlib.h>
+
+
+int * nro1 = malloc(sizeof(int)); // Pedimos espacio para un entero
+*nro1 = 5;                        // Ahora SÍ podemos guardar el 5 adentro de ese espacio
+set_int(nro1);                    // Lo pasamos a la función
+free(nro1);                       // Y como usamos malloc, hay que liberar la memoria (¡Valgrind vigila!)
+```
+
+
+
 * Un puntero puede almacenar la direcciòn (de memoria) de otro puntero
     **Ejemplo:**
     ```c

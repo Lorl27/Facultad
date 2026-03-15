@@ -83,10 +83,14 @@ break main
 run //parametro1 parametro2
 next //avanza linea x linea desde la funciòn main.
 step //similar a next, pero entrando a funciones.
-print arreglo[0] //ejemplo uso
+print arreglo[0] //ejemplo uso 
+//print arr te dara la dir de memoria
+x/5xb arr //Examina (5) elementos, en formato he(x)adecimal, de tamaño (b)yte (char), empezando en la dirección de (arr) (LO DE ADENTRO)
+set arr[0] = 'A'  //entonces el de arriba dira A en hex y dsp basura
 quit
 //i b   - lista de breakpoints
 //d 4  - eliminar el breakpoint 4
+
 
 ```
 ***Nota:** Para ejemplos ir a Ejemplos_Depuracion.*
