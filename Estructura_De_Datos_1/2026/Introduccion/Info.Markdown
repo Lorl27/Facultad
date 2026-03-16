@@ -69,3 +69,20 @@ int main()
 ```
 
 **Nota:** `srand()` debe llamarse una sola vez al inicio del programa, no en cada iteración.
+
+
+# Uso fgets:
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+if (fgets(p, tam_max, stdin) == NULL) {
+        free(p);
+        return NULL;
+    }
+    
+    // Buscamos el '\n' y lo pisamos con un '\0'
+    p[strcspn(p, "\n")] = '\0';
+```

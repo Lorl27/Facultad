@@ -63,5 +63,16 @@ int main(){
 
     printf("Despues del swap: a = %d, b = %d\n", a, b);
 
+    printf("Forma compuesta con tam calculado\n");
+    int mi_arreglo[] = {10, 20, 30, 40, 50};
+    // sizeof(mi_arreglo) = 20 bytes (5 enteros * 4 bytes cada uno)
+    // sizeof(mi_arreglo[0]) = 4 bytes (lo que pesa un solo entero)
+    // 20 / 4 = 5 elementos.
+    int tamano = sizeof(mi_arreglo) / sizeof(mi_arreglo[0]);
+
+    //! PERO... si es con malloc fallara porque en realidad tamara el sizeof un puntero,
+    //la memoria se pide en tiempo de ejecuciòn mientras que, 
+    // el sizeof en tiempo de compilaciòn.
+
     return 0;
 }

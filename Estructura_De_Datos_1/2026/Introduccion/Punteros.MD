@@ -6,6 +6,31 @@ tipoPuntero * puntero;
 puntero =(tipoPuntero *) malloc (sizeof(tipoDato)*tam); //void *malloc(size_t tam)
 ```
 
+# Leer punteros creados para asociarles valores:
+```c
+char * get_new_line(void){
+    char *p = malloc(sizeof(char)*100);
+    if(p==NULL) return NULL;
+    printf("Ingrese palabra aqui:\n");
+    scanf("%s",p); //como p ya tiene la dir a memoria (puntero) no ahce falta & 
+    return p;
+}
+
+char * get_new_line(void){
+    char *p = malloc(sizeof(char) * 100);
+    if(p == NULL) return NULL;
+    printf("Ingrese linea aqui:\n");
+    // fgets lee hasta el \n o hasta el limite (100).
+    // Parámetros: dónde guardar (p), tamaño máximo (100), de dónde leer (stdin = teclado)
+    if (fgets(p, 100, stdin) == NULL) {
+        // Si fgets falla (ej: error de lectura), liberamos la memoria y retornamos NULL
+        free(p);
+        return NULL;
+    }
+    return p;
+}
+```
+
 ### Asociar punteros a variables comunes para pasarselas a funciones:
 
 - **FORMA 1:**
@@ -66,6 +91,17 @@ free(nro1);                       // Y como usamos malloc, hay que liberar la me
     //devuelve un puntero a función que recibe un int como argumento y devuelve un float.
 
     float    (     *    (*pf)(char)     )  (int);
+    ```
+
+    **Ejemplos en funciones:**
+    ```c
+    int apply(int (* funcion)(int) , int entero){
+        return funcion(entero);
+    }
+
+    void apply_in(int (* funcion)(int), int * entero){
+        *entero=funcion(*entero);
+    }
     ```
 
 
