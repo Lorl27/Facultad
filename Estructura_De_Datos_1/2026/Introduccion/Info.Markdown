@@ -38,6 +38,8 @@ __LINE__ Da número de línea actual
 ```c
 #include <stdio.h> //Cabeceras del sistema.
 #include “mis_func.h” //Ficheros de cabecera locales.
+
+//con math.h necesitamos llamar con -lm
 ```
 
 ### Ejemplo de Rand():

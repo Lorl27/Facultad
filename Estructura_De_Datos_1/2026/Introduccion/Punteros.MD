@@ -6,6 +6,16 @@ tipoPuntero * puntero;
 puntero =(tipoPuntero *) malloc (sizeof(tipoDato)*tam); //void *malloc(size_t tam)
 ```
 
+
+## Punteros - atajos
+```c
+    punt = &x[0] + 3;  //a donde apunta: x[3]=4
+    *(punt - 2) = 9;  //a donde modifiqa x[3-2=1]=x[1]=9 (era 2 antes)
+    punt--; //a donde apunta: x[2]=3
+    *(punt) = 7;  //modifico alli, x[2]=7
+    punt[1] = 11;  //es como decir: *(punt +1)
+```
+
 # Leer punteros creados para asociarles valores:
 ```c
 char * get_new_line(void){
@@ -324,6 +334,26 @@ int main(){
         printf("%ld\n", (*p)[i]());   //1....5
     }
 
+}
+```
+
+# ESTRUCTURAS Y PUNTEROS:
+```c
+typedef struct {
+    char* nombre;
+    char * nro;
+    unsigned int edad;
+} Contacto;
+
+
+typedef struct 
+{
+    Contacto contactos;
+    int cantidad_contactos;
+} Agenda;
+
+void fun(Agenda * agenda){
+    agenda->cantidad_contactos //(*agenda).cantidad_contactos
 }
 ```
 
