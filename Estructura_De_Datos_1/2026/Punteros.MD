@@ -4,6 +4,7 @@
 ```c
 tipoPuntero * puntero;
 puntero =(tipoPuntero *) malloc (sizeof(tipoDato)*tam); //void *malloc(size_t tam)
+int *nueva_direccion = realloc(puntero, sizeof(int) * capacidad);
 ```
 
 
