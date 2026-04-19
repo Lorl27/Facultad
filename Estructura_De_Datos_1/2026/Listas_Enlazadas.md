@@ -104,8 +104,10 @@ SNodo * agregar_final(SNodo * lista, int dato){
 
 # SLIST
 
+```c
 typedef struct _SList {
     SNodo *primero; 
     SNodo *ultimo;
 } SList;
+```
 
