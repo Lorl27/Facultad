@@ -24,20 +24,22 @@ SNodo * nuevoNodo=malloc(sizeof(SNodo));
     La desventaja de esto es que se cambia el inicio.
 
     
-    ```c
+```c 
+    
     SNodo * nuevoInicial = malloc(sizeof(SNodo));
     nuevoInicial->dato=5; nuevoInicial->sig=NULL;
 
     SNodo * nodoInicial = malloc(sizeof(SNodo));
     nodoInicial->dato=7;
     nodoInicial->sig=nuevoInicial;
-    ```
+
+```
     
 
 2- Ir guardando en 'siguiente' del ùltimo nodo, la direcciòn del sig. nodo.
     Para averiguar cuàl es el ùltimo nodo, hay que ir al nodo / siguiente=NULL
     Es decir:
-    ```c 
+```c 
         SNodo * nuevoNodo=malloc(sizeof(SNodo));
         nuevoNodo->dato=5;nuevoNodo->sig=NULL;
 
@@ -52,10 +54,10 @@ SNodo * nuevoNodo=malloc(sizeof(SNodo));
             temp->sig=nuevoNodo;
         }
         return inicio;
-    ```
+```
 # Prototipo de funciòn:
 1-
-    ```c
+```c
     SNodo * funcion(SNodo* lista, int dato);
 
         SNodo * agregar_al_inicio(SNodo* lista, int dato){
@@ -70,9 +72,9 @@ SNodo * nuevoNodo=malloc(sizeof(SNodo));
     }
 
 
-    ```
+```
 2- 
-    ```c
+```c
     void funcion(SNodo** lista, int dato);
 
         void agregar_al_inicio(SNodo** lista, int dato){
@@ -86,7 +88,7 @@ SNodo * nuevoNodo=malloc(sizeof(SNodo));
         lista=agregar_al_inicio(&lista,9);
     }
 
-    ```
+```
 
 # Funcion recursiva
 ```c
@@ -103,11 +105,9 @@ SNodo * agregar_final(SNodo * lista, int dato){
 ```
 
 # SLIST
-
 ```c
 typedef struct _SList {
     SNodo *primero; 
     SNodo *ultimo;
 } SList;
 ```
-
