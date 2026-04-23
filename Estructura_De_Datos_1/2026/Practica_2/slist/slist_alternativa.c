@@ -1,17 +1,29 @@
-#include "slist.h"
+#include "slist_alternativa.h"
 #include <stdlib.h>
 
+
 SList slist_crear() {
-  return NULL;
+    SList creada = malloc(sizeof(SListEstructura));
+
+    if (creada == NULL) return NULL;
+
+    creada->primero=NULL;
+    creada->ultimo=NULL;
+
+    return creada;
 }
 
 void slist_destruir(SList lista) {
-  SNodo *nodoAEliminar;
-  while (lista != NULL) {
-    nodoAEliminar = lista;
-    lista = lista->sig;
-    free(nodoAEliminar);
-  }
+    SNodo *actual = lista->primero;
+    SNodo *siguiente;
+
+    while (actual != NULL) {
+        siguiente = actual->sig;
+        free(actual);
+        actual=siguiente;
+    }
+  
+    free(lista);
 }
 
 int slist_vacia(SList lista) {
@@ -19,57 +31,70 @@ int slist_vacia(SList lista) {
 }
 
 SList slist_agregar_final(SList lista, int dato) {
-  SNodo *nuevoNodo = malloc(sizeof(SNodo));
-  nuevoNodo->dato = dato;
-  nuevoNodo->sig = NULL;
+    if (lista == NULL) return NULL;
 
-  if (lista == NULL)
-    return nuevoNodo;
+    SNodo *nuevoNodo = malloc(sizeof(SNodo));
+    nuevoNodo->dato = dato;
+    nuevoNodo->sig = NULL;
 
-  SList nodo = lista;
-  for (;nodo->sig != NULL;nodo = nodo->sig);
-  /* ahora 'nodo' apunta al ultimo elemento en la lista */
+    if (lista->primero == NULL){
+        lista->primero=nuevoNodo;
+        lista->ultimo=nuevoNodo;
+    }else{
 
-  nodo->sig = nuevoNodo;
-  return lista;
+        lista->ultimo->sig=nuevoNodo;
+        lista->ultimo = nuevoNodo;
+    }
+
+    return lista;
 }
 
 SList slist_agregar_inicio(SList lista, int dato) {
-  SNodo *nuevoNodo = malloc(sizeof(SNodo));
-  nuevoNodo->dato = dato;
-  nuevoNodo->sig = lista;
-  return nuevoNodo;
+    if (lista == NULL) return NULL;
+
+    SNodo *nuevoNodo = malloc(sizeof(SNodo));
+    nuevoNodo->dato = dato;
+    nuevoNodo->sig = lista->primero;
+
+
+    lista->primero=nuevoNodo;
+    if(lista->ultimo==NULL) lista->ultimo=nuevoNodo;
+
+    return nuevoNodo;
 }
 
 void slist_recorrer(SList lista, FuncionVisitante visit) {
-  for (SNodo *nodo = lista; nodo != NULL; nodo = nodo->sig)
-    visit(nodo->dato);
+    SNodo * tmp;
+    for(tmp=lista->primero;tmp!=NULL;tmp=tmp->sig){
+        visit(tmp->dato);
+    }
 }
 
 int slist_longitud(SList lista){
-  int contador=0;
+    if (lista == NULL) return 0;
 
-  while(lista!=NULL){
-    contador+=1;
-    lista=lista->sig;
-  }
-  return contador;
+    int contador=0;
+
+    SNodo * tmp = lista->primero;
+    while(tmp!=NULL){
+        contador++;
+        tmp=tmp->sig;
+    }
+    return contador;
 }
 
 
 SList slist_concatenar(SList lista1, SList lista2){
-  if(lista1==NULL) {
+  if(lista1==NULL || lista1->primero == NULL) {
     lista1=lista2;
     return lista1;
   }
 
-  if(lista2==NULL) return lista1;
-  SNodo * temp;
-  
-  for(temp=lista1;temp->sig!=NULL;temp=temp->sig){;}
+  if(lista2==NULL ||lista2->primero == NULL) return lista1;
 
-  //Llegamos al ùltimo nodo.
-  temp->sig=lista2;
+  lista1->ultimo->sig = lista2->primero;
+
+  lista1->ultimo=lista2->ultimo;
 
   return lista1;
 }
@@ -79,7 +104,7 @@ SList slist_insertar(SList lista,int dato, int pos){
         return slist_agregar_inicio(lista, dato);
     }
 
-    SNodo *temp = lista;
+    SNodo *temp = lista->primero;
     int i = 0;
     
     // Caminamos hasta el nodo ANTERIOR a la posición deseada
@@ -104,17 +129,23 @@ SList slist_insertar(SList lista,int dato, int pos){
 }
 
 SList slist_eliminar(SList lista, int pos){
-  if (lista == NULL) return NULL; 
+  if (lista == NULL || lista->primero == NULL) return NULL; 
 
     // Caso especial: Borrar el primer elemento
     if (pos == 0) {
-        SNodo *nodoAEliminar = lista;
-        lista = lista->sig; // La lista ahora empieza en el segundo elemento
+        SNodo *nodoAEliminar = lista->primero;
+        lista->primero = lista->primero->sig; 
+
+        // Si la lista quedó vacía al borrar el único elemento...
+        if (lista->primero == NULL) {
+            lista->ultimo = NULL;
+        }
+
         free(nodoAEliminar);
         return lista;
     }
 
-    SNodo *temp = lista;
+    SNodo *temp = lista->primero;
     int i = 0;
     
     // Caminamos hasta el nodo ANTERIOR al que queremos borrar
@@ -130,6 +161,10 @@ SList slist_eliminar(SList lista, int pos){
         
         // Hacemos el puente: el nodo actual se salta al nodo a eliminar
         temp->sig = nodoAEliminar->sig; 
+
+        if (nodoAEliminar == lista->ultimo) {
+            lista->ultimo = temp;
+        }
         
         // Destruimos el nodo desconectado
         free(nodoAEliminar);
@@ -141,7 +176,7 @@ SList slist_eliminar(SList lista, int pos){
 
 int slist_contiene(SList lista, int dato){
   SNodo * tmp;
-  for(tmp=lista;tmp!=NULL;tmp=tmp->sig){
+  for(tmp=lista->primero;tmp!=NULL;tmp=tmp->sig){
       if(tmp->dato==dato) return 1;
   }
   return -1;
@@ -150,7 +185,7 @@ int slist_contiene(SList lista, int dato){
 int slist_indice(SList lista,int dato){
   SNodo * tmp;
   int x=0;
-  for(tmp=lista;tmp!=NULL;tmp=tmp->sig){
+  for(tmp=lista->primero;tmp!=NULL;tmp=tmp->sig){
       if(tmp->dato==dato) return x;
       x++;
   }
@@ -158,11 +193,11 @@ int slist_indice(SList lista,int dato){
 }
 
 SList slist_intersecar(SList lista1, SList lista2){
-  SList lista=slist_crear();
+  SList  lista=slist_crear();
 
   SNodo * temp;
-  for(temp=lista1;temp!=NULL;temp=temp->sig){
-    for(SNodo * tmp=lista2;tmp!=NULL;tmp=tmp->sig){
+  for(temp=lista1->primero;temp!=NULL;temp=temp->sig){
+    for(SNodo * tmp=lista2->primero;tmp!=NULL;tmp=tmp->sig){
       if(temp->dato==tmp->dato){
         lista=slist_agregar_final(lista,temp->dato);
       }
@@ -177,7 +212,7 @@ SList slist_intersecar_v_opt(SList lista1, SList lista2){
   SNodo * lista_resultado = slist_crear();
   SNodo * temp;
   
-  for(temp = lista1; temp != NULL; temp = temp->sig){
+  for(temp = lista1->primero; temp != NULL; temp = temp->sig){
       
       // Si el elemento actual de lista1 también ESTÁ en lista2...
       if(slist_contiene(lista2, temp->dato) == 1){
@@ -194,8 +229,8 @@ SList slist_intersercar_custom(SList lista1, SList lista2,FuncionComparadora fun
 
   SNodo * temp;
   SNodo * tmp;
-  for(temp=lista1;temp!=NULL;temp=temp->sig){
-    for( tmp=lista2;tmp!=NULL;tmp=tmp->sig){
+  for(temp=lista1->primero;temp!=NULL;temp=temp->sig){
+    for( tmp=lista2->primero;tmp!=NULL;tmp=tmp->sig){
       if(fun(temp->dato,tmp->dato)){
         lista=slist_agregar_final(lista,temp->dato);
       }
@@ -215,7 +250,7 @@ SList slist_ordenar(SList lista,FuncionComparadora fun){
     hubo_cambio = 0;
     
     // Recorremos hasta el anteúltimo nodo
-    for(SNodo * tmp = lista; tmp->sig != NULL; tmp = tmp->sig){
+    for(SNodo * tmp = lista->primero; tmp->sig != NULL; tmp = tmp->sig){
         
         // Si la función dice que el actual es MAYOR (> 0) que el siguiente...
         if(fun(tmp->dato, tmp->sig->dato) > 0){
@@ -237,7 +272,7 @@ SList slist_reverso(SList lista){
   SList lista_reversa=slist_crear();
 
   SNodo * tmp;
-  for(tmp=lista;tmp!=NULL;tmp=tmp->sig){
+  for(tmp=lista->primero;tmp!=NULL;tmp=tmp->sig){
       lista_reversa=slist_agregar_inicio(lista_reversa,tmp->dato);
   }
   
@@ -247,17 +282,17 @@ SList slist_reverso(SList lista){
 
 SList slist_intercalar(SList lista1, SList lista2){
   SList lista=slist_crear();
-  if(lista1==NULL) {
-    lista=lista2;
+  if(lista1->primero==NULL) {
+    lista=lista2->primero;
     return lista;
   }
-  if(lista2==NULL) {
-    lista=lista1;
+  if(lista2->primero==NULL) {
+    lista=lista1->primero;
     return lista;
   }
 
-  SNodo * tmp1=lista1;
-  SNodo * tmp2=lista2;
+  SNodo * tmp1=lista1->primero;
+  SNodo * tmp2=lista1->primero;
 
   while(tmp1 != NULL || tmp2 != NULL){
     
@@ -277,7 +312,7 @@ SList slist_intercalar(SList lista1, SList lista2){
 
 
 SList slist_partir(SList lista){
-  if(lista==NULL) return NULL;
+  if(lista==NULL|| lista->primero == NULL || lista->primero == lista->ultimo) return NULL;
   int longitud=slist_longitud(lista);
   if(longitud == 1) return NULL;
 
@@ -287,26 +322,32 @@ SList slist_partir(SList lista){
   if(longitud%2==0){
     SNodo * tmp;
     int contador=0;
-    tmp=lista;
+    tmp=lista->primero;
     while(tmp!=NULL && contador<(longitud/2)-1){
       contador++;
       tmp=tmp->sig;
     }
-    SList segunda_mitad = tmp->sig;
+    SList segunda_mitad = slist_crear();
+    segunda_mitad->primero = tmp->sig;
+    segunda_mitad->ultimo = lista->ultimo;
     // ¡CORTAMOS LA LISTA ORIGINAL!
     tmp->sig = NULL;
+    lista->ultimo = tmp;
     return  segunda_mitad;
   }else{
     SNodo * tmp;
     int contador=0;
-    tmp=lista;
+    tmp=lista->primero;
     while(tmp!=NULL && contador<(longitud/2 +1)-1){
       contador++;
       tmp=tmp->sig;
     }
-    SList segunda_mitad = tmp->sig;
+    SList segunda_mitad = slist_crear();
+    segunda_mitad->primero = tmp->sig;
+    segunda_mitad->ultimo = lista->ultimo;
     // ¡CORTAMOS LA LISTA ORIGINAL!
     tmp->sig = NULL;
+    lista->ultimo = tmp;
     return  segunda_mitad;
   }
 }
