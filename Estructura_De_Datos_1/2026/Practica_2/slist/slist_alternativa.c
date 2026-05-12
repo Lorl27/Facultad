@@ -167,6 +167,49 @@ SList insertar(SList lista,int pos, int dato){
     return lista;
 }
 
+
+SList slist_eliminar_pos(SList lista, int pos) {
+    if(lista == NULL || lista->primero == NULL || pos < 0 || pos >= slist_longitud(lista)) {
+        return lista;
+    }
+
+    if (pos == 0) {
+        SNodo *tmp = lista->primero; 
+        
+        lista->primero = lista->primero->sig; 
+        
+        if (lista->primero == NULL) {
+            lista->ultimo = NULL;
+        }
+        
+        free(tmp); 
+        return lista;
+    }
+
+    int contador = 1;
+    SNodo *inicio = lista->primero;         
+    SNodo *actual = lista->primero->sig;    
+
+    while (actual != NULL && contador < pos) {
+        inicio = actual;
+        actual = actual->sig;
+        contador++;
+    }
+
+    if (contador == pos && actual != NULL) {
+        
+        inicio->sig = actual->sig;
+        
+        if (actual->sig == NULL) {
+            lista->ultimo = inicio;
+        }
+        
+        free(actual); 
+    }
+
+    return lista;
+}
+
 SList slist_eliminar(SList lista, int pos){
   if (lista == NULL || lista->primero == NULL) return NULL; 
 
