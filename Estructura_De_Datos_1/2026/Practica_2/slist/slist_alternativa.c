@@ -128,6 +128,45 @@ SList slist_insertar(SList lista,int dato, int pos){
     return lista;
 }
 
+SList insertar(SList lista,int pos, int dato){
+    if(pos<0 || pos>longitud(lista)) return lista;
+
+    if(pos==0){
+        SNodo * nuevo = malloc(sizeof(_SNodo));
+        nuevo->dato=dato;
+        nuevo->sig=lista->primero;
+
+        lista->primero=nuevo;
+
+        if(lista->ultimo==NULL) lista->ultimo=nuevo;
+
+        return lista;
+    }
+
+    if(lista==NULL || lista->primero==NULL) return lista;
+
+    SNodo * inicio=lista->primero;
+    SNodo * actual=lista->primero->sig;
+    int contador=1;
+
+    while(inicio!=NULL && contador<pos){
+        inicio=actual;
+        actual=actual->sig;
+        contador++;
+    }
+
+    if(inicio!=NULL && contador==pos){
+         SNodo * nuevo = malloc(sizeof(_SNodo));
+        nuevo->dato=dato;
+        nuevo->sig=actual;
+        inicio->sig=nuevo;
+
+        if(actual==NULL) lista->ultimo=nuevo;
+    }
+
+    return lista;
+}
+
 SList slist_eliminar(SList lista, int pos){
   if (lista == NULL || lista->primero == NULL) return NULL; 
 
