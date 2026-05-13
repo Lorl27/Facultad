@@ -13,7 +13,7 @@ typedef struct _SNodo {
 } SNodo;
 
 
-//  La Caja Administradora (
+//  La Caja Administradora 
 typedef struct _SList {
   SNodo *primero;
   SNodo *ultimo;

@@ -111,8 +111,156 @@ typedef SNodo *SList;
 ```
 
 ```c
-typedef struct _SList {
+typedef struct _SListEsctructura {
     SNodo *primero; 
     SNodo *ultimo;
-} SList;
+} SListEsctructura;
+
+typedef SListEsctructura * SList;
+```
+
+# DNodo y DList:
+
+```c
+typedef struct _DNodo{
+    struct _DNodo * sig;
+    int dato;
+    struct _DNodo *ant;
+} DNodo;
+```
+
+
+```c
+typedef struct _DListEstructura{
+    DNodo *primero; 
+    DNodo *ultimo;
+} DListEstructura;
+
+typedef DListEstructura * DList;
+```
+# Listas circulares:
+**SIMPLE** El siguiente del último elemento de la lista apunta al primero 
+
+-Cada nodo tiene un puntero al siguiente.
+
+-El último nodo apunta nuevamente al primero.
+
+-Esto permite recorrer la lista indefinidamente en un ciclo.
+
+### Lista Circular Simple
+(lista → 4 → 7 → 3 → 6 ↘)
+         ↖──────
+
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Nodo {
+    int dato;
+    struct Nodo* siguiente;
+} Nodo;
+
+Nodo* crearNodo(int valor) {
+    Nodo* nuevo = (Nodo*)malloc(sizeof(Nodo));
+    nuevo->dato = valor;
+    nuevo->siguiente = NULL;
+    return nuevo;
+}
+
+int main() {
+    // Crear nodos
+    Nodo* n1 = crearNodo(4);
+    Nodo* n2 = crearNodo(7);
+    Nodo* n3 = crearNodo(3);
+    Nodo* n4 = crearNodo(6);
+
+    // Enlazar
+    n1->siguiente = n2;
+    n2->siguiente = n3;
+    n3->siguiente = n4;
+    n4->siguiente = n1; // último apunta al primero
+
+    // Recorrer 8 pasos para mostrar el ciclo
+    Nodo* actual = n1;
+    for (int i = 0; i < 8; i++) {
+        printf("%d -> ", actual->dato);
+        actual = actual->siguiente;
+    }
+    printf("...\n");
+
+    return 0;
+}
+```
+
+
+
+
+**DOBLE** El anterior del primero es el último de la lista
+
+-Cada nodo tiene dos punteros: uno al siguiente y otro al anterior.
+
+-El último nodo apunta al primero como "siguiente".
+
+-El primero apunta al último como "anterior".
+
+-Se puede recorrer en ambas direcciones sin fin.
+
+
+### Lista Circular Doble
+(lista ⇄ 8 ⇄ 4 ⇄ 3 ⇄)
+        ↖───────────↙
+
+
+```c
+        #include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Nodo {
+    int dato;
+    struct Nodo* siguiente;
+    struct Nodo* anterior;
+} Nodo;
+
+Nodo* crearNodo(int valor) {
+    Nodo* nuevo = (Nodo*)malloc(sizeof(Nodo));
+    nuevo->dato = valor;
+    nuevo->siguiente = NULL;
+    nuevo->anterior = NULL;
+    return nuevo;
+}
+
+int main() {
+    // Crear nodos
+    Nodo* n1 = crearNodo(8);
+    Nodo* n2 = crearNodo(4);
+    Nodo* n3 = crearNodo(3);
+
+    // Enlazar doblemente
+    n1->siguiente = n2;
+    n2->siguiente = n3;
+    n3->siguiente = n1; // último apunta al primero
+
+    n1->anterior = n3;  // primero apunta al último
+    n2->anterior = n1;
+    n3->anterior = n2;
+
+    // Recorrer hacia adelante
+    Nodo* actual = n1;
+    for (int i = 0; i < 6; i++) {
+        printf("%d -> ", actual->dato);
+        actual = actual->siguiente;
+    }
+    printf("...\n");
+
+    // Recorrer hacia atrás
+    actual = n1;
+    for (int i = 0; i < 6; i++) {
+        printf("%d <- ", actual->dato);
+        actual = actual->anterior;
+    }
+    printf("...\n");
+
+    return 0;
+}
 ```

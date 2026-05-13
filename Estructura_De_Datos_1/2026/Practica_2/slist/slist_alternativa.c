@@ -132,7 +132,7 @@ SList insertar(SList lista,int pos, int dato){
     if(pos<0 || pos>longitud(lista)) return lista;
 
     if(pos==0){
-        SNodo * nuevo = malloc(sizeof(_SNodo));
+        SNodo * nuevo = malloc(sizeof(SNodo));
         nuevo->dato=dato;
         nuevo->sig=lista->primero;
 
@@ -156,7 +156,7 @@ SList insertar(SList lista,int pos, int dato){
     }
 
     if(inicio!=NULL && contador==pos){
-         SNodo * nuevo = malloc(sizeof(_SNodo));
+         SNodo * nuevo = malloc(sizeof(SNodo));
         nuevo->dato=dato;
         nuevo->sig=actual;
         inicio->sig=nuevo;
