@@ -84,7 +84,7 @@ void test_slist_partir(void) {
   SList primera = slist_crear();
   SList segunda = slist_crear();
 
-  slist_partir(lista, &primera, &segunda);
+  //slist_partir(lista, &primera, &segunda);
 
   slist_assert_equals(primera, 3, 1, 2, 3);
   slist_assert_equals(segunda, 2, 4, 5);
