@@ -5,7 +5,7 @@
 
 typedef void (*FuncionVisitante) (int dato);
 typedef int (*FuncionComparadora) (int dato1,int dato2);
-
+typedef int (*FuncionTransformacion)(int dato);
 
 typedef struct _SNodo {
   int dato;
@@ -122,6 +122,11 @@ siempre que sea no vacıa
 */
 SList slist_partir(SList lista);
 
+/**
+ * Transformacion de todos los elementos de una lista, utilizando la funcion
+ * pasada.
+ */
+SList slist_map(SList lista, FuncionTransformacion trans);
 
 
 #endif /* __SLIST_H__ */

@@ -268,3 +268,43 @@ int main() {
     return 0;
 }
 ```
+
+
+# LISTAS SIMPLEMENTE ENLAZADAS GENERALES:
+- Se usan datos genericos de tipo void * y, se delega el trabajo a funciones auxiliares.
+- AL insertar datos, se precisa copia fìsica.
+
+
+```c
+typedef void (*FuncionDestructora)(void *dato);
+typedef void *(*FuncionCopia)(void *dato);
+typedef void (*FuncionVisitante)(void *dato);
+
+typedef struct _GNode {
+  void *data;
+  struct _GNode *next;
+} GNode;
+
+typedef GNode *GList;
+
+void glist_destruir(GList list, FuncionDestructora destroy) {
+  GNode *nodeToDelete;
+  while (list != NULL) {
+    nodeToDelete = list;
+    list = list->next;
+    destroy(nodeToDelete->data);
+    free(nodeToDelete);
+  }
+}
+
+
+GList glist_agregar_inicio(GList list, void *data, FuncionCopia copy) {
+  GNode *newNode = malloc(sizeof(GNode));
+  if (newNode == NULL) return NULL; 
+  newNode->next = list;
+  newNode->data = copy(data);
+  return newNode;
+}
+
+
+```

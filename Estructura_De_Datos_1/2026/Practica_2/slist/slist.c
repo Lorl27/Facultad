@@ -377,10 +377,33 @@ SList slist_partir(SList lista){
   }
 }
 
-/*  versiones recursivas(poner aparte luego):
 
+void slist_partirV2(SList lista, SList *primera_mitad, SList *segunda_mitad) {
+  SNodo *temp = lista;
+  int len = slist_longitud(lista);
 
-*/
+  int i = 0;
+  for (; i < (len + 1) / 2; i++, temp = temp->sig)
+    *primera_mitad = slist_agregar_final(*primera_mitad, temp->dato);
+
+  for (; i < len; i++, temp = temp->sig)
+    *segunda_mitad = slist_agregar_final(*segunda_mitad, temp->dato);
+}
+
+/**
+ * Aplica una función de transformación a cada elemento de la lista.
+ * Modifica los datos de la lista in-place (no la estructura de la lista,
+ * sino sólo los valores almacenados en cada nodo).
+ * La función se aplica recursivamente desde el nodo actual hasta el final.
+ */
+SList slist_map(SList lista, FuncionTransformacion trans) {
+  if (!lista)
+    return lista;
+
+  lista->dato = trans(lista->dato);
+  lista->sig = slist_map(lista->sig, trans);
+  return lista;
+}
 
 /*
 
