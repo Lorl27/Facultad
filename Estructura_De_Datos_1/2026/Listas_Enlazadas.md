@@ -145,7 +145,7 @@ typedef DListEstructura * DList;
 
 -El último nodo apunta nuevamente al primero.
 
--Esto permite recorrer la lista indefinidamente en un ciclo.
+-Esto permite recorrer la lista indefinidamente en un ciclo.(NO existe NULL - hay que usar DO WHILE)
 
 ### Lista Circular Simple
 (lista → 4 → 7 → 3 → 6 ↘)
@@ -204,7 +204,11 @@ int main() {
 
 -El primero apunta al último como "anterior".
 
--Se puede recorrer en ambas direcciones sin fin.
+-Se puede recorrer en ambas direcciones sin fin. (NO EXISTE NULL !). Es necesario hacer un 
+```c
+DNodo * tmp = lista->primero;
+do {tmp=tmp->sig;} while (tmp!=lista->primero);
+```
 
 
 ### Lista Circular Doble
