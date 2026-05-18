@@ -58,6 +58,152 @@ GList glist_filtrar(GList lista, FuncionCopia c, Predicado p){
 }
 
 
+GList glist_reverso(GList lista, FuncionCopia copy){
+  if(!lista) return lista;
+
+  GList reverso = glist_crear();
+  GNode * tmp = lista;
+  while(tmp!=NULL){
+    reverso=glist_agregar_inicio(reverso,tmp->data,copy);
+    tmp=tmp->next;
+  }
+  return reverso;
+
+}
+
+
+int longitud(GList lista){
+  int contador=0;
+  GNode *tmp=lista;
+  while(tmp!=NULL){
+    contador++;
+    tmp=tmp->next;
+  }
+  return contador;
+}
+
+GList glist_eliminar_elemento_recursivamente(GList list, FuncionDestructora destroy, int index){
+  if(index<0 || list==NULL) return list;
+
+  if(index==0){
+    GList resto = list->next;
+    //list->next = NULL;
+    //glist_destruir(list, destroy);
+    destroy(list->data);
+    free(list);
+    return resto;
+  }
+
+  list->next=glist_eliminar_elemento_recursivamente(list->next,destroy,index-1);
+  return list;
+
+}
+
+
+GList insertar(GList lista, void * dato, FuncionCopia copy,int pos){
+  if(pos<0 || pos>longitud(lista) ) return lista;
+
+  GNode * nuevo=malloc(sizeof(GNode));
+  nuevo->data=copy(dato);
+
+  if(pos==0){
+    nuevo->next=lista;
+    return nuevo;
+  }
+
+  if(!lista) return lista;
+
+  GNode * inicio= lista;
+  GNode * actual= lista->next;
+  int contador=1;
+
+  while(inicio!=NULL && contador<pos){
+    inicio=actual;
+    actual=actual->next;
+    contador++;
+  }
+
+  if(inicio!=NULL && contador==pos){
+    nuevo->next=actual;
+    inicio->next=nuevo;
+  }
+
+
+  return lista;
+}
+
+
+GList eliminar(GList lista, FuncionDestructora destroy, int pos){
+ if(pos<0 || pos>=longitud(lista) ) return lista;
+
+
+  if(pos==0){
+    GNode * tmp= lista;
+    lista=lista->next;
+    destroy(tmp->data);
+    free(tmp);
+    return lista;
+  }
+
+  if(!lista) return lista;
+
+  GNode * inicio= lista;
+  GNode * actual= lista->next;
+  int contador=1;
+
+  while(actual!=NULL && contador<pos){
+    inicio=actual;
+    actual=actual->next;
+    contador++;
+  }
+
+  if(actual!=NULL && contador==pos){
+    inicio->next=actual->next;
+    destroy(actual->data);
+    free(actual);
+  }
+
+
+  return lista;
+}
+
+
+
+int contiene(GList lista, void * dato_buscado , FuncionComparadora comp){
+  for(GNode * tmp=lista;tmp!=NULL;tmp=tmp->next){
+    if(comp(tmp->data,dato_buscado)) return 1;
+  }
+  return 0;
+}
+
+
+int buscar(GList lista, void * dato_buscado , FuncionComparadora comp){
+  int x=0;
+  for(GNode * tmp=lista;tmp!=NULL;tmp=tmp->next){
+    if(comp(tmp->data,dato_buscado)) return x;
+    x++;
+  }
+  return -1;
+}
+
+GList insertar_final(GList lista, void * dato,FuncionCopia copy){
+  int longitud_lista=longitud(lista);
+  return insertar(lista,dato,copy,longitud_lista);
+}
+
+GList map(GList lista, FUncionTransformadora fun, FuncionCopia copy){
+  if(!lista) return lista;
+  GList listaNueva= glist_crear();
+  for(GNode * tmp=lista;tmp!=NULL;tmp=tmp->next){
+    listaNueva=insertar_final(listaNueva,fun(tmp->data),copy);
+  }
+  /* otra forma es insertar al inicio y luego, usar reverso*/
+  return listaNueva;
+}
+
+
+
+
 /** Las diferencias son:
  *  el dato definido en el Nodo es de tipo void * , al igual en las funciones auxiliares
  * Usamos la version 1 de lista simple
