@@ -17,8 +17,6 @@ void sglist_destruir(SGList lista, FuncionDestructora destroy){
         destroy(e->data);
         free(e);
     }
-    destroy(lista->data);
-    free(lista);
 }
 
 

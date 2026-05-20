@@ -308,3 +308,43 @@ GList glist_agregar_inicio(GList list, void *data, FuncionCopia copy) {
 
 
 ```
+
+
+# LISTAS ENLAZADAS CON ARREGLOS (Implementaciòn con Cursores):
+- Es un arreglo que se cree lista, se logra usando arreglos grandes en vez de punteros. 
+- el 'puntero' es el indice del sig. elemento del arreglo 
+- NUll = -1
+- - Se utiliza en SO de tiempo real, ya que malloc causaria fragmentaciòn de memoria (ej: en un aviòn).
+
+**Ejemplo:**
+
+| Índice | Dato  | Sig (flecha) | Explicación |
+|--------|-------|--------------|-------------|
+| 0      | 20    | 3            | Es el 2do nodo. Su sig dice que el próximo está en el índice 3. |
+| 1      | 10    | 0            | Cabeza de la lista. Su sig dice que el próximo está en el índice 0. |
+| 2      | vacío | -1           | Lugar disponible |
+| 3      | 30    | -1           | Es el último nodo. Su sig es -1 (como si fuera NULL). |
+
+Si quiero insertar un 15 entre el 10 y el 20, no tengo que empujar (shift) ningún elemento. 
+Simplemente pongo el 15 en el índice libre (el 2), le digo al 10 que apunte al 2, y al 15 que apunte al 0.
+
+
+
+```c
+#define CAPACIDAD_INICIAL 5
+
+typedef struct {
+    int dato;
+    int sig;  // Guarda el índice del siguiente nodo. -1 si es el final.
+} NodoArreglo;
+
+typedef struct {
+    NodoArreglo *nodos; // El arreglo de nodos (nuestra "memoria RAM" privada)
+    int capacidad;      // Cuántos lugares tenemos en total
+    int cabeza;         // Índice donde empieza nuestra lista con datos (-1 si vacía)
+    int primer_libre;   // Índice del primer lugar vacío disponible
+} ListaArreglo;
+```
+
+En vez de malloc, usas obtener_indice_libre(lista).
+ En vez de ->sig, usas lista->nodos[...].sig.

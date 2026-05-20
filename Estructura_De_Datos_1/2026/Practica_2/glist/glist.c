@@ -171,7 +171,7 @@ GList eliminar(GList lista, FuncionDestructora destroy, int pos){
 
 int contiene(GList lista, void * dato_buscado , FuncionComparadora comp){
   for(GNode * tmp=lista;tmp!=NULL;tmp=tmp->next){
-    if(comp(tmp->data,dato_buscado)) return 1;
+    if(comp(tmp->data,dato_buscado)==0) return 1;
   }
   return 0;
 }
@@ -180,7 +180,7 @@ int contiene(GList lista, void * dato_buscado , FuncionComparadora comp){
 int buscar(GList lista, void * dato_buscado , FuncionComparadora comp){
   int x=0;
   for(GNode * tmp=lista;tmp!=NULL;tmp=tmp->next){
-    if(comp(tmp->data,dato_buscado)) return x;
+    if(comp(tmp->data,dato_buscado)==0) return x;
     x++;
   }
   return -1;

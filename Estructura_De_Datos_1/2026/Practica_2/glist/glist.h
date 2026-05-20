@@ -81,7 +81,6 @@ int contiene(GList lista, void * dato_buscado , FuncionComparadora comp);
 /*
 Dada una lista, un void *dato_buscado y una FuncionComparadora, devolver el indice  si el elemento está en la lista o -1 si no está.
 */
-
 int buscar(GList lista, void * dato_buscado , FuncionComparadora comp);
 
 /*
