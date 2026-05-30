@@ -1,3 +1,5 @@
 {
-    "cmake.sourceDirectory": "/home/usuario/Escritorio/Facultad/SO_1/EXTRA_TEORIA/build"
+    "cmake.sourceDirectory": "/home/usuario/Escritorio/Facultad/SO_1/EXTRA_TEORIA/build",
+    "markdown-preview-enhanced.plantumlJarPath": "https://kroki.io/plantuml/svg/",
+    "markdown-preview-enhanced.plantumlServer": "https://kroki.io/plantuml/svg/"
 }

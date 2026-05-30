@@ -21,6 +21,14 @@ int obtener_indice(char c, char tareas[], int cant_tareas) {
 }
 
 
+/* tmb podiamos haber hecho
+typedef struct {
+    char requisito; // Lo que hay que hacer primero
+    char tarea;     // Lo que se destraba después
+} Regla;
+
+Regla listado_par_dependencias[]*/
+
 void orden_valido_tareas(int cant_tareas,char nombres_tareas[], int num_deps,char listado_par_dependencias[][2]){
     // 1. Preparar los contadores (Grados de entrada) y el mapa (Matriz de adyacencia)
     int dependencias_previas[cant_tareas];
