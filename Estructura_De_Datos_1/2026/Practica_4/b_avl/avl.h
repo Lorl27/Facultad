@@ -5,7 +5,7 @@ typedef void *(*FuncionCopiadora)(void *dato);
 typedef int (*FuncionComparadora)(void * dato_a, void * dato_b);
 typedef void (*FuncionDestructora)(void *dato);
 typedef void (*FuncionVisitanteExtra)(void *dato, void *extra);
-
+typedef int (*FuncionDistancia)(void * dato1, void * dato2);
 typedef enum {
   AVL_RECORRIDO_IN,  /** Inorden */
   AVL_RECORRIDO_PRE, /** Preorden */
@@ -104,5 +104,30 @@ void avl_recorrer(AVL arbol, AVLRecorrido orden, FuncionVisitanteExtra visit, vo
 el resultado es un avl valido.
 */
 AVL eliminar_elemento(AVL arbol, void * elemento, FuncionComparadora comp, FuncionDestructora destroy);
+
+/*
+determina si Un árbol está "perfectamente lleno".
+Es decir, si absolutamente todos sus nodos tienen un Factor de Balance exactamente igual a 0.
+*/
+int avl_es_perfecto(AVL arbol);
+
+/*
+elimina las hojas y rebalancea si es necesario.
+*/
+AVL avl_podar_hojas(AVL arbol, FuncionDestructora destroy);
+
+/*
+Te dan un dato objetivo que no está en el árbol. 
+Tu misión es encontrar el dato del árbol que tenga la menor "distancia" al objetivo. 
+Para esto te dan una FuncionDistancia que retorna la diferencia absoluta entre dos datos.
+*/
+void * avl_mas_cercano(AVL arbol, void * objetivo, FuncionComparadora comp, FuncionDistancia dist);
+
+/*
+Calcule cuántos nodos en total se visitaron para encontrar un elemento en el árbol.
+ Si el elemento no existe, debe retornar la cantidad de nodos que se visitaron hasta darse cuenta de que no estaba 
+(es decir, hasta chocar con NULL).
+*/
+int avl_costo_busqueda(AVL arbol, void * elemento, FuncionComparadora comp);
 
 #endif /* __AVL_H__*/

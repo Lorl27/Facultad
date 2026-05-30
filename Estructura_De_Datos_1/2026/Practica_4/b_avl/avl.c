@@ -242,3 +242,77 @@ AVL eliminar_elemento(AVL arbol, void * elemento, FuncionComparadora comp, Funci
 }
 
 
+int avl_es_perfecto(AVL arbol){
+  if(avl_empty(arbol)) return 1;
+
+  if (avl_factor_balance(arbol) != 0) return 0;
+
+  return  avl_es_perfecto(arbol->izq) && avl_es_perfecto(arbol->der);
+}
+
+AVL avl_podar_hojas(AVL arbol, FuncionDestructora destroy){
+  if(avl_empty(arbol)) return NULL;
+
+  //si soy una hoja...
+  if(avl_empty(arbol->der)&&avl_empty(arbol->izq)){
+    destroy(arbol->dato);
+    free(arbol);
+    return NULL;
+  }
+
+
+  // si tengo un hijo:
+  if(!avl_empty(arbol->izq)) arbol->izq= avl_podar_hojas(arbol->izq,destroy);
+  
+  if(!avl_empty(arbol->der)) arbol->der= avl_podar_hojas(arbol->der,destroy);
+
+  
+
+  arbol->altura= 1 + avl_altura_max_hijos(arbol);
+  return avl_rebalancear(arbol);
+}
+
+void * avl_mas_cercano_aux(AVL arbol, void ** dato_cercano,void * objetivo, FuncionComparadora comp, FuncionDistancia dist){
+  if(avl_empty(arbol)) return *dato_cercano;
+
+  int distancia_actual = dist(arbol->dato, objetivo);
+  int mejor_distancia_hasta_ahora = dist(*dato_cercano, objetivo);
+
+  // Si encontré alguien más cerca, actualizo mi candidato
+  if (distancia_actual < mejor_distancia_hasta_ahora) {
+      *dato_cercano = arbol->dato;
+  }
+
+  int comparacion=comp(arbol->dato,objetivo);
+
+  if(comparacion<0){// arbol->dato < objetivo
+    return avl_mas_cercano_aux(arbol->der,dato_cercano,objetivo,comp,dist);
+  }
+
+  if(comparacion>0){// arbol->dato > objetivo
+    return avl_mas_cercano_aux(arbol->izq,dato_cercano,objetivo,comp,dist);
+  }
+
+  return *dato_cercano;
+}
+
+void * avl_mas_cercano(AVL arbol, void * objetivo, FuncionComparadora comp, FuncionDistancia dist){
+  if (avl_empty(arbol)) return NULL;
+
+  void * dato_cercano=arbol->dato;
+  return avl_mas_cercano_aux(arbol,&dato_cercano,objetivo,comp,dist);
+}
+
+
+int avl_costo_busqueda(AVL arbol, void * elemento, FuncionComparadora comp){
+  if(avl_empty(arbol)) return 0;
+
+  int comparacion=comp(arbol->dato,elemento);
+
+  if(comparacion<0) return 1 + avl_costo_busqueda(arbol->der,elemento,comp);
+
+  if(comparacion>0) return 1 + avl_costo_busqueda(arbol->izq,elemento,comp);
+
+  else return 1;
+
+}
