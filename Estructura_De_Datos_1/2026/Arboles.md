@@ -463,3 +463,33 @@ Se aplican 2 rotaciones simples, la primera para subir un nodo y la segunda, par
 
 ### Eliminaciòn en un AVL
 Es idèntica al ABB, pero debemos verificar que el balance se mantenga, rotando en caso en que no.
+
+
+# ÀRBOLES GENERALES
+Cada nodo puede poseer un nro indeterminado de hijos.
+
+### Enfoque 1
+Utilizamos una estructura dinàmica para almacenarlos, por ej: lista de hijos.
+
+```c
+typedef struct _GTNodo{
+    void * dato;
+    struct GList hijos;
+} GTNodo;
+
+typedef GTNodo * GTree;
+```
+
+### Enfoque 2
+Utilizamos 2 referencias, una a su primer hijo y otra: a su hermano màs cercano.
+La raìz del àrbol tiene referencia a su hermano como NULL.
+
+Con este enfoque, todo árbol general puede representarse como un
+árbol binario donde el puntero a derecha apunta al hermano y, el puntero a izquierda
+apunta a su primer hijo.
+
+En esta implementación, la raíz no tendría hermanos, por lo que sería siempre NULL.
+
+Si se permite que la raíz del árbol tenga hermanos, lo que se conoce como bosque,
+entonces tendríamos que el conjunto de los bosques generales es isomorfo al
+conjunto de los árboles binarios. 
