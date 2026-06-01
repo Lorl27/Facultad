@@ -346,3 +346,93 @@ int bstree_validar_camino(BSTree arbol, void ** camino, int longitud_camino, Fun
     return 1; // Si coincidió y era el último elemento, es válido.
 
 }
+
+
+void bstree_to_cdlist_aux(BSTree actual, BSTree * cabeza, BSTree * anterior) {
+    if (actual == NULL) return;
+
+    // Recorrido In-Order (Izquierda, Raíz, Derecha)
+    bstree_to_cdlist_aux(actual->izq, cabeza, anterior);
+
+    // Si 'anterior' es NULL, significa que soy el nodo más chico (la cabeza de la lista)
+    if (*anterior == NULL) {
+        *cabeza = actual;
+    } else {
+        // Enlazo el anterior conmigo
+        (*anterior)->der = actual;
+        actual->izq = *anterior;
+    }
+    
+    // Ahora yo soy el "anterior" para el próximo nodo a visitar
+    *anterior = actual;
+
+    bstree_to_cdlist_aux(actual->der, cabeza, anterior);
+}
+
+// Retorna el nodo cabeza de la lista circular
+BSTree bstree_to_cdlist(BSTree arbol) {
+    if (arbol == NULL) return NULL;
+
+    BSTree cabeza = NULL;
+    BSTree anterior = NULL;
+
+    bstree_to_cdlist_aux(arbol, &cabeza, &anterior);
+
+    // Al terminar, 'anterior' apunta al último elemento (el más grande).
+    // Los conectamos para hacerla circular.
+    anterior->der = cabeza;
+    cabeza->izq = anterior;
+
+    return cabeza;
+}
+
+
+BSTree bstree_reconstruir_preorder_aux(void ** arr, int * indice, int n, void * limite_max, FuncionComparadora comp, FuncionCopiadora copy) {
+    // Si llegamos al final del arreglo o el elemento actual supera el límite máximo permitido para esta rama, cortamos.
+    if (*indice == n || (limite_max != NULL && comp(arr[*indice], limite_max) > 0)) {
+        return NULL;
+    }
+
+    // Creo la raíz con el elemento actual
+    BSTree raiz = malloc(sizeof(struct _BST_Nodo));
+    raiz->dato = copy(arr[*indice]);
+    (*indice)++; // Avanzo al siguiente elemento en el arreglo
+
+    // El subárbol izquierdo solo puede aceptar valores MENORES a mi raíz actual
+    raiz->izq = bstree_reconstruir_preorder_aux(arr, indice, n, raiz->dato, comp, copy);
+    
+    // El subárbol derecho puede ser mayor que mi raíz, pero debe respetar el límite máximo del padre
+    raiz->der = bstree_reconstruir_preorder_aux(arr, indice, n, limite_max, comp, copy);
+
+    return raiz;
+}
+
+BSTree bstree_reconstruir_preorder(void ** arr, int n, FuncionComparadora comp, FuncionCopiadora copy) {
+    int indice = 0;
+    return bstree_reconstruir_preorder_aux(arr, &indice, n, NULL, comp, copy);
+}
+
+
+// Retorna el árbol si la secuencia era válida, o NULL si no lo era.
+BSTree bstree_verificar_y_construir_bfs(void ** secuencia_bfs, int n, FuncionComparadora comp, FuncionCopiadora copy) {
+    if (n == 0) return NULL;
+
+    BSTree arbol = bstee_crear();
+    
+    // 1. Construimos el árbol insertando los elementos en el orden dado
+    for (int i = 0; i < n; i++) {
+        arbol = bstree_insertar(arbol, secuencia_bfs[i], copy, comp);
+    }
+
+    // 2. ¿Es un árbol completo? Usamos la función del Ejercicio 4
+    if (!btree_es_completo(arbol)) {
+        bstree_destruir(arbol, no_destruir_nada); // Falta función destructora real en parámetros
+        return NULL;
+    }
+
+    // 3. Verificación Opcional: Podríamos hacer un recorrido BFS del nuevo árbol
+    // y comprobar si coincide 1 a 1 con secuencia_bfs. Si es un ABB completo,
+    // la estructura es única, así que si las inserciones respetaron el orden, será idéntico.
+
+    return arbol;
+}

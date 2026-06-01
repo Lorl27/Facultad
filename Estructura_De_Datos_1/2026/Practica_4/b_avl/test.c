@@ -37,8 +37,8 @@ int main() {
   AVL arbol = avl_crear();
 
   for (int i = 0; i < 500; ++i) {
-    int i = rand() % 1000;
-    arbol=avl_insertar(arbol, &i,copiar_puntero_entero,comparar_puntero_entero);
+    int p = rand() % 1000;
+    arbol=avl_insertar(arbol, &p,copiar_puntero_entero,comparar_puntero_entero);
     assert(avl_validar(arbol,comparar_puntero_entero) == 1);
   }
   avl_destruir(arbol,destruir_puntero_entero);

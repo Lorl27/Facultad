@@ -216,7 +216,7 @@ void btree_recorrer_bfs(BTree arbol, FuncionVisitante visit) {
     // 3. Mientras haya gente en la sala de espera...
     while (!isEmpty(sala_espera)) {
         // Atendemos al que está al inicio de la fila
-        BTree actual = (BTree)sala_espera->fin;
+        BTree actual = (BTree)sala_espera->inicio;
         sala_espera = Desencolar(sala_espera, no_destruir_nada);
 
         // Lo visitamos (procesamos su dato)
@@ -251,7 +251,7 @@ int btree_son_iguales(BTree arbol1, BTree arbol2, FuncionComparadora comp){
 
   if(btree_empty(arbol1) && btree_empty(arbol2)) return 1;
 
-  if(!btree_empty(arbol2)|| !btree_empty(arbol1) ) return 0;
+  if(btree_empty(arbol2)|| btree_empty(arbol1) ) return 0;
 
   if(comp(arbol1->dato,arbol2->dato)!=0 ) return 0;
 
@@ -360,4 +360,33 @@ BTree btree_mapear(BTree arbol, FuncionTransformadora transformar){
 
   return btree_unir(arbol->dato,btree_mapear(arbol->izq,transformar),btree_mapear(arbol->der,transformar),transformar);
 }
+
+int es_completo(BTree arbol){
+    if (btree_empty(arbol)) return 1;
+
+    Cola fila = Cola_crear();
+    fila = Encolar(fila, arbol, copiar_puntero_btree);
+    int encontre_hueco = 0; // Bandera
+
+    while (!isEmpty(fila)) {
+        BTree actual = (BTree)fila->inicio->dato;
+        fila = Desencolar(fila, no_destruir_nada);
+
+        if (actual == NULL) {
+            encontre_hueco = 1; // Encontramos el primer asiento vacío
+        } else {
+            // Si encuentro un nodo válido, pero ya había visto un hueco antes... ¡Rompe la regla!
+            if (encontre_hueco) {
+                cola_destruir(fila, no_destruir_nada);
+                return 0; 
+            }
+            // Encolamos a los hijos (INCLUSO SI SON NULL)
+            fila = Encolar(fila, actual->izq, copiar_puntero_btree);
+            fila = Encolar(fila, actual->der, copiar_puntero_btree);
+        }
+    }
+    cola_destruir(fila, no_destruir_nada);
+    return 1;
+}
+
 

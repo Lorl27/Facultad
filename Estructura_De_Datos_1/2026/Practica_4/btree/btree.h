@@ -124,7 +124,8 @@ int btree_son_iguales(BTree arbol1, BTree arbol2, FuncionComparadora cmp);
 int btree_contar_un_hijo(BTree arbol);
 
 /*
-* Un árbol binario se considera "Estrictamente Binario" (o lleno) si todos sus nodos cumplen una regla: o son hojas (0 hijos), o tienen exactamente 2 hijos. No se permiten nodos con un solo hijo.
+* Un árbol binario se considera "Estrictamente Binario" (o lleno) si todos sus nodos cumplen una regla: 
+o son hojas (0 hijos), o tienen exactamente 2 hijos. No se permiten nodos con un solo hijo.
 Escribe una función que retorne 1 si el árbol es estricto, o 0 si tiene al menos un nodo que rompa la regla.
 Ayuda: Un árbol vacío se considera estricto (retorna 1).
 */
@@ -162,4 +163,9 @@ BTree btree_podar_hojas(BTree arbol, FuncionDestructora destroy);
 * Retorna un árbol completamente nuevo donde a cada dato se le aplicó una transformación.
 */
 BTree btree_mapear(BTree arbol, FuncionTransformadora transformar);
+
+/* Determine si el arbol es completo o no(Sus niveles tienen todos los nodos posibles, excepto quiz´as
+el ´ultimo nivel, que se encuentra lleno de izquierda a derecha.)*/
+int es_completo(BTree arbol);
+
 #endif /* __BTREE_H__ */

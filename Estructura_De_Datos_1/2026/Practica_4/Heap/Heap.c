@@ -172,9 +172,3 @@ BHeap bheap_crear_desde_arr(void **arr, int largo, FuncionCopiadora copiar,Funci
     return heap;
 }
 
-
-void * bheap_obtener_maximo(BHeap heap) {
-    if(bheap_es_vacio(heap)) return NULL;
-    return heap->arr[1];
-}
-

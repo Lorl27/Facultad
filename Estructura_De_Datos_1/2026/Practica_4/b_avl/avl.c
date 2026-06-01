@@ -4,13 +4,7 @@
 
 
 AVL avl_crear() {
-  AVL arbol = malloc(sizeof(struct _AVL_Nodo));
-  if(!avl_empty(arbol)){
-    arbol->der=NULL;
-    arbol->izq=NULL;
-    arbol->altura=-1;
-  }
-  return arbol;
+ return NULL;
 }
 
 int avl_empty(AVL arbol){
