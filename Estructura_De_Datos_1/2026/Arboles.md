@@ -413,7 +413,7 @@ Factor desbalance=-2
 
 Agarramos el nodo B y lo tiramos para arriba, al hacer esto como es un ABB: cae para abajo A convirtièndose en el hijo izq de B y C, se queda como el hijo derecho de B.
 
-Si B tenia un hijo izquierdo (D), como D<B pero B>A ==> D>A por lo tanto se convierte en el hijo derecho de A.
+Si B tenia un hijo izquierdo (D), como D < B pero  B >A ==> D>A por lo tanto se convierte en el hijo derecho de A.
 
 ```c
 BSTree bstree_rotar_izquierda(BSTree padre) {
@@ -457,7 +457,7 @@ Soluciona cuando debemos hacer una inserciòn "hacia adentro" respecto al nodo N
 
 Se aplican 2 rotaciones simples, la primera para subir un nodo y la segunda, para bajar otro.
 
-**Caso Izquierda-Derecha (Izquierda adentro): **Primero le haces una rotación a la izquierda al hijo, y luego una rotación a la derecha a la raíz.
+**Caso Izquierda-Derecha (Izquierda adentro):** Primero le haces una rotación a la izquierda al hijo, y luego una rotación a la derecha a la raíz.
 
 **Caso Derecha-Izquierda (Derecha adentro):** Primero le haces una rotación a la derecha al hijo, y luego una rotación a la izquierda a la raíz.
 
