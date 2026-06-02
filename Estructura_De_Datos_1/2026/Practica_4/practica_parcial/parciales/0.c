@@ -136,22 +136,28 @@ BHeap avl_to_heap(AVL arbol, FuncionComparadora comp){
     return heap;
 }
 
-// SECTION - ABB A AVL
-AVL abb_to_avl(BSTree arbol) {
-    int n = contar_nodos_abb(arbol);
+//SECTION -  AB TO ABB OR AVL
+AVL ab_general_to_abb(BSTree arbol, FuncionComparadora comp) {
+    int n = bstree_nnodos(arbol);
     if (n == 0) return NULL;
-    
-    void ** arr_ordenado = malloc(sizeof(void*) * n);
+
+    void ** arr = malloc(sizeof(void *) * n);
     
     int indice = 0;
-    // Ojo: casteamos a (AVL) para que el compilador no se queje por los tipos
-    volcar_arbol_a_arreglo((AVL)arbol, arr_ordenado, &indice); 
+    // 1. Volcamos los datos. AB DESORDENADOS AVL ORDENADOS NO HACE FALTA ORDENAS CON HEAP.
+    volcar_arbol_a_arreglo((AVL)arbol, arr, &indice); 
     
-    AVL nuevo_avl = arr_ordenado_to_avl(arr_ordenado, n); // CORREGIDO
+    // 2. ¡PASO CLAVE! Lo ordenamos en el arreglo usando nuestro módulo de Heap O(n log n)
+    ordenar_arreglo_con_heap(arr, n, comp);
     
-    free(arr_ordenado);
-    return nuevo_avl;
+    // 3. Ahora que está ordenado, armamos el árbol perfecto en O(n)
+    AVL nuevo_arbol = arr_ordenado_to_avl(arr, n);
+    
+    free(arr);
+    return nuevo_arbol;
 }
+
+//!SECTION
 
 // SECTION - HEAP A AVL
 AVL heap_to_avl(BHeap heap, FuncionComparadora comp) {
@@ -215,11 +221,7 @@ BHeap bheap_crear_desde_arr(void **arr, int largo, FuncionCopiadora copiar,Funci
     }
     heap->ultimo = largo;
 
-    // 2. Aplicamos la Magia (Heapify en O(n)):
-    // Empezamos desde el último padre (ultimo / 2) hasta la raíz (1) y los hundimos.
-    for(int i = heap->ultimo / 2; i >= 1; i--) {
-        bheap_hundir(heap, i, comp);
-    }
+    aplicar_heapify(heap, comp);
 
     return heap;
 }
