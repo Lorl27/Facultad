@@ -20,22 +20,22 @@ int string_len(char * str){
 void string_reverse(char * str){
     int longitud=string_len(str);
     for (int x=0;x<longitud/2;x++){
-        int copy=str[x];
+        char copy=str[x];
         str[x]=str[longitud-1-x]; //-x necesario porque sino siempre estariamos intercambianod con el ùltimo...
         str[longitud-1-x]=copy;
     }
 }
 
 int string_concat(char * str1, char * str2, int max){
-    int fin_str1 = string_len(str1); 
+    int n = string_len(str1); 
     int i = 0;
 
     while (i < max && str2[i] != '\0') {
-        str1[fin_str1 + i] = str2[i]; 
+        str1[n + i] = str2[i]; 
         i++;
     }
 
-    str1[fin_str1 + i] = '\0'; 
+    str1[i+1] = '\0'; 
 
     return i; 
 }
@@ -43,7 +43,7 @@ int string_concat(char * str1, char * str2, int max){
 //se comparan carácter por carácter según el orden del alfabeto
 int string_compare(char * str1 , char * str2){
     int contador=0;
-    while(str1[contador]!='\0' || str2[contador]!='\0'){
+    while(str1[contador]!='\0' && str2[contador]!='\0'){
         if(str1[contador]<str2[contador]){ //a<b
             return -1;
         }
@@ -52,7 +52,12 @@ int string_compare(char * str1 , char * str2){
         }
         contador++;
     }
-    return 0; //son iguales.
+
+    // If one string ended, check which one is longer
+    if (str1[contador] == '\0' && str2[contador] == '\0') return 0; // both ended, equal
+    if (str1[contador] == '\0') return -1; // str1 shorter
+    return 1; // str2 shorter
+    
 }
 
 int string_compare_mas_directo(char * str1 , char * str2){
