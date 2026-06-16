@@ -21,32 +21,140 @@ void glist_destruir(GList list, FuncionDestructora destroy) {
     }
 }
 
-
 int glist_vacia(GList list) {
     return list == NULL;
 }
 
+int longitud(GList lista){
+  int contador=0;
+  GNode *tmp=lista;
+  while(tmp!=NULL){
+    contador++;
+    tmp=tmp->next;
+  }
+  return contador;
+}
 
+
+//eliminar k desde el final == long-k
+GList eliminar(GList lista, FuncionDestructora destroy, int pos){
+ if(pos<0 || pos>=longitud(lista) || !lista ) return lista;
+
+
+  if(pos==0){
+    GNode * tmp= lista;
+    lista=lista->next;
+    destroy(tmp->data);
+    free(tmp);
+    return lista;
+  }
+
+  GNode * inicio= lista;
+  GNode * actual= lista->next;
+  int contador=1;
+
+  while(actual!=NULL && contador<pos){
+    inicio=actual;
+    actual=actual->next;
+    contador++;
+  }
+
+  if(actual!=NULL && contador==pos){
+    inicio->next=actual->next;
+    destroy(actual->data);
+    free(actual);
+  }
+
+
+  return lista;
+}
+
+
+void glist_eliminar_duplicados(GList lista, FuncionComparadora comp, FuncionDestructora destroy){
+    if(lista==NULL) return;
+
+    GNode * actual=lista;
+    while(actual!=NULL){
+        GNode *recorrido = actual;
+        while(recorrido->next != NULL){
+            if(comp(recorrido->next->data, actual->data) == 0){
+                GNode *clon = recorrido->next;
+                recorrido->next = clon->next; // Puenteamos el clon
+                destroy(clon->data);
+                free(clon);
+            } else {
+                recorrido = recorrido->next;
+            }
+        }
+        actual = actual->next;
+    }
+}
+
+
+void glist_eliminar_duplicados_consecutivos(GList lista, FuncionComparadora comp, FuncionDestructora destroy){
+    if(lista==NULL) return;
+
+    GNode * actual=lista;
+
+    while(actual!=NULL && actual->next!=NULL){
+        if(comp(actual->data,actual->next->data)==0){
+            actual->next = glist_eliminar_elemento(actual->next, actual->data, comp, destroy);
+        }else actual=actual->next;
+    }
+}
 
 void glist_recorrer(GList list, FuncionVisitante visit) {
   for (GNode *node = list; node != NULL; node = node->next)
     visit(node->data);
 }
 
-typedef int (*FuncionVisitanteCorte)(void *dato);
+void glist_reverso_in_place(GList *lista) {
+    if (lista == NULL || *lista == NULL) return;
 
-void sglist_recorrer_con_corte(SGList lista, FuncionVisitanteCorte visit) {
-    GNode *tmp = lista;
-    int seguir = 1;
+    GNode *prev = NULL;
+    GNode *actual = *lista;
+    GNode *siguiente = NULL;
 
-    while (tmp != NULL && seguir) {
-        seguir = visit(tmp->data);  // visitante decide si continuar
-        tmp = tmp->next;
+    while (actual != NULL) {
+        siguiente = actual->next; 
+        
+        prev = actual;            
+        actual = siguiente;       
     }
+
+    *lista = prev; 
 }
 
 
-GList glist_filtrarV2(GList lista, FuncionCopia c, Predicado p) {
+GList glist_copiar_recursivo(GList lista, FuncionCopia copy) {
+    // Caso base: si la lista original está vacía, la copia es vacía.
+    if (lista == NULL) {
+        return NULL; 
+    }
+
+    // 1. Pedimos memoria para el nodo clon
+    GNode *nuevo = malloc(sizeof(GNode));
+    
+    // 2. Copiamos el dato usando tu función
+    nuevo->data = copy(lista->data);
+    
+    // 3. La magia recursiva: el "next" engancha con la copia del resto
+    nuevo->next = glist_copiar_recursivo(lista->next, copy);
+
+    return nuevo;
+}
+
+
+void glist_map_in_place(GList lista, FUncionTransformadora f, FuncionDestructora destroy){
+    for(GNode * tmp=lista;tmp!=NULL;tmp=tmp->next){
+        void * elemento=f(tmp->data);
+        destroy(tmp->data);
+        tmp->data=elemento;
+    }
+    return lista;
+}
+
+GList glist_filtrarV2_destruir_si(GList lista, Predicado p) {
     if (!lista) return NULL;
 
     GNode *node = lista;
@@ -74,31 +182,40 @@ GList glist_filtrarV2(GList lista, FuncionCopia c, Predicado p) {
     return lista;
 }
 
+GList glist_filtrarV3(GList *lista, Predicado p){
+    if(lista==NULL || * lista==NULL) return NULL;
 
+     GNode *node = lista;
+    GNode *prev = NULL;
 
-GList glist_reverso(GList lista, FuncionCopia copy){
-  if(!lista) return lista;
+    GNode * nueva=NULL;
+    GNode *cola_falsos = NULL;
 
-  GList reverso = glist_crear();
-  GNode * tmp = lista;
+     while (node != NULL) {
+        if (p(node->data)) {
+            // mantener nodo
+            prev = node;
+            node = node->next;   
+        }else{
+            //lo eliminamos
+           GNode *tmp = node;
+            node = node->next;
 
-  while(tmp!=NULL){
-    reverso=glist_agregar_inicio(reverso,tmp->data,copy);
-    tmp=tmp->next;
-  }
-  return reverso;
+            if(prev==NULL) *lista = node;
+            else prev->next=node;
+            
+            tmp->next = NULL;
+            if(nueva==NULL) nueva=tmp;
+            else cola_falsos->next=tmp;
+            
+            cola_falsos=tmp;
 
-}
+           
+        }
+    }
 
+    return nueva;
 
-int longitud(GList lista){
-  int contador=0;
-  GNode *tmp=lista;
-  while(tmp!=NULL){
-    contador++;
-    tmp=tmp->next;
-  }
-  return contador;
 }
 
 
@@ -108,90 +225,122 @@ GList glist_partir(GList lista) {
     int len = longitud(lista);
     if (len == 1) return NULL;
 
-    // Cálculo matemático para asegurar que si es impar, la primera mitad se quede con el extra
     int mitad = (len % 2 == 0) ? (len / 2) : (len / 2) + 1;
     
     GNode *tmp = lista;
     int contador = 1;
 
-    // Avanzamos hasta el nodo que será el ÚLTIMO de la primera mitad
     while (tmp != NULL && contador < mitad) {
         tmp = tmp->next;
         contador++;
     }
 
-    // Guardamos la cabeza de la segunda mitad
     GList segunda_mitad = tmp->next;
     
-    // ¡CORTAMOS LA LISTA! (Este es el paso fundamental in-place)
     tmp->next = NULL;
 
     return segunda_mitad;
 }
 
-/* * De GList (o SGList) a Array.
- * Devuelve un void**, y guarda la longitud en el puntero out_len.
- */
+
+void glist_repartir_alternado(GList *lista_original, GList *lista_A, GList *lista_B){
+    if(lista_original==NULL || * lista_original==NULL)return;
+
+
+    GNode * la=NULL;
+    GNode * lb=NULL;
+    GNode * cabecera=*lista_original;
+
+    int indice=0;
+
+    while(cabecera!=NULL){
+        GNode *siguiente = cabecera->next;
+        cabecera->next=NULL;
+
+        if(indice%2==0){
+            if(*lista_A==NULL) *lista_A=cabecera;
+            else la->next=cabecera;
+            la=cabecera;
+        }else{
+            if(*lista_B==NULL) *lista_B=cabecera;
+            else lb->next=cabecera;
+            lb=cabecera;
+        }
+        cabecera=siguiente;
+        indice++;
+    }
+
+    *lista_original=NULL;
+}
+
+
+
+GList glist_racha_mas_larga(GList original, Predicado p, FuncionCopia copy) {
+    if (original == NULL) return NULL;
+
+    // Variables para el campeón actual
+    int max_len = 0;
+    GNode *mejor_inicio = NULL;
+
+    // Variables para el retador (la racha que estamos contando)
+    int actual_len = 0;
+    GNode *actual_inicio = NULL;
+
+    // --- PRIMERA PASADA: Búsqueda del campeón ---
+    for (GNode *tmp = original; tmp != NULL; tmp = tmp->next) {
+        if (p(tmp->data)) { // Cumple la condición
+            // Si es el primer elemento de esta racha, marcamos el inicio
+            if (actual_len == 0) actual_inicio = tmp; 
+            
+            actual_len++;
+            
+            // ¿Superamos el récord?
+            if (actual_len > max_len) {
+                max_len = actual_len;
+                mejor_inicio = actual_inicio;
+            }
+        } else { // Rompió la racha
+            actual_len = 0;
+            actual_inicio = NULL;
+        }
+    }
+
+    // --- SEGUNDA PASADA: Construcción ---
+    GList nueva = glist_crear();
+    
+    // Si max_len es 0, significa que ningún elemento cumplió el predicado
+    if (max_len == 0) return nueva; 
+
+    // Copiamos físicamente la cantidad exacta de nodos desde el nodo ganador
+    GNode *tmp = mejor_inicio;
+    for (int i = 0; i < max_len; i++) {
+        nueva = insertar_al_final(nueva, tmp->data, copy);
+        tmp = tmp->next;
+    }
+
+    return nueva;
+}
+
 void **glist_a_array(GList lista, int *out_len, FuncionCopia copy) {
     int len = longitud(lista);
-    *out_len = len; // Guardamos el tamaño para saber cuánto recorrer luego
+    *out_len = len; 
     
     if (len == 0) return NULL;
 
-    // Pedimos memoria para el array de punteros
     void **array = malloc(sizeof(void *) * len);
     
     int i = 0;
     for (GNode *tmp = lista; tmp != NULL; tmp = tmp->next) {
-        array[i] = copy(tmp->data); // Llenamos el array copiando los datos
+        array[i] = copy(tmp->data); 
         i++;
     }
 
     return array;
 }
 
-GList glist_copiar_recursivo(GList lista, FuncionCopia copy) {
-    // Caso base: si la lista original está vacía, la copia es vacía.
-    if (lista == NULL) {
-        return NULL; 
-    }
-
-    // 1. Pedimos memoria para el nodo clon
-    GNode *nuevo = malloc(sizeof(GNode));
-    
-    // 2. Copiamos el dato usando tu función
-    nuevo->data = copy(lista->data);
-    
-    // 3. La magia recursiva: el "next" engancha con la copia del resto
-    nuevo->next = glist_copiar_recursivo(lista->next, copy);
-
-    return nuevo;
-}
-
 //!SECTION 
 
 //SECTION - SIMILARES 
-
-GList glist_filtrar(GList lista, FuncionCopia c, Predicado p){
-  GList nueva = glist_crear();
-  for(GNode *node = lista; node != NULL; node = node->next){
-    if(p(node->data)){
-      nueva=glist_agregar_inicio(nueva,node->data,c);
-    }
-  }
-  return nueva;
-}
-
-GList glist_filtrar(GList lista, FuncionCopia c, Predicado p,FuncionComparadora comp){
-  GList nueva = glist_crear();
-  for(GNode *node = lista; node != NULL; node = node->next){
-    if(p(node->data)){
-      nueva=sglist_insertar(nueva,node->data,c,comp);
-    }
-  }
-  return nueva;
-}
-
 
 
 GList insertar(GList lista, void * dato, FuncionCopia copy,int pos){
@@ -226,21 +375,18 @@ GList insertar(GList lista, void * dato, FuncionCopia copy,int pos){
   return lista;
 }
 
-SGList sglist_insertar(SGList lista, void * dato, FuncionCopia copy, FuncionComparadora comp){
+SGList insertar_ordenado(SGList lista, void * dato, FuncionCopia copy, FuncionComparadora comp){
     GNode *nuevo = malloc(sizeof(GNode));
     nuevo->data = copy(dato);
 
-    //Caso Base: Lista vacía o el nuevo es MENOR que la cabeza actual
-    // comp() retorna > 0 si lista->data es mayor que dato
     if (lista == NULL || comp(lista->data, dato) > 0) {
         nuevo->next = lista;
-        return nuevo; // Nueva cabeza
+        return nuevo; 
     }
 
     GNode *inicio = lista;
     GNode *actual = lista->next;
 
-    // Caminamos MIENTRAS el 'actual' sea MENOR o IGUAL al 'dato'
     while (actual != NULL && comp(actual->data, dato) <= 0) {
         inicio = actual;
         actual = actual->next;
@@ -252,73 +398,7 @@ SGList sglist_insertar(SGList lista, void * dato, FuncionCopia copy, FuncionComp
     return lista;
 }
 
-GList eliminar(GList lista, FuncionDestructora destroy, int pos){
- if(pos<0 || pos>=longitud(lista) ) return lista;
-
-
-  if(pos==0){
-    GNode * tmp= lista;
-    lista=lista->next;
-    destroy(tmp->data);
-    free(tmp);
-    return lista;
-  }
-
-  if(!lista) return lista;
-
-  GNode * inicio= lista;
-  GNode * actual= lista->next;
-  int contador=1;
-
-  while(actual!=NULL && contador<pos){
-    inicio=actual;
-    actual=actual->next;
-    contador++;
-  }
-
-  if(actual!=NULL && contador==pos){
-    inicio->next=actual->next;
-    destroy(actual->data);
-    free(actual);
-  }
-
-
-  return lista;
-}
-
-SGList sglist_eliminar(SGList lista, void *dato, FuncionComparadora comp, FuncionDestructora destroy) {
-    if (lista == NULL) return NULL;
-
-    GNode *curr = lista;
-    GNode *prev = NULL;
-
-    while (curr != NULL) {
-        int cmp = comp(curr->data, dato);
-
-        if (cmp == 0) {
-            // encontrado → eliminar
-            if (prev == NULL) {
-                lista = curr->next;
-            } else {
-                prev->next = curr->next;
-            }
-            destroy(curr->data);
-            free(curr);
-            return lista;
-        } else if (cmp > 0) {
-            // ya pasamos el lugar donde debería estar
-            return lista;
-        }
-
-        prev = curr;
-        curr = curr->next;
-    }
-
-    return lista;
-}
-
-
-int buscar(GList lista, void * dato_buscado , FuncionComparadora comp){
+int contiene(GList lista, void * dato_buscado , FuncionComparadora comp){
   int x=0;
   for(GNode * tmp=lista;tmp!=NULL;tmp=tmp->next){
     if(comp(tmp->data,dato_buscado)==0) return x;
@@ -327,7 +407,7 @@ int buscar(GList lista, void * dato_buscado , FuncionComparadora comp){
   return -1;
 }
 
-int sglist_buscar(GList lista, void *dato, FuncionComparadora comp) {
+int contiene_ordenado(GList lista, void *dato, FuncionComparadora comp) {
     for (GNode *tmp = lista; tmp != NULL; tmp = tmp->next) {
         int comparacion = comp(tmp->data, dato);
         
@@ -336,54 +416,142 @@ int sglist_buscar(GList lista, void *dato, FuncionComparadora comp) {
         }
         
         if (comparacion > 0) {
-            // El dato actual de la lista es MAYOR al que buscamos.
-            // Como la lista está ordenada, es imposible que esté más adelante.
             return 0; // Cortamos la búsqueda temprano
         }
     }
     return 0; 
 }
 
+GList glist_eliminar_elemento(GList lista, void *dato, FuncionComparadora comp, FuncionDestructora destroy) {
+    if (lista == NULL) return NULL;
 
+    GNode *node = lista;
+    GNode *prev = NULL;
 
-GList map(GList lista, FUncionTransformadora fun, FuncionCopia copy){
-  if(!lista) return lista;
-  GList listaNueva= glist_crear();
-  for(GNode * tmp=lista;tmp!=NULL;tmp=tmp->next){
-    listaNueva=insertar_inicio(listaNueva,fun(tmp->data),copy);
-  }
+    while (node != NULL) {
+      int cmp = comp(node->data, dato);
+        if (cmp == 0) {
+            if (prev == NULL) lista = node->next; 
+            else prev->next = node->next;
+            
+            destroy(node->data);
+            free(node);
+            return lista;
+        }
 
-  listaNueva=glist_reverso(listaNueva,copy);
-  return listaNueva;
-}
-
-SGList sglist_map(SGList lista, FUncionTransformadora fun, FuncionCopia copy, FuncionComparadora comp) {
-    if (!lista) return NULL;
-    
-    SGList listaNueva = glist_crear();
-    
-    for (GNode *tmp = lista; tmp != NULL; tmp = tmp->next) {
-        void *dato_transformado = fun(tmp->data);
-        
-        // La magia está acá: usamos sglist_insertar para que el nuevo dato 
-        // caiga exactamente en la posición que le corresponde.
-        listaNueva = sglist_insertar(listaNueva, dato_transformado, copy, comp);
-        
-        // Nota: dependiendo de cómo manejes la memoria en 'fun', 
-        // quizás necesites liberar 'dato_transformado' después de copiarlo.
+        prev = node;
+        node = node->next;
     }
 
-    return listaNueva;
+    return lista; 
 }
 
-/* * De Array a GList (Común).
- * Mantiene el mismo orden que traía el array.
- */
+
+SGList eliminar_elemento_ordenado(SGList lista, void *dato, FuncionComparadora comp, FuncionDestructora destroy) {
+    if (lista == NULL) return NULL;
+
+    GNode *node = lista;
+    GNode *prev = NULL;
+
+    while (node != NULL) {
+        int cmp = comp(node->data, dato);
+
+        if (cmp == 0) {
+            if (prev == NULL) lista = node->next;
+            else prev->next = node->next;
+            
+            destroy(node->data);
+            free(node);
+            return lista;
+        } 
+        // ya pasamos el lugar donde debería estar
+        else if (cmp > 0) return lista;
+        
+        prev = node;
+        node = node->next;
+    }
+
+    return lista;
+}
+
+
+GList glist_intersercar(GList lista1, GList lista2, FuncionComparadora comp, FuncionCopia copy) {
+    GList lista_resultado = glist_crear();
+
+    for (GNode *tmp1 = lista1; tmp1 != NULL; tmp1 = tmp1->next) {
+        if (contiene(lista2, tmp1->data, comp)) {
+           // Evitamos duplicados
+            if (!contiene(lista_resultado, tmp1->data, comp)) {
+                lista_resultado = insertar_final(lista_resultado, tmp1->data, copy);
+            }
+        }
+    }
+
+    return lista_resultado;
+}
+
+
+SGList sglist_intersecar_ordenado(SGList lista1, SGList lista2, FuncionComparadora comp, FuncionCopia copy) {
+    SGList resultado = glist_crear();
+    
+    GNode *tmp1 = lista1;
+    GNode *tmp2 = lista2;
+
+    while (tmp1 != NULL && tmp2 != NULL) {
+        int comparacion = comp(tmp1->data, tmp2->data);
+
+        if (comparacion == 0) {
+            resultado = insertar_final(resultado, tmp1->data, copy);
+            
+            tmp1 = tmp1->next;
+            tmp2 = tmp2->next;
+            
+        } 
+        else if (comparacion < 0)  tmp1 = tmp1->next; 
+        else tmp2 = tmp2->next;
+        
+    }
+
+    
+    return resultado;
+}
+
+
+GList glist_concatenar(GList lista1, GList lista2) {
+    if (lista1 == NULL) return lista2;
+
+    GNode *tmp = lista1;
+    
+    while (tmp->next != NULL) {
+        tmp = tmp->next;
+    }
+
+    tmp->next = lista2;
+
+    return lista1;
+}
+
+
+GList concatenar_ordenado(GList l1, GList l2, FuncionComparadora comp) {
+    if (l1 == NULL) return l2;
+    if (l2 == NULL) return l1;
+
+    GList resultado = NULL;
+
+    if (comp(l1->data, l2->data) <= 0) {
+        resultado = l1;
+        resultado->next = concatenar_ordenado(l1->next, l2, comp);
+    } else {
+        resultado = l2;
+        resultado->next = concatenar_ordenado(l1, l2->next, comp);
+    }
+    return resultado;
+}
+
+
 GList array_a_glist(void **array, int len, FuncionCopia copy) {
     GList lista = glist_crear();
     
-    // Lo más eficiente es recorrer al revés e insertar al inicio
-    // (insertar_final tiene que recorrer toda la lista cada vez y es más lento)
     for (int i = len - 1; i >= 0; i--) {
         lista = insertar_inicio(lista, array[i], copy);
     }
@@ -392,211 +560,134 @@ GList array_a_glist(void **array, int len, FuncionCopia copy) {
 }
 
 
-//de array a sglist
-GList sglist_arr(void **array, int long_array, FuncionCopia copy, FuncionComparadora comp) {
-    SGList lista = sglist_crear(); // Empezamos con lista vacía
+GList array_a_sglist(void **array, int long_array, FuncionCopia copy, FuncionComparadora comp) {
+    SGList lista = sglist_crear();
     
     for (int i = 0; i < long_array; i++) {
-        // Vamos insertando cada elemento. ¡La función se encarga de ordenarlos!
         lista = sglist_insertar(lista, array[i], copy, comp);
     }
     
     return lista;
 }
 
-GList glist_intercalar(GList lista1, GList lista2, FuncionCopia copy) {
-    GList lista_resultado = glist_crear();
-    
-    GNode *tmp1 = lista1;
-    GNode *tmp2 = lista2;
-
-    // Mientras quede algo en ALGUNA de las dos listas
-    while (tmp1 != NULL || tmp2 != NULL) {
-        
-        if (tmp1 != NULL) {
-            lista_resultado = insertar_final(lista_resultado, tmp1->data, copy);
-            tmp1 = tmp1->next;
-        }
-        
-        if (tmp2 != NULL) {
-            lista_resultado = insertar_final(lista_resultado, tmp2->data, copy);
-            tmp2 = tmp2->next;
-        }
-    }
-
-    return lista_resultado;
-}
-
-SGList sglist_intercalar_ordenado(SGList lista1, SGList lista2, FuncionCopia copy, FuncionComparadora comp) {
-    SGList resultado = glist_crear();
-    GNode *tmp1 = lista1;
-    GNode *tmp2 = lista2;
-
-    // Recorremos ambas y vamos insertando el menor de los dos
-    while (tmp1 != NULL && tmp2 != NULL) {
-        if (comp(tmp1->data, tmp2->data) <= 0) {
-            resultado = insertar_final(resultado, tmp1->data, copy);
-            tmp1 = tmp1->next;
-        } else {
-            resultado = insertar_final(resultado, tmp2->data, copy);
-            tmp2 = tmp2->next;
-        }
-    }
-
-    // Si sobraron elementos en lista1, los agregamos al final
-    while (tmp1 != NULL) {
-        resultado = insertar_final(resultado, tmp1->data, copy);
-        tmp1 = tmp1->next;
-    }
-    // Si sobraron en lista2, lo mismo
-    while (tmp2 != NULL) {
-        resultado = insertar_final(resultado, tmp2->data, copy);
-        tmp2 = tmp2->next;
-    }
-
-    return resultado;
-}
-
-
-GList glist_intersercar_custom(GList lista1, GList lista2, FuncionComparadora comp, FuncionCopia copy) {
-    GList lista_resultado = glist_crear();
-
-    // Recorremos todos los elementos de la primera lista
-    for (GNode *tmp1 = lista1; tmp1 != NULL; tmp1 = tmp1->next) {
-        
-        // Verificamos si ese elemento EXISTE en la lista 2 (usando tu funcion)
-        if (contiene(lista2, tmp1->data, comp) == 1) {
-            
-            // Opcional: Podrías chequear si no lo agregaste ya a 'lista_resultado' para evitar repetidos
-            // if (contiene(lista_resultado, tmp1->data, comp) == 0) { ... }
-            
-            lista_resultado = insertar_final(lista_resultado, tmp1->data, copy);
-        }
-    }
-
-    return lista_resultado;
-}
-
-/* * Intersecar para SGList.
- * Aprovecha que ambas listas ya están ordenadas para avanzar
- * a la par, sin necesidad de usar bucles anidados ni "buscar".
- */
-SGList sglist_intersecar(SGList lista1, SGList lista2, FuncionComparadora comp, FuncionCopia copy) {
-    SGList resultado = glist_crear();
-    
-    GNode *tmp1 = lista1;
-    GNode *tmp2 = lista2;
-
-    // Recorremos MIENTRAS haya elementos en ambas listas
-    while (tmp1 != NULL && tmp2 != NULL) {
-        int comparacion = comp(tmp1->data, tmp2->data);
-
-        if (comparacion == 0) {
-            // Son iguales: encontramos una intersección. Lo agregamos.
-            resultado = insertar_final(resultado, tmp1->data, copy);
-            
-            // Avanzamos los dos punteros para no repetir
-            tmp1 = tmp1->next;
-            tmp2 = tmp2->next;
-            
-        } else if (comparacion < 0) {
-            // El elemento de lista 1 es MENOR. 
-            // Como las listas están ordenadas, este elemento ya no puede 
-            // estar en la lista 2. Avanzamos solo el puntero 1.
-            tmp1 = tmp1->next;
-            
-        } else {
-            // El elemento de lista 2 es MENOR. Avanzamos el puntero 2.
-            tmp2 = tmp2->next;
-        }
-    }
-
-    // Si una de las dos listas se termina, se corta el while, porque
-    // ya es imposible que haya más elementos en común.
-    
-    return resultado;
-}
-
 //!SECTION
 
 //SECTION -  EXCLUYENTES
 
-GList glist_ordenar(GList lista, FuncionComparadora fun) {
-    if (lista == NULL) return NULL;
+SGList sglist_intercalar_ordenado(SGList lista1, SGList lista2, FuncionCopia copy, FuncionComparadora comp) {
+    SGList resultado = glist_crear();
 
-    int hubo_cambio = 1;
-    while (hubo_cambio) {
-        hubo_cambio = 0;
+    SGList clon1 = glist_copiar_recursivo(lista1, copy);
+    SGList clon2 = glist_copiar_recursivo(lista2, copy);
+
+    return concatenar_ordenado(clon1, clon2, comp);
+}
+
+
+void glist_intercalar_in_place(GList *lista_base, GList *lista_extra){
+    if(lista_base == NULL || lista_extra == NULL || *lista_extra == NULL) return;
+
+    if(*lista_base == NULL) {
+        *lista_base = *lista_extra;
+        *lista_extra = NULL;
+        return;
+    }
+
+    GNode * p_base = *lista_base;
+    GNode * p_extra = *lista_extra;
+
+    while (p_base != NULL && p_extra != NULL) {
         
-        // Recorremos hasta el anteúltimo nodo
-        for (GNode *tmp = lista; tmp->next != NULL; tmp = tmp->next) {
-            
-            // Si la función dice que el actual es MAYOR (> 0) que el siguiente...
-            if (fun(tmp->data, tmp->next->data) > 0) {
-                
-                // Intercambiamos LOS PUNTEROS A LOS DATOS (void *), no los nodos.
-                void *aux = tmp->data;
-                tmp->data = tmp->next->data;
-                tmp->next->data = aux;
-                
-                hubo_cambio = 1; 
+        GNode * sig_base = p_base->next;
+        GNode * sig_extra = p_extra->next;
+
+        // 2. Primer cruce: Base -> Extra
+        p_base->next = p_extra;
+        
+        // 3. Segundo cruce: Extra -> Base 
+        if (sig_base != NULL) {
+            p_extra->next = sig_base;
+        }
+
+        p_base = sig_base;
+        p_extra = sig_extra;
+    }
+
+    *lista_extra = NULL;
+}
+
+
+void glist_mover_al_frente(GList *lista, void *dato_buscado, FuncionComparadora comp){
+    if(lista==NULL||*lista==NULL) return;
+    GNode * prev=NULL;
+    GNode * actual = *lista;
+
+    while(actual!=NULL){
+        if(comp(actual->data,dato_buscado)==0){
+            if(prev==NULL) return; //ya esta en primer lugar.
+            else{
+                prev->next=actual->next;
+                actual->next = *lista;
+                *lista=actual;
             }
         }
+        prev = actual;
+        actual=actual->next;
     }
-    return lista;
-}
-
-SGList sglist_fusionar(SGList lista1, SGList lista2, FuncionComparadora comp, FuncionCopia copy) {
-    SGList resultado = sglist_crear();
-    GNode *tmp1 = lista1;
-    GNode *tmp2 = lista2;
-
-    while (tmp1 != NULL && tmp2 != NULL) {
-        if (comp(tmp1->data, tmp2->data) <= 0) {
-            resultado = insertar_final(resultado, tmp1->data, copy);
-            tmp1 = tmp1->next;
-        } else {
-            resultado = insertar_final(resultado, tmp2->data, copy);
-            tmp2 = tmp2->next;
-        }
-    }
-
-    // agregar lo que quede en alguna de las dos listas
-    while (tmp1 != NULL) {
-        resultado = insertar_final(resultado, tmp1->data, copy);
-        tmp1 = tmp1->next;
-    }
-    while (tmp2 != NULL) {
-        resultado = insertar_final(resultado, tmp2->data, copy);
-        tmp2 = tmp2->next;
-    }
-
-    return resultado;
 }
 
 
+void glist_rotar_derecha_k_pos(GList *lista, int k) {
+    if (lista == NULL || *lista == NULL || (*lista)->next == NULL || k <= 0) return;
 
-GList glist_concatenar(GList lista1, GList lista2) {
-    // Si la primera está vacía, el resultado es directamente la segunda
-    if (lista1 == NULL) return lista2;
+    int n = 1;
+    GNode *ultimo = *lista;
+    while (ultimo->next != NULL) {
+        n++;
+        ultimo = ultimo->next;
+    }
 
-    GNode *tmp = lista1;
+    // Si k es múltiplo de n (ej: rotar 5 veces una lista de 5), la lista queda igual
+    k = k % n;
+    if (k == 0) return;
+
+    // 2. MAGIA: Conectamos el final con el principio. ¡Tenemos un círculo!
+    ultimo->next = *lista;
+
+    // 3. Buscamos la nueva cola (que estará en la posición N - k)
+    int pasos_nueva_cola = n - k;
+    GNode *nueva_cola = *lista;
     
-    // Caminamos hasta el ÚLTIMO nodo de la lista 1
-    while (tmp->next != NULL) {
-        tmp = tmp->next;
+    // Caminamos hasta el nodo que será el último
+    for (int i = 1; i < pasos_nueva_cola; i++) {
+        nueva_cola = nueva_cola->next;
     }
 
-    // Enganchamos la cola de la lista 1 a la cabeza de la lista 2
-    tmp->next = lista2;
-
-    return lista1;
+    // 4. Rompemos el círculo
+    *lista = nueva_cola->next; // La nueva cabeza es el que le sigue a la nueva cola
+    nueva_cola->next = NULL;   // Sellamos la lista para que vuelva a ser lineal
 }
 
+void merge_sort(GList *lista, FuncionComparadora comp) {
+    GList cabeza = *lista;
 
+    // Caso base: si la lista está vacía o tiene 1 solo elemento, ya está ordenada.
+    if (cabeza == NULL || cabeza->next == NULL) {
+        return;
+    }
 
+    // 1. DIVIDIR
+    GList mitad_izq = cabeza;
+    GList mitad_der = slist_partir(cabeza); // Corta 'cabeza' a la mitad y retorna el inicio de la segunda
 
+    // 2. ORDENAR RECURSIVAMENTE
+    merge_sort(&mitad_izq,comp);
+    merge_sort(&mitad_der,comp);
 
+    // 3. VENCER (Combinar)
+    // Guardamos el resultado de la combinación como la nueva cabeza de la lista
+    *lista = concatenar_ordenado(mitad_izq, mitad_der,comp);
+}
 
 //!SECTION
 

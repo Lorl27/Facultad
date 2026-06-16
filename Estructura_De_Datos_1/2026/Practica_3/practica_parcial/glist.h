@@ -6,6 +6,7 @@ typedef void *(*FuncionCopia)(void *dato);
 typedef void (*FuncionVisitante)(void *dato);
 typedef int (*FuncionComparadora)(void *a, void *b);
 typedef void * (*FUncionTransformadora)(void *a);
+typedef int (*FuncionVisitanteCorte)(void *dato);
 
 typedef int (*Predicado) (void *dato); //0: false - 1:true
 
@@ -140,6 +141,24 @@ int sglist_buscar(GList lista, void * dato, FuncionComparadora comp);
 
 /* Construye una lista ordenada a partir de un arreglo de elementos y su longitud.*/
 SGList sglist_arr(void ** array, int long_array, FuncionCopia copy, FuncionComparadora comp);
+
+
+/*
+ Todo nodo que CUMPLA (retorne 1) el predicado debe quedarse en la lista original.
+  Todo nodo que FALLE (retorne 0) el predicado debe ser desenganchado y usado para 
+  armar la lista que la función va a retornar.
+  */
+GList glist_filtrarV3(GList *lista, Predicado p);
+
+/* Encuentra la sublista m+as larga que  cumpla con el predicado*/
+GList glist_racha_mas_larga(GList original, Predicado p, FuncionCopia copy);
+
+// intercala l1 con l2 y l2 queda vacia.
+void glist_intercalar_in_place(GList *lista_base, GList *lista_extra);
+
+//reparte alternado entre lA y LB
+void glist_repartir_alternado(GList *lista_original, GList *lista_A, GList *lista_B);
+
 
 
 #endif /* __GLIST_H__ */
