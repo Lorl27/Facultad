@@ -180,3 +180,99 @@ Mejores casos equivale a caminos cortos.
 
 Si el camino más largo es de $h$ pasos: tenemos $2^{h}$ nodos con $n!$ posibilidades distintas por lo que el peor caso es de **al menos** 𝑂(𝑁*In(𝑁)).
 
+# Estrategias a problemas de optimización
+La técnica de programación dinámica soluciona problemas combinando soluciones a subproblemas, para evitar recomputarlos.
+
+#### Solución Top-Down
+
+##### Recursiva
+Tiempo: O(2^n)
+Memoria: O(1)
+
+```console
+cortar_tronco(p, n):
+    if (n == 0)
+        return 0
+    q = -\inf
+    for i = 1 to n
+        q = max(q, p[i] + cortar_tronco(p,n-i))
+    return q
+```
+
+##### Recursiva con memoria
+Tiempo: O(n^2)
+Memoria: O(n)
+
+```console
+cortar_tronco_memo(p, n):
+    let r[0..n]
+    for i = 0 to n
+        r[i] = -\inf
+    return cortar_tronco_memo_aux(p,n,r)
+
+
+cortar_tronco_memo_aux(p,n,r):
+    if (r[n] ≥ 0)
+        return r[n]
+    if (n == 0)
+        q = 0
+    else {
+        q = -\inf
+        for i = 1 to n
+        q = max(q, p[i] +
+        cortar_tronco_memo_aux(p, n - i, r))
+    }
+    r[n] = q
+    return q
+```
+
+##### Iterativa
+Tiempo: O(n^2)
+Memoria: O(n)
+
+```console
+cortar_tronco_bottom-up(p, n):
+    let r[0..n]
+    r[0] = 0
+    for j = 1 to n
+        q = -\inf
+        for i = 1 to j
+            q = max(q, p[i] + r[j-i])
+        r[j] = q
+    return r[n]
+```
+
+## Estrategia Greedy
+Funcionan tomando decisiones localmente óptimas, no necesariamente a largo plazo.
+
+Siempre llevan a una solución óptima:
+> Si C ⊆S es un conjunto de actividades máximo cuya primera actividad es t1,
+> que no es la primera en terminar de S (= t0), entonces C −{t1}∪{t0} es
+> también un conjunto válido (y de tamaño máximo).
+>
+> Demos:
+> La primera actividad t1 tiene comienzo c1 y final f1.
+>  Claramente toda otra actividad de C tiene comienzo ≥f1 o se solaparía. 
+> Si removemos t1 y agregamos t0, no puede haber ningún solapamiento, porque:
+• f0 ≤f1, entonces no puede haber solapamiento hacia la derecha
+• t1 es la primer actividad en comenzar en C , entonces tampoco hay
+solapamientos hacia la izquierda
+
+Tiempo: O(1) sin ordenar , sino: O(n*log(n)).
+```console
+greedy(C : conjunto) : conjunto =
+    S ← vacio
+    while (¬solucion (S) ∧ ¬vacio(C))
+        x ← menor_elemento(C) // el x que minimiza el costo
+        C ← C \ {x}
+        if (factible(S ∪ {x}))
+            S ← S ∪ {x}
+
+    if solucion(S)
+        return S
+    else
+        no hay solucion!
+```
+
+## ¿Cuando usarlo?
+En subproblemas solapados si son independientes entre sí, usamos Greedy. Si por el contrario se solapan: DP.
