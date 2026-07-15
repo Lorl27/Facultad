@@ -66,16 +66,16 @@
 
 # P-1: OTRO
 
-### ¿Qué es una interrupción? OK-
+### ¿Qué es una interrupción? ✓
 
 Una interrupción es una señal generada por un dispositivo de hardware/software que requiere atención inmediata. Cuando sucede esto, el PCB guarda todo lo relacionado con el proceso interrumpido para que si re reprograma su ejecución, pueda continuar con normalidad.
 Permiten al sistema operativo gestionar eventos asincronos sin necedidad de consultar constantemente el estado de los procesos.
 
-### ¿Qué es el software libre? OK
+### ¿Qué es el software libre? 
 
 El software Libre es un tipo de software que permite el uso, modificación y distrubución del mismo. No hay que confundirse con SOftware de código abierto, pues este no permite la libre desitribución y modificación del mismo sin algún coste.
 
-### Dar dos razones de por qué los caches son útiles. ¿Qué problemas resuleven? ¿Qué problemas causan? OK
+### Dar dos razones de por qué los caches son útiles. ¿Qué problemas resuleven? ¿Qué problemas causan? 
 
 La memoria caché consiste en un área de almacenamiento de información de alta velocidad. Es más rápida que el almacenamiento primario, aunque más lenta que los registros. Optimizan el acceso a memoria.
 
@@ -85,11 +85,11 @@ La memoria caché consiste en un área de almacenamiento de información de alta
 
 Aunque también problemas como la consistencia entre procesos-hilos de un sistema con varios núcleos. Las inconsistencias pueden surgir, por ejemplo, si un hilo o proceso escribe en un área de memoria compartida, y el cambio queda oculto porque el otro hilo o proceso lee una caché desactualizada
 
-### ¿Qué es un cambio de contexto (CC)? OK
+### ¿Qué es un cambio de contexto (CC)? ✓
 
 Un cambio de contexto es el proceso mediante el cual un sistema operativo detiene la ejecución de un proceso o hilo y transfiere el control a otro.
 
-### Describir las acciones que son tomadas por el kernel para hacer un cambio de contexto.     OK
+### Describir las acciones que son tomadas por el kernel para hacer un cambio de contexto.   ✓
 
 Al haber un CC, el sistema realiza 3 acciones:
 
@@ -97,7 +97,7 @@ Al haber un CC, el sistema realiza 3 acciones:
 2. Detiene al proceso ejecutándose y carga el contexto del otro proceso elegido entre los que están en la tabla de procesos - según la política del programa - , para así ejecutarlo
 3. Al terminar la ejecución, debido al contexto ya cargado, puede reanudar la ejecución del proceso detenido.
 
-### ¿Para qué sirve un intérprete de comandos? ¿Por qué usualmente están separados del kernel? OK
+### ¿Para qué sirve un intérprete de comandos? ¿Por qué usualmente están separados del kernel? 
 
 Un intérprete de comandos sirve como intermediarios entre el usuario y el kernel (SO).
 
@@ -106,7 +106,7 @@ Un intérprete de comandos sirve como intermediarios entre el usuario y el kerne
 
 Está usualmente separado del kernel para poder modificarlo o actualizarlo sin involucar al SO.
 
-### ¿Qué es un API? OK
+### ¿Qué es un API? 
 
 Una API (Application Programming Interface) es una ayuda para los programadores. Permite obtener funcionalidades ya modularizadas sin necesidad de conocer exactamente cómo funcionan internamente, solamente debemos de conocer sus argumentos y el valor de retorno para poder utilizarlas. Un ejemplo, las funciones de threads provienen de la API POSIX.
 
@@ -118,13 +118,13 @@ Detrás del uso del API, el Runtime Environment (RTE) se encarga de servir como 
 
 # P0: INTRODUCCIÓN.
 
-### ¿Qué es un Sistema Operativo (SO)? OK
+### ¿Qué es un Sistema Operativo (SO)? ✓
 
 Un Sistema Operativo(SO) es un programa que administra el hardware de una pc, además de proporcionar las bases para los programas de aplicación y ser utilizado como un intermediario entre el usuario y el hardware ya que nos permite trabajar con los componentes del mismo.
 
 *ASUMIMOS que el SO tiene procesos confiables, asincrónicos y cuenta con un schedlurer justo.*
 
-### ¿Cuáles son sus 3 funciones principales? OK
+### ¿Cuáles son sus 3 funciones principales? ✓
 
 * **ABSTRACCIÓN:** Permite esconder la complejidad del hardware, para ser más accesible a nivel usuario.
 * **GESTIÓN DE RECURSOS / SCHEDLURER:** Gestiona los recursos para que los procesos no compitan por ellos.
@@ -132,15 +132,15 @@ Un Sistema Operativo(SO) es un programa que administra el hardware de una pc, ad
 
 ***
 
-### ¿Qué es la multiprogramación? OK
+### ¿Qué es la multiprogramación? 
 
 La multiprogramación se trata de programación en varios núcleos que permiten ejecutar procesos/hilos en ellos y estas ejecuciones son al mismo tiempo. Por ello, son mayormente más rápidas puesto que maximizan el uso de la PC y la CPU. (Mayor trabajo, en menos tiempo)
 
-### ¿Qué es programación concurrente? OK
+### ¿Qué es programación concurrente? ✓
 
 La programación concurrente son técnicas de programación como mutex, semáforos y sincronización permite a las tareas ejecutarse "simultaneamente", gestionandolas con hilos y procesos. En computadoras de un núcleo esto se simula mediante un orden de ejecución.
 
-### ¿Es posible tener concurrencia pero no paralelismo? OK
+### ¿Es posible tener concurrencia pero no paralelismo? 
 
 Sí, es posible. Al igual que al revés o también que pase las 2/ninguna.
 
@@ -148,7 +148,7 @@ Sí, es posible. Al igual que al revés o también que pase las 2/ninguna.
 
 # P1: GENERAL.
 
-### ¿Qué es un proceso y cómo se crea? OK
+### ¿Qué es un proceso y cómo se crea? ✓
 
 Un proceso es una entidad dinámica ejecutada por un programa.
 
@@ -169,7 +169,7 @@ Presenta los sig estados:
 
 ***
 
-### ¿Qué es el PCB (Process Control Block)? OK-
+### ¿Qué es el PCB (Process Control Block)? ✓
 
 El Process Control Block (PCB), o bloque de control de procesos, es una estructura que representa cada proceso dentro del sistema operativo. Contiene información necesaria para iniciar o reiniciar un proceso, junto con algunos datos de contabilidad. </br>
 El PCB contiene: </br>
@@ -190,7 +190,7 @@ El PCB contiene: </br>
 
 ***
 
-### ¿Qué es un módulo del kernel? OK
+### ¿Qué es un módulo del kernel? 
 
 Un módulo del kernel (kernel module) es una parte del código del núcleo que puede ser cargada o descargada dinámicamente sin necesidad de reiniciar el sistema operativo.&#x20;
 
@@ -210,13 +210,13 @@ Solo se cargan los módulos necesarios.
 
 ***
 
-### ¿El modo usuario y modo kernel, son modos de trabajo del hardware o del sistema? Explique OK
+### ¿El modo usuario y modo kernel, son modos de trabajo del hardware o del sistema? Explique
 
 El **modo usuario** y el **modo kernel** son modos de trabajo del sistema que se utilizan para distinguir qué tareas son ejecutadas por parte del usuario, y cuáles por parte del sistema operativo. Dado que los usuarios en un sistema comparten recursos con el SO, el propósito de estos modos es proteger a otros programas, e incluso al sistema operativo en sí mismo, de la ejecución de código que les pueda causar daño y/o impedir su correcto funcionamiento. Si bien a este tipo de código se lo suele llamar "malicioso", no necesariamente se trata únicamente de programas que intencionalmente intenten impedir el correcto funcionamiento de otros, sino que también puede provenir de programas "incorrectos". Por ejemplo, un programa que acceda fuera de su espacio de memoria asignado por un error en su programación puede provocar daños a otros programas en la memoria.
 
 Para lograr esta protección, los modos restringen qué instrucciones puede ejecutar el procesador dependiendo de aquel en que se encuentra el sistema en un momento dado. A aquellas instrucciones que pueden causar daño a otros programas si se las usa incorrectamente, se las llama **instrucciones privilegiadas**, y sólo se pueden ejecutar cuando el procesador se encuentra en modo kernel.
 
-## ¿Cúales de las siguientes operaciones deben ser privilegiadas? OK
+## ¿Cúales de las siguientes operaciones deben ser privilegiadas? 
 
 ```
     a) Setear un valor del timer.
@@ -252,7 +252,7 @@ De esta forma, cuando arranca el sistema, éste se encuentra en modo kernel y se
 
 Existen implementaciones más complejas donde el bit de modo puede tomar más de dos valores, conocidos como **anillos de protección** (_protection rings_, en inglés), que permiten distinguir entre modos adicionales, como aquellos destinados a servicios del sistema operativo, o para virtualización. El uso de estos anillos implementados en el procesador depende del sistema operativo, siendo a veces poco común el uso de algunos, como es el caso de los anillos 1 y 2 en procesadores Intel con 4 rings, donde los únicos normalmente utilizados son el anillo 0 (modo kernel) y el 3 (modo usuario).
 
-## Algunas CPUs proveen más de 2 modos de operación. ¿Cúales son los dos usos posibles de esos múltiples modos? OK
+## Algunas CPUs proveen más de 2 modos de operación. ¿Cúales son los dos usos posibles de esos múltiples modos? 
 
 Cuando una CPU ofrece más de 2 modos (más allá de "usuario" y "kernel"), estos se usan para:
 
@@ -272,7 +272,7 @@ Dicho todo esto, el modo usuario y el modo kernel son, al fin y al cabo, modos c
 
 [^1]: Cabe aclarar que la definición de _trap_ es ambigüa y puede variar según la bibliografía o su definición en una arquitectura, pudiéndose referir de forma general a una interrupción, como a interrupciones por software, o incluso aquellas por software que específicamente son síncronas. En este caso, se lo usa en el contexto de una definición común para la arquitectura x86, donde un _trap_ es una "excepción" por software, comúnmente utilizada para implementar llamadas al sistema.
 
-[^2]: ## ¿Qué es una llamada al sistema? ¿Cúales son su propósito? OK
+[^2]: ## ¿Qué es una llamada al sistema? ¿Cúales son su propósito? 
 
 Una llamada al sistema (system call) es el mecanismo controlado por el cual un programa en modo usuario solicita un servicio al sistema operativo (en modo kernel).
 
@@ -296,7 +296,7 @@ Ejemplos de llamadas al sistema:
 
 # P2: THREADS - PROCESOS
 
-### ¿Cúal es la diferencia entre hilos y procesos en Linux? OK-
+### ¿Cúal es la diferencia entre hilos y procesos en Linux? 
 
 Las principales diferencias entre los procesos y los threads son:
 
@@ -316,7 +316,7 @@ Las principales diferencias entre los procesos y los threads son:
 
 ***
 
-### ¿Cúal es la diferencia entre threads de nivel de usuario y de nivel kernel? ¿En cúales circuntancias uno es mejor que otro? OK
+### ¿Cúal es la diferencia entre threads de nivel de usuario y de nivel kernel? ¿En cúales circuntancias uno es mejor que otro? ✓
 
 #### THREADS DE NIVEL USUARIO:
 
@@ -370,7 +370,7 @@ Threads de nivel kernel:
 
 * Escenarios donde la robustez y la capacidad de manejar bloqueos son prioritarios.
 
-### ¿Qué recursos son usados cuando se crean threads? ¿Cómo difiere de los recursos usados cuando se crea un proceso? OK
+### ¿Qué recursos son usados cuando se crean threads? ¿Cómo difiere de los recursos usados cuando se crea un proceso? 
 
 Los recursos que son usados cuando se crean threads son:
 
@@ -397,7 +397,7 @@ Cada proceso hace una copia.
 
 *Stack, registros y contador de programa: individual en ambos.*
 
-### Describir el mecanismo por el cúal se refuerza la protección para prevenir que un programa modifique la memoria asociada a otro programa OK-
+### Describir el mecanismo por el cúal se refuerza la protección para prevenir que un programa modifique la memoria asociada a otro programa 
 
 El mecanismo que refuerza la protección para evitar que un programa modifique la memoria de otro programa se basa en la colaboración entre el sistema operativo y el hardware, utilizando los siguientes elementos:
 
@@ -411,11 +411,11 @@ En conjunto, estos mecanismos garantizan que la memoria de cada proceso esté pr
 
 ***
 
-### ¿Qué es exclusión mutua? OK
+### ¿Qué es exclusión mutua? ✓
 
 La exclusión mutua (MUTEX) es un mecanismo que permite manejar los errores como race condition y deadlock a través de asegurar que los hilos sean THREAD-SAFE. Busca garantizar que dos o más procesos no puedan acceder dentro de su región crítica al mismo tiempo.
 
-### ¿Qué mecanismos para lograr exclusión mutua podemos usar? OK
+### ¿Qué mecanismos para lograr exclusión mutua podemos usar? 
 
 Si bien hay muchos métodos que se pueden usar para exclusión mutua vamos a ver los que se cubrieron en la materia:
 
@@ -463,7 +463,7 @@ LOOP:
 </table>
 En el ejemplo de arriba vemos cómo revisar el valor de la bandera y poner su valor en 1 se traduce a 4 instrucciones de x86, lo que causa que la operación no sea atómica.
 
-#### CAS
+#### CAS ✓
 
 Una forma de implementar exclusión con una variable de lock, que funcione correctamente, es usando **CAS**(Compare and swap). Esta es una instrucción atómica provista por varias arquitecturas, tiene la forma `CAS(l,a,b)`; Lo que hace es leer el valor en la dirección de memoria `l`, si es igual a `a` se almacena `b` en la dirección a la que apunta `l`, de lo contrario no hace nada. Al mismo tiempo devuelve un booleano indicando si ocurre el cambio o no. En el caso de x86-64 **CAS** se puede implementar usando la instrucción `cmpxchg`.
 Esto nos permite usar una variable de lock, ya que podemos hacer la comparación y la asignación a la bandera de forma atómica, lo que resuelve el problema del punto anterior. Presentamos una implementación de este metodo de exclusion usando C y `cmpxchg`:
@@ -560,7 +560,7 @@ while (1) {
 
 Si bien este método evita accesos simultáneos a la zona critica requiere que todos los procesos utilizándolo se alternan de forma estricta, es decir:  $P_{1}  \implies  P_{2}   \implies P_{3}   \implies  ...  \implies  P_{1}$. De lo contrario un proceso cederá su turno pero no habrá quien se lo dé nuevamente; Usando el código anterior como ejemplo, digamos que el proceso 0 termina, cuando el proceso 1 sale de la región crítica le cede su turno al proceso 0. Sin embargo como el proceso 0 ya no se está ejecutando nunca le devuelve el turno, causando que el proceso 1 se quede esperando, violando la propiedad de *liveness*.
 
-#### Algoritmo de Peterson
+#### Algoritmo de Peterson ✓
 
 Este algoritmo es una mejora de el propuesto por T. Dekker (Matemático de los Países Bajos), siendo significativamente más simple. Se basa en una variable de turno y una lista que indica la intención de ejecutarse de un proceso. Veremos la versión para dos procesos, sin embargo es posible modificar el algoritmo para trabajar con `n` procesos, introduciendo `n` niveles de espera. En la práctica antes de ingresar a la zona crítica cada proceso indica su intención de ejecutarse, poniendo en `true` su posición en la lista de interés, luego le pasa el turno al otro proceso. Habiendo hecho esto espera a que el proceso al que le pasó el turno salga de la zona crítica, momento en el que le pasa el turno, permitiéndole al proceso entrar en la zona crítica. A continuación se da una implementación de este algoritmo en C:
 
@@ -607,7 +607,7 @@ flag[1] = 0;
 </tr>
 </table>
 
-#### Algoritmo de Lamport
+#### Algoritmo de Lamport ✓
 
 Este algoritmo fue inventado por L. Lamport, la idea es simular el sistema de tickets de una panadería, usando una analogía: Un cliente(Proceso) toma un número y se pone en la fila, esperando que sea su turno de que lo atiendan(Ejecutarse), donde el panadero(El algoritmo) va atendiendo y llamando los números.
 
@@ -643,7 +643,7 @@ void unlock(const int index) {
 }
 ```
 
-#### Mutexes
+#### Mutexes ✓
 
 Todos los métodos de exclusión mutua que explicamos hasta ahora comparten una característica importante, que los hace poco eficientes, el uso de *busy waiting*. Así se llama cuando un proceso se queda esperando sin ceder el uso del procesador, es decir el proceso se sigue ejecutando verificando constantemente si se cumple una condición; En los métodos vistos esto se hacía con un loop . Si bien hacer esto funciona es muy ineficiente, pues se desperdicia mucho tiempo de ejecución.
 
@@ -673,11 +673,11 @@ sección crítica.
 
 ***
 
-### ¿Cuáles son los mecanismos de comunicación entre procesos? OK
+### ¿Cuáles son los mecanismos de comunicación entre procesos? 
 
 Cuando un proceso es cooperativo, necesita un mecanismo de comunicación entre procesos (IPC). Existen dos modelos fundamentales:
 
-* **Memoria compartida (shared memory):** En este modelo, se establece una región de memoria común. Los procesos pueden intercambiar información escribiendo y leyendo en esta región compartida. Normalmente, el sistema operativo impide que los procesos accedan a la memoria de otros, pero si dos o más procesos acuerdan eliminar esta restricción, se crea una región compartida. Es importante destacar que este método no está supervisado por el sistema operativo, por lo que los procesos deben gestionar la concurrencia y evitar escribir simultáneamente en el mismo lugar.
+* **Memoria compartida (shared memory):** En este modelo, se establece una región de memoria común. Los procesos pueden intercambiar información escribiendo y leyendo en esta región compartida. Normalmente, el sistema operativo impide que los procesos accedan a la memoria de otros, pero si dos o más procesos acuerdan eliminar esta restricción, se crea una región compartida. Es importante destacar que este método no está supervisado por el sistema operativo, por lo que los procesos deben gestionar la concurrencia y evitar escribir simultáneamente en el mismo lugar.  ✓
 
 * **Paso de mensajes (message passing):** Este modelo utiliza el envío y recepción de mensajes entre procesos cooperativos. A diferencia del modelo de memoria compartida, no requiere un espacio de memoria común y permite que los procesos se comuniquen y sincronicen sus acciones, incluso entre computadoras conectadas a una red. Las funciones básicas que proporciona este modelo son:
   ```C
@@ -716,15 +716,15 @@ Ambos modelos son comunes en los sistemas operativos y suelen estar implementado
 
 # P3: ERRORES Y +
 
-### ¿Qué es en programación concurrente región crítica? OK
+### ¿Qué es en programación concurrente región crítica? ✓
 
 La región crítica es un área en donde los procesos intentan acceder o modificar al mismo recurso, y según el orden de ejecución esto puede ocasionar distintos resultados y es por ello que resulta importante protegerla (Riesgo de RACE CONDITION). La finalidad es que sólo un proceso pueda ejecutarla al mismo tiempo.
 
-## ¿Qué es race condition? OK
+## ¿Qué es race condition? ✓
 
 Race Condition es una categoría de errores de programación en la cual varios procesos acceden a y manipulan los mismos datos de manera concurrente. El error surge de la propia ejecución, ya que como los procesos compiten por acceder y modificar los recursos compartidos, se pueden dar diferentes resultados que dependen del orden de dichos accesos
 
-### ¿Qué es un deadlock? OK
+### ¿Qué es un deadlock? ✓
 
 Un **DEADLOCK** es una situación que puede ocurrir en entornos de programación múltiple, donde varios hilos (threads) compiten por un número limitado de recursos. Si un hilo solicita un recurso que está siendo usado por otro hilo, o que no está disponible en ese momento, el hilo entra en un estado de espera. Este estado se denomina **DEADLOCK**, y ocurre al tener varios hilos esperando indefinidamente ya que éstos no pueden cambiar de estado al tener el recurso pedido, que está tomado por otro hilo en espera. Es decir, ninguno puede continuar su ejecución.
 
@@ -740,7 +740,7 @@ Para asegurarse que nunca ocurra un deadlock, el sistema puede usar una **preven
 
 De todas las condiciones necesarias, la de *Circular wait* es la más práctica para evitar, se suele imponer un orden fijo para la solicitud de recursos, para romper el ciclo de espera.
 
-### ¿Qué es un livelock? OK
+### ¿Qué es un livelock? ✓
 
 *Propiedad Liveness*
 
@@ -757,7 +757,7 @@ Un **livelock** es otra forma de ausencia de liveness, en donde al igual que el 
 
 # P4 : MÁS INFO (+)
 
-### Sincronización de Procesos
+### Sincronización de Procesos ✓
 
 La sincronización se produce cuando uno o más procesos dependen del comportamiento de otro proceso, y puede darse de dos formas:
 
@@ -767,19 +767,19 @@ La sincronización se produce cuando uno o más procesos dependen del comportami
 
 En general sincronización es el conjunto de reglas y mecanismos que permiten la especificación e implementación de propiedades secuenciales de cada proceso que garantizan la correcta ejecución de un programa concurrente.
 
-### Operación Atómica OK
+### Operación Atómica ✓
 
 Manipulación de datos que requiere la garantía de que se ejecute como una sola unidad de ejecución, o fallará completamente, sin
 resultados o estados parciales observables por otro proceso o en el entorno.
 
-### Consistencia Secuencial
+### Consistencia Secuencial ✓
 
 Asumimos
 
 1. que las operaciones de cada procesador se realizan en el orden especificado
 2. que los stores (escrituras a memoria) son inmediatamente visibles al otro procesador.
 
-### Fence (barrera de memoria)
+### Fence (barrera de memoria) ✓
 
 Un Fence (instrucción mfence) causa que la CPU:
 
@@ -789,7 +789,7 @@ Un Fence (instrucción mfence) causa que la CPU:
 
 ***
 
-### Spooling
+### Spooling 
 
 El uso más común del spooling es la impresión: los documentos formateados para impresión se almacenan en una cola a la velocidad de la computadora, y luego se recuperan e imprimen a la velocidad de la impresora.
 Múltiples procesos pueden escribir documentos en el spool sin espera y realizar otras tareas, mientras el proceso de "spooler" opera la impresora.
