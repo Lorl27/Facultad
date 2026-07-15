@@ -13,26 +13,26 @@
 
 ## P-1: OTRO
 
-1. [¿Qué es una interrupción?](#¿Qué-es-una-interrupción)
+1. [¿Qué es una interrupción?](#¿Qué-es-una-interrupción)✓
 2. [¿Qué es el software libre?](#¿Qué-es-el-software-libre)
 3. [Dar dos razones de por qué los caches son útiles. ¿Qué problemas resuelven? ¿Qué problemas causan?](#Dar-dos-razones-de-por-qué-los-caches-son-útiles-¿Qué-problemas-resuelven-¿Qué-problemas-causan)
-4. [¿Qué es un cambio de contexto (CC)?](#¿Qué-es-un-cambio-de-contexto-CC)
-5. [Describir las acciones que son tomadas por el kernel para hacer un cambio de contexto.](#Describir-las-acciones-que-son-tomadas-por-el-kernel-para-hacer-un-cambio-de-contexto)
+4. [¿Qué es un cambio de contexto (CC)?](#¿Qué-es-un-cambio-de-contexto-CC)✓
+5. [Describir las acciones que son tomadas por el kernel para hacer un cambio de contexto.](#Describir-las-acciones-que-son-tomadas-por-el-kernel-para-hacer-un-cambio-de-contexto)✓
 6. [¿Para qué sirve un intérprete de comandos? ¿Por qué usualmente están separados del kernel?](#¿Para-qué-sirve-un-intérprete-de-comandos-¿Por-qué-usualmente-están-separados-del-kernel)
 7. [¿Qué es una API?](#¿Qué-es-una-API)
 
 ## P0: INTRODUCCIÓN
 
-1. [¿Qué es un Sistema Operativo (SO)?](#¿Qué-es-un-Sistema-Operativo-SO)
-2. [¿Cuáles son sus 3 funciones principales?](#¿Cuáles-son-sus-3-funciones-principales)
+1. [¿Qué es un Sistema Operativo (SO)?](#¿Qué-es-un-Sistema-Operativo-SO)✓
+2. [¿Cuáles son sus 3 funciones principales?](#¿Cuáles-son-sus-3-funciones-principales)✓
 3. [¿Qué es la multiprogramación?](#¿Qué-es-la-multiprogramación)
-4. [¿Qué es programación concurrente?](#¿Qué-es-programación-concurrente)
+4. [¿Qué es programación concurrente?](#¿Qué-es-programación-concurrente)✓
 5. [¿Es posible tener concurrencia pero no paralelismo?](#¿Es-posible-tener-concurrencia-pero-no-paralelismo)
 
 ## P1: GENERAL
 
-1. [¿Qué es un proceso y cómo se crea?](#¿Qué-es-un-proceso-y-cómo-se-crea)
-2. [¿Qué es el PCB (Process Control Block)?](#¿Qué-es-el-PCB-Process-Control-Block)
+1. [¿Qué es un proceso y cómo se crea?](#¿Qué-es-un-proceso-y-cómo-se-crea)✓
+2. [¿Qué es el PCB (Process Control Block)?](#¿Qué-es-el-PCB-Process-Control-Block)✓
 3. [¿Qué es un módulo del kernel?](#¿Qué-es-un-módulo-del-kernel)
 4. [¿El modo usuario y modo kernel, son modos de trabajo del hardware o del sistema? Explique.](#¿El-modo-usuario-y-modo-kernel-son-modos-de-trabajo-del-hardware-o-del-sistema-Explique)
 5. [¿Cuáles de las siguientes operaciones deben ser privilegiadas?](#¿Cuáles-de-las-siguientes-operaciones-deben-ser-privilegiadas)
@@ -41,26 +41,26 @@
 ## P2: THREADS - PROCESOS
 
 1. [¿Cuál es la diferencia entre hilos y procesos en Linux?](#¿Cuál-es-la-diferencia-entre-hilos-y-procesos-en-Linux)
-2. [¿Cuál es la diferencia entre threads de nivel de usuario y de nivel kernel? ¿En cuáles circunstancias uno es mejor que otro?](#¿Cuál-es-la-diferencia-entre-threads-de-nivel-de-usuario-y-de-nivel-kernel-¿En-cuáles-circunstancias-uno-es-mejor-que-otro)
+2. [¿Cuál es la diferencia entre threads de nivel de usuario y de nivel kernel? ¿En cuáles circunstancias uno es mejor que otro?](#¿Cuál-es-la-diferencia-entre-threads-de-nivel-de-usuario-y-de-nivel-kernel-¿En-cuáles-circunstancias-uno-es-mejor-que-otro)✓
 3. [¿Qué recursos son usados cuando se crean threads? ¿Cómo difiere de los recursos usados cuando se crea un proceso?](#¿Qué-recursos-son-usados-cuando-se-crean-threads-¿Cómo-difiere-de-los-recursos-usados-cuando-se-crea-un-proceso)
 4. [Describir el mecanismo por el cuál se refuerza la protección para prevenir que un programa modifique la memoria asociada a otro programa.](#Describir-el-mecanismo-por-el-cuál-se-refuerza-la-protección-para-prevenir-que-un-programa-modifique-la-memoria-asociada-a-otro-programa)
-5. [¿Qué es exclusión mutua?](#¿Qué-es-exclusión-mutua)
+5. [¿Qué es exclusión mutua?](#¿Qué-es-exclusión-mutua)✓
 6. [¿Qué mecanismos para lograr exclusión mutua podemos usar?](#¿Qué-mecanismos-para-lograr-exclusión-mutua-podemos-usar)
 7. [¿Cuáles son los mecanismos de comunicación entre procesos?](#¿Cuáles-son-los-mecanismos-de-comunicación-entre-procesos)
 
-## P3: ERRORES Y +
+## P3: ERRORES Y + (✓)
 
-1. [¿Qué es en programación concurrente región crítica?](#¿Qué-es-en-programación-concurrente-región-crítica)
-2. [¿Qué es race condition?](#¿Qué-es-race-condition)
-3. [¿Qué es un deadlock?](#¿Qué-es-un-deadlock)
-4. [¿Qué es un livelock?](#¿Qué-es-un-livelock)
+1. [¿Qué es en programación concurrente región crítica?](#¿Qué-es-en-programación-concurrente-región-crítica)✓
+2. [¿Qué es race condition?](#¿Qué-es-race-condition)✓
+3. [¿Qué es un deadlock?](#¿Qué-es-un-deadlock)✓
+4. [¿Qué es un livelock?](#¿Qué-es-un-livelock)✓
 
-## P4: MÁS INFO
+## P4: MÁS INFO (✓)
 
-1. [¿Qué es sincronización de procesos?](#¿Qué-es-sincronización-de-procesos)
-2. [¿Qué es operación atómica?](#¿Qué-es-operación-atómica)
-3. [¿Qué es consistencia secuencial?](#¿Qué-es-consistencia-secuencial)
-4. [¿Qué es Fence (barrera de memoria)?](#¿Qué-es-Fence-barrera-de-memoria)
+1. [¿Qué es sincronización de procesos?](#¿Qué-es-sincronización-de-procesos)✓
+2. [¿Qué es operación atómica?](#¿Qué-es-operación-atómica)✓
+3. [¿Qué es consistencia secuencial?](#¿Qué-es-consistencia-secuencial)✓
+4. [¿Qué es Fence (barrera de memoria)?](#¿Qué-es-Fence-barrera-de-memoria)✓
 
 ***
 
