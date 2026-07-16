@@ -10,7 +10,7 @@
 6. [¿Para qué sirve un intérprete de comandos? ¿Por qué usualmente están separados del kernel?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#para-qu%C3%A9-sirve-un-int%C3%A9rprete-de-comandos-por-qu%C3%A9-usualmente-est%C3%A1n-separados-del-kernel)
 7. [¿Qué es una API?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-es-un-api)
 
-## [P0: INTRODUCCIÓN](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#p0-introducci%C3%B3n-1)
+## [P0: INTRODUCCIÓN](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#p0-introducci%C3%B3n-1) 
 
 1. [¿Qué es un Sistema Operativo (SO)?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-es-un-sistema-operativo-so-)✓
 2. [¿Cuáles son sus 3 funciones principales?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#cu%C3%A1les-son-sus-3-funciones-principales-)✓
@@ -18,39 +18,39 @@
 4. [¿Qué es programación concurrente?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-es-programaci%C3%B3n-concurrente-)✓
 5. [¿Es posible tener concurrencia pero no paralelismo?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#es-posible-tener-concurrencia-pero-no-paralelismo)✓
 
-## [P1: GENERAL](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#p1-general-1)
+## [P1: GENERAL](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#p1-general-1) (✓)
 
 1. [¿Qué es un proceso y cómo se crea?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-es-un-proceso-y-c%C3%B3mo-se-crea-)✓
 2. [¿Qué es el PCB (Process Control Block)?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-es-el-pcb-process-control-block-)✓
 3. [¿Qué es un módulo del kernel?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-es-un-m%C3%B3dulo-del-kernel) ✓
 4. [¿El modo usuario y modo kernel, son modos de trabajo del hardware o del sistema? Explique.](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#el-modo-usuario-y-modo-kernel-son-modos-de-trabajo-del-hardware-o-del-sistema-explique)✓
 5. [¿Cuáles de las siguientes operaciones deben ser privilegiadas?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#c%C3%BAales-de-las-siguientes-operaciones-deben-ser-privilegiadas)✓
-6. [¿Qué es una llamada al sistema? ¿Cuáles son su propósito?](#¿Qué-es-una-llamada-al-sistema-¿Cuáles-son-su-propósito)✓
-7. [Algunas CPUs proveen más de 2 modos de operación. ¿Cúales son los dos usos posibles de esos múltiples modos?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#algunas-cpus-proveen-m%C3%A1s-de-2-modos-de-operaci%C3%B3n-c%C3%BAales-son-los-dos-usos-posibles-de-esos-m%C3%BAltiples-modos)✓
+6. [Algunas CPUs proveen más de 2 modos de operación. ¿Cúales son los dos usos posibles de esos múltiples modos?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#algunas-cpus-proveen-m%C3%A1s-de-2-modos-de-operaci%C3%B3n-c%C3%BAales-son-los-dos-usos-posibles-de-esos-m%C3%BAltiples-modos)✓
+7. [¿Qué es una llamada al sistema? ¿Cuáles son su propósito?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-es-una-llamada-al-sistema-c%C3%BAales-son-su-prop%C3%B3sito)✓
 
 ## [P2: THREADS - PROCESOS](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#p2-threads---procesos-1)
 
-1. [¿Cuál es la diferencia entre hilos y procesos en Linux?](#¿Cuál-es-la-diferencia-entre-hilos-y-procesos-en-Linux)
-2. [¿Cuál es la diferencia entre threads de nivel de usuario y de nivel kernel? ¿En cuáles circunstancias uno es mejor que otro?](#¿Cuál-es-la-diferencia-entre-threads-de-nivel-de-usuario-y-de-nivel-kernel-¿En-cuáles-circunstancias-uno-es-mejor-que-otro)
-3. [¿Qué recursos son usados cuando se crean threads? ¿Cómo difiere de los recursos usados cuando se crea un proceso?](#¿Qué-recursos-son-usados-cuando-se-crean-threads-¿Cómo-difiere-de-los-recursos-usados-cuando-se-crea-un-proceso)
-4. [Describir el mecanismo por el cuál se refuerza la protección para prevenir que un programa modifique la memoria asociada a otro programa.](#Describir-el-mecanismo-por-el-cuál-se-refuerza-la-protección-para-prevenir-que-un-programa-modifique-la-memoria-asociada-a-otro-programa)
-5. [¿Qué es exclusión mutua?](#¿Qué-es-exclusión-mutua)✓
-6. [¿Qué mecanismos para lograr exclusión mutua podemos usar?](#¿Qué-mecanismos-para-lograr-exclusión-mutua-podemos-usar)
-7. [¿Cuáles son los mecanismos de comunicación entre procesos?](#¿Cuáles-son-los-mecanismos-de-comunicación-entre-procesos)
+1. [¿Cuál es la diferencia entre hilos y procesos en Linux?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#c%C3%BAal-es-la-diferencia-entre-hilos-y-procesos-en-linux)✓
+2. [¿Cuál es la diferencia entre threads de nivel de usuario y de nivel kernel? ¿En cuáles circunstancias uno es mejor que otro?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#c%C3%BAal-es-la-diferencia-entre-threads-de-nivel-de-usuario-y-de-nivel-kernel-en-c%C3%BAales-circuntancias-uno-es-mejor-que-otro)✓
+3. [¿Qué recursos son usados cuando se crean threads? ¿Cómo difiere de los recursos usados cuando se crea un proceso?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-recursos-son-usados-cuando-se-crean-threads-c%C3%B3mo-difiere-de-los-recursos-usados-cuando-se-crea-un-proceso) ✓
+4. [Describir el mecanismo por el cuál se refuerza la protección para prevenir que un programa modifique la memoria asociada a otro programa.](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#describir-el-mecanismo-por-el-c%C3%BAal-se-refuerza-la-protecci%C3%B3n-para-prevenir-que-un-programa-modifique-la-memoria-asociada-a-otro-programa) ✓
+5. [¿Qué es exclusión mutua?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-es-exclusi%C3%B3n-mutua)✓
+6. [¿Qué mecanismos para lograr exclusión mutua podemos usar?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-mecanismos-para-lograr-exclusi%C3%B3n-mutua-podemos-usar) ✓
+7. [¿Cuáles son los mecanismos de comunicación entre procesos?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#cu%C3%A1les-son-los-mecanismos-de-comunicaci%C3%B3n-entre-procesos)
 
-## [P3: ERRORES Y + ] (✓)
+## [P3: ERRORES Y + ](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#p3-errores-y-) (✓)
 
-1. [¿Qué es en programación concurrente región crítica?](#¿Qué-es-en-programación-concurrente-región-crítica)✓
-2. [¿Qué es race condition?](#¿Qué-es-race-condition)✓
-3. [¿Qué es un deadlock?](#¿Qué-es-un-deadlock)✓
-4. [¿Qué es un livelock?](#¿Qué-es-un-livelock)✓
+1. [¿Qué es en programación concurrente región crítica?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-es-en-programaci%C3%B3n-concurrente-regi%C3%B3n-cr%C3%ADtica)✓
+2. [¿Qué es race condition?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-es-race-condition)✓
+3. [¿Qué es un deadlock?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-es-un-deadlock)✓
+4. [¿Qué es un livelock?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#qu%C3%A9-es-un-livelock)✓
 
-## [P4: MÁS INFO] (✓)
+## [P4: MÁS INFO](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#p4--m%C3%A1s-info-) (✓)
 
-1. [¿Qué es sincronización de procesos?](#¿Qué-es-sincronización-de-procesos)✓
-2. [¿Qué es operación atómica?](#¿Qué-es-operación-atómica)✓
-3. [¿Qué es consistencia secuencial?](#¿Qué-es-consistencia-secuencial)✓
-4. [¿Qué es Fence (barrera de memoria)?](#¿Qué-es-Fence-barrera-de-memoria)✓
+1. [¿Qué es sincronización de procesos?][(#¿Qué-es-sincronización-de-procesos)](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#sincronizaci%C3%B3n-de-procesos)✓
+2. [¿Qué es operación atómica?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#operaci%C3%B3n-at%C3%B3mica)✓
+3. [¿Qué es consistencia secuencial?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#consistencia-secuencial)✓
+4. [¿Qué es Fence (barrera de memoria)?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#fence-barrera-de-memoria)✓
 
 ***
 
@@ -207,7 +207,7 @@ El **modo usuario** y el **modo kernel** son modos de trabajo del sistema que se
 
 Para lograr esta protección, los modos restringen qué instrucciones puede ejecutar el procesador dependiendo de aquel en que se encuentra el sistema en un momento dado. A aquellas instrucciones que pueden causar daño a otros programas si se las usa incorrectamente, se las llama **instrucciones privilegiadas**, y sólo se pueden ejecutar cuando el procesador se encuentra en modo kernel.
 
-## ¿Cúales de las siguientes operaciones deben ser privilegiadas? 
+### ¿Cúales de las siguientes operaciones deben ser privilegiadas? 
 
 ```
     a) Setear un valor del timer.
