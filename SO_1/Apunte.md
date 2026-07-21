@@ -47,7 +47,7 @@
 
 ## [P4: MÁS INFO](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#p4--m%C3%A1s-info-) (✓)
 
-1. [¿Qué es sincronización de procesos?][(#¿Qué-es-sincronización-de-procesos)](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#sincronizaci%C3%B3n-de-procesos)✓
+1. [¿Qué es sincronización de procesos?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#sincronizaci%C3%B3n-de-procesos)✓
 2. [¿Qué es operación atómica?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#operaci%C3%B3n-at%C3%B3mica)✓
 3. [¿Qué es consistencia secuencial?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#consistencia-secuencial)✓
 4. [¿Qué es Fence (barrera de memoria)?](https://github.com/Lorl27/Facultad/blob/main/SO_1/Apunte.md#fence-barrera-de-memoria)✓
