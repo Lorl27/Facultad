@@ -1,0 +1,61 @@
+¿Cuál es la función técnica primordial del registro denominado "bit de modo" en la arquitectura de un procesador?
+
+Determinar si el proceso en ejecución tiene permiso para ejecutar instrucciones privilegiadas.
+
+
+En el contexto de un sistema operativo moderno, ¿qué mecanismo se utiliza para transicionar de modo usuario a modo kernel de manera segura?
+
+
+La activación de una interrupción que transfiere el control a una ubicación de memoria específica.
+
+¿Por qué se considera que el control de la Unidad de Gestión de Memoria (MMU) debe ser una facultad exclusiva del modo kernel?
+
+
+Porque permite definir que regiones físicas de memoria son accesibles para cada proceso, garantizando el aislamiento
+
+¿En qué modo operan normalmente los programas de usuario (como un navegador o un editor de texto)?
+
+Modo Restringido o Modo Usuario (Restricted / User mode)
+
+Qué problema fundamental resuelven los sistemas operativos apropiativos (preemptive) mediante el uso de un temporizador de hardware?
+
+Evitan que un proceso acapare el uso de la CPU si no realiza llamadas al sistema voluntarias. 
+
+
+Por qué un programa de usuario no puede interactuar directamente con dispositivos de hardware como el disco duro o la tarjeta de red?
+
+
+
+b.
+Porque los programas de usuario se ejecutan en modo restringido y no pueden ejecutar las instrucciones privilegiadas necesarias para manipular el hardware.
+¿Qué acción principal ocurre en la CPU cuando se recibe o se activa una "interrupción" (interrupt)?
+
+
+El procesador detiene temporalmente el proceso actual, cambia al modo privilegiado (kernel) y salta a una ubicación de memoria específica para ejecutar una rutina que maneja el evento.
+
+¿Qué es una "llamada al sistema" (system call) y para qué sirve?
+
+
+ Es una función proporcionada por el sistema operativo que los programas de usuario pueden invocar para solicitar de forma segura acceso a recursos de hardware o servicios privilegiados.
+
+
+¿Por qué es riesgoso que software de terceros (como los sistemas antitrampas de los videojuegos o software de detección de malware como CrowdStrike) se ejecuten en Modo Kernel?
+
+Comparten el mismo espacio de direcciones que el kernel por lo que un error en el software puede colapsar todo el sistema.
+
+
+Porque en Modo Kernel, cualquier error (bug) o caída (crash) en ese software no puede ser aislado por el sistema operativo y provocará la caída total del sistema 
+
+
+En el contexto de las interrupciones, ¿cuál es la importancia de salvar el estado del proceso interrumpido?
+
+Para que el proceso pueda reanudarse exactamente en el mismo punto donde fue pausado sin pérdida de datos.
+
+=====
+https://www.youtube.com/watch?v=H4SDPLiUnv4
+https://www.youtube.com/watch?v=eP_P4KOjwhs
+https://www.youtube.com/watch?v=Y2mDwW2pMv4
+https://www.youtube.com/watch?v=M9HHWFp84f0
+https://www.youtube.com/watch?v=5sw9XJokAqw
+https://www.youtube.com/watch?v=bhpzTWtee2A
+

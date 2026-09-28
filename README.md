@@ -4,23 +4,29 @@
 * Recursado Programación 2, año 2024
 * Probabilidad y Estadística, año 2025
 * Estructuras de Datos y Algoritmos 1 , año 2025.
+* Recursado Estructuras de Datos y Algoritmos 1 , año 2026.
 * Sistemas Operativos I , año 2025.
+* Métodos Numéricos, año 2025.
+* Arquitectura del Computador, año 2026.
 
 ## Contiene los finales de las siguientes materias:
 * Recursado Programación 2, 2024 -> PROMOVIDO: Sólamente C.
+* Estructuras de Datos y Algoritmos 1, 2026 -> REGULAR: TP de C.
 
 #### Temas abordados:
 
 ### ***RESUMEN***
 
 
-Materia | Temas (PYTHON) | Temas (C) |  Temas (R + RStudio) | Temas (Erlang)
-:---: | :---: | :---: | :---: | :---:
-**Programación 2** | Conceptos Básicos,listas,tuplas,sets,diccionarios,ciclos,condicionales,archivos,módulo Random | Conceptos Básicos,ciclos,condicionales,archivos,estructuras con punteros, memoria dinámica y estática,punteros,char, switch |
-**Redictado Prog 2** | Conceptos Básicos,listas,tuplas,diccionarios, tipos de ciclos, tipos de condicionales, archivos, Módulo Random,Streamlit,Math.lib,csv, Proyecto, pytest,strings,receta | Introducción, conceptos básicos, ciclos, tipos de condicionales, switch, punteros,estructuras simples, receta, assert.h y librerías string.h, stdlib.h  (manejo de entrada estándar y personalizada)|
-**Probabilidad y Estadística** |  |  | Uso de Software para gráficos y tablas , además de uso de Proporciones,Moda, Mediana, Media Aritmética , etc. |
-**Estrucutras de Datos y Algoritmos 1** |  | Punteros a función , Arrays, Listas, Pilas y Colas, Árboles, Heap, Tablas Hash, Introducción a los algoritmos , Ordenamiento |  |
-**Sistemas Operativos 1** |  | Signals - Programación y procesos. Regiones de memoria. Creación y destrucción de procesos.Sincronizaciones y comunicación. Condiciones de concurso y regiones críticas. Exclusión mútua. Problemas relacionados. Deadlock y livelock. Programación concurrente.Interbloqueos. Formalismos. Bibliotecas de programación paralela y distribuida. || Sintaxis de Erlang  |
+Materia | Temas (PYTHON) | Temas (C) |  Temas (R + RStudio) | Temas (Erlang) | Temas (Scilab)
+:---: | :---: | :---: | :---: | :---: | :---:
+**Programación 2** | Conceptos Básicos,listas,tuplas,sets,diccionarios,ciclos,condicionales,archivos,módulo Random | Conceptos Básicos,ciclos,condicionales,archivos,estructuras con punteros, memoria dinámica y estática,punteros,char, switch | |
+**Redictado Prog 2** | Conceptos Básicos,listas,tuplas,diccionarios, tipos de ciclos, tipos de condicionales, archivos, Módulo Random,Streamlit,Math.lib,csv, Proyecto, pytest,strings,receta | Introducción, conceptos básicos, ciclos, tipos de condicionales, switch, punteros,estructuras simples, receta, assert.h y librerías string.h, stdlib.h  (manejo de entrada estándar y personalizada)||
+**Probabilidad y Estadística** |  |  | Uso de Software para gráficos y tablas , además de uso de Proporciones,Moda, Mediana, Media Aritmética , etc. ||
+**Estructuras de Datos y Algoritmos 1** |  | Punteros a función , Arrays, Listas, Pilas y Colas, Árboles, Heap, Tablas Hash, Introducción a los algoritmos , Ordenamiento |  ||
+**Sistemas Operativos 1** |  | Signals - Programación y procesos. Regiones de memoria. Creación y destrucción de procesos.Sincronizaciones y comunicación. Condiciones de concurso y regiones críticas. Exclusión mútua. Problemas relacionados. Deadlock y livelock. Programación concurrente.Interbloqueos. Formalismos. Bibliotecas de programación paralela y distribuida. || Sintaxis de Erlang  ||
+**Métodos Numéricos** |  | ||  | Propagación de Errores, convergencia, resolución sistemas de ecuaciones no lineales, ajuste de curvas e interpolación de polinomios , aproximación de cuadrados. |
+**Arquitectura del Computador** || Representación de nros unsigned y signed , operaciones con nros binarios y operandos de bits. ||||
 
 ### ***DETALLE***
 
@@ -113,9 +119,9 @@ Materia | Temas (PYTHON) | Temas (C) |  Temas (R + RStudio) | Temas (Erlang)
         - 6.6 Algoritmos Greedy
         - 6.7 Programación Dinámica
 
-### Sistemas Operativos I , 2025:
+#### Sistemas Operativos I , 2025:
 
-  #### *C:*
+  ##### *C:*
     Unidad 1:
         - 1.1. Definición de Sistema operativo.
         - 1.2. Nociones básicas de las funciones de un Sistema Operativo.
@@ -143,7 +149,7 @@ Materia | Temas (PYTHON) | Temas (C) |  Temas (R + RStudio) | Temas (Erlang)
         - 4.6. Barreras de sincronización.
         - 4.7. Deadlocks. Condiciones necesarias para su aparición. Problema de los filósofos comensales. Livelocks.
 
-  #### *Erlang:*
+  ##### *Erlang:*
     Unidad 5:
         - 5.1. Mensajes síncronos y asíncronos.
         - 5.2. Modelo CSP. Canales.
@@ -159,7 +165,7 @@ Materia | Temas (PYTHON) | Temas (C) |  Temas (R + RStudio) | Temas (Erlang)
         - 6.6. Entornos de ejecución distribuidos.
         - 6.7. Medidas de performance. SpeedUp. Eficiencia
         - 6.8. Erlang Distribuido. Servicio de Distribución de Datos (DDS).
-  #### *Otro:*
+  ##### *Otro:*
     Unidad 7:
         - 7.1 Lineamientos para trabajo en equipo
         - 7.2 Herramientas para gestión de tareas y proyectos. Trello.
@@ -168,3 +174,35 @@ Materia | Temas (PYTHON) | Temas (C) |  Temas (R + RStudio) | Temas (Erlang)
         - 7.5 Herramientas de Versionado de código, git. Guías de estilo de versionado.
         - 7.6 Documentación técnica.
         - 7.7 Herramientas para generación automática de documentación. Doxygen. Edoc
+
+  #### Métodos Númericos, 2025:
+      - Unidad 1.  SUCESIONES Y SERIES NUMÉRICAS
+    Sucesiones numéricas: Definición. Sucesiones monótonas de números reales. Convergencia de sucesiones.
+    Series numéricas: Definición. Ejemplos. Propiedades. Condiciones de convergencia. Criterios de convergencia
+    para series de términos no negativos y para series alternadas. Sucesiones y series de funciones: Definición.
+    Convergencia puntual y uniforme. Series de potencias.
+      - Unidad 2.   ERRORES NUMÉRICOS
+    Representación computacional de números en punto flotante. Fuentes de errores. Tipos de errores. Cifras significativas. Supresión de cifras significativas. Propagación de errores.
+      - Unidad 3.   RESOLUCIÓN DE ECUACIONES NO LINEALES
+    Algoritmos y su convergencia. Orden de convergencia. Método de la bisección. Método de
+      Newton-Raphson. Método de la secante. Método de la falsa posición. Métodos iterativos de punto fijo.
+    Condiciones de convergencia. Sistemas de ecuaciones no lineales. Método de Newton multivariable.
+      - Unidad 4.   RESOLUCIÓN DE SISTEMAS DE ECUACIONES LINEALES – MÉTODOS DIRECTOS
+    Nociones de álgebra lineal: Propiedades de matrices simétricas y de matrices definidas positivas.
+    Ortogonalización de Gram-Schmidt. Métodos directos: Eliminación de Gauss. Estrategias de pivoteo.
+    Factorización LU. Factorización de Cholesky. Factorización QR.
+      - Unidad 5.   RESOLUCIÓN DE SISTEMAS DE ECUACIONES LINEALES – MÉTODOS ITERATIVOS
+    Nociones de álgebra lineal: Normas vectoriales y matriciales. Estabilidad de la resolución de sistemas de
+    ecuaciones lineales. Métodos iterativos: Método de Jacobi. Método de Gauss-Seidel. Métodos de
+    relajación. Condiciones de convergencia. Casos especiales.
+      - Unidad 6.   APROXIMACIÓN DE AUTOVALORES
+    Nociones de autovalores y autovectores. Acotación de autovalores: Teorema de Gerschgorin y resultados
+    asociados. Método de la potencia.
+      - Unidad 7.   INTERPOLACIÓN POLINÓMICA Y AJUSTE DE CURVAS
+    Problema de interpolación polinómica. Interpolación de Lagrange. Interpolación por diferencias divididas de
+    Newton. Error de la interpolación polinómica. Acotación del error. Polinomios de Chebyshev y su uso en
+    aproximación de funciones. Problema de mínimos cuadrados. Aproximación polinomial de mínimos
+    cuadrados.
+      - Unidad 8:   INTEGRACIÓN NUMÉRICA
+    Fórmulas de cuadratura: Reglas del Trapecio y de Simpson. Métodos compuestos. Integración numérica en
+    dominio bidimensional
