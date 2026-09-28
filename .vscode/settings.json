@@ -1,5 +1,12 @@
 {
     "cmake.sourceDirectory": "/home/usuario/Escritorio/Facultad/SO_1/EXTRA_TEORIA/build",
     "markdown-preview-enhanced.plantumlJarPath": "https://kroki.io/plantuml/svg/",
-    "markdown-preview-enhanced.plantumlServer": "https://kroki.io/plantuml/svg/"
+    "markdown-preview-enhanced.plantumlServer": "https://kroki.io/plantuml/svg/",
+
+    // "editor.quickSuggestions": {
+    //     "other": false,
+    //     "comments": false,
+    //     "strings": false
+    // },
+    "editor.inlineSuggest.enabled": false
 }
