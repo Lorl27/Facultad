@@ -52,3 +52,10 @@ int main(void){
 
     return 0;
 }
+
+/* 
+$6.225 genera una secuencia binaria infinita.
+ Como la máquina se ve obligada a "cortar la cola" de esa secuencia por la falta de espacio físico, se pierde información irreversible.
+  Además, como en ambos casos la regla que aplicó fue la de redondear hacia abajo (truncar por toparse con un 0),
+   el número que queda almacenado es matemáticamente un poco menor que 6.225.
+*/

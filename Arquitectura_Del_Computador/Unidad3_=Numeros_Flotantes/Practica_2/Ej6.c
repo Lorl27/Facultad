@@ -26,11 +26,18 @@ int main(void){
 
 //============
 
-//a/b.
+uint32_t significando_float(float num)   { return (*(uint32_t *)&num) & 0x7FFFFF; }
+uint32_t exponente_float(float num)      { return (*(uint32_t *)&num >> 23) & 0xFF; }
+
+//a.
 int myisnan(float f){
-    return f==NAN;
+    // Es NaN si el exponente es todo unos (0xFF) Y la fracción no es cero
+    return (exponente_float(f) == 0xFF) && (significando_float(f) != 0);
 }
 
-//c. No, serìa INF a menos que sea INF-INF  ò 0XINF que son NAN
+//b.
+int myisnan2(float f) return f!=f;
 
-//d. Se vuelve INF(+/-)
+//c.No, si f=INFINITY, funciona perfectamente
+
+//d. Se vuelve INF(+/-) a menos que hagamos INF-INF (obtendriamos NAN)
