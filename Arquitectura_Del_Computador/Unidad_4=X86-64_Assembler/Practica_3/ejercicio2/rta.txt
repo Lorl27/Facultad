@@ -1,0 +1,4 @@
+¿Como se puede obtener el c ́odigo de salida de un programa? Explique dos maneras distintas.
+
+* con ret, devolvera el valor almacenado en rax
+* echo $? en  terminal,devolvera el código de retorno del último proceso(solo se muestran 8 bits LSB)

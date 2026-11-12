@@ -1,0 +1,3 @@
+No es estrictamente necesario utilizar GDB, pero resulta conveniente para este ejercicio porque permite observar el contenido de los registros y verificar los resultados de las operaciones.
+
+No sería conveniente utilizar solamente el código de salida, ya que este tiene un rango limitado y no permite visualizar directamente el contenido de los registros. GDB permite inspeccionar los registros y analizar los resultados con mayor precisión.
