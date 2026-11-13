@@ -4,35 +4,43 @@
 # apilando” en sentido inverso.
 
 .data
-a: .byte 1 2 3 4
-len: .byte 4
+a: .byte 1, 2, 3, 4       # Arreglo a invertir
+len: .byte 4              # Longitud del arreglo
+
 .text
-.bss
 .global main
 
 main:
     pushq %rbp
-    movq %rsp,%rbp
+    movq %rsp, %rbp
 
-    xorb %rcx, %rcx
-    xorb %rbx, %rbx
-
-    movb len,%cl
+    # -------------------------------------------------------------
+    # 1. BUCLE DE APILADO (Guardar a[0]...a[len-1] en la pila)
+    # -------------------------------------------------------------
+    xorq %rbx, %rbx       # %rbx = 0 (índice i para recorrer el arreglo)
+    movzbq len, %rcx      # %rcx = len (contador para el loop)
 
     apilar:
-        pushb (a,%bx), -1(%rbp,,%bx)
-        incb %bx
-        loop apilar 
+        movzbq a(,%rbx,1), %rax   # Lee 1 byte a[i] y lo extiende a 64 bits en %rax
+        pushq %rax                # Apila el registro de 64 bits
+        incq %rbx                 # i++
+        loop apilar
 
-    xorb %rcx, %rcx
-    movb len,%cl
+    # -------------------------------------------------------------
+    # 2. BUCLE DE DESAPILADO (Escribir en a[0]...a[len-1] en orden inverso)
+    # -------------------------------------------------------------
+    xorq %rbx, %rbx       # Reiniciamos el índice i = 0
+    movzbq len, %rcx      # Recargamos la longitud en %rcx para el segundo loop
 
     desapilar:
-        pushb -1(%rbp,,%bx),%rax
-        decb %bx
-        popb 1(%rbp,,%bx)
+        popq %rax                 # Desapila el elemento (obtiene primero a[len-1])
+        movb %al, a(,%rbx,1)      # Guarda el byte menos significativo (%al) en a[i]
+        incq %rbx                 # i++
         loop desapilar
-    
-    movq %rbp,%rsp
+
+    # -------------------------------------------------------------
+    # Epílogo
+    # -------------------------------------------------------------
+    movq %rbp, %rsp
     popq %rbp
     ret
